@@ -5,4 +5,4 @@ A web application to help pet owners find pet enthusiasts to watch over their an
 - pip install flask
 - pip install flask-sqlalchemy
 - pip install python-dotenv
-- (unnecessary now, but may be used later) pip install flask-migrate
+- pip install flask-migrate
