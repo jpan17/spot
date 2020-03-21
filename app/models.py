@@ -5,6 +5,14 @@
 from app import db
 import enums
 
+# Many-To-Many relationship between users (specifically sitters) and listings
+# Note: Online, the documentation has primary_key=True for both columns, but it is omitted here
+# (not sure why it would be necessary)
+accepted_listings = db.Table('accepted_listings',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('listing_id', db.Integer, db.ForeignKey('listing.id'))
+)
+
 # Generic user data object - can represent either an owner or sitter, 
 # or both depending on the values of is_owner and is_sitter
 class User(db.Model):
@@ -17,15 +25,19 @@ class User(db.Model):
     phone_number = db.Column(db.String(32), nullable=False) # String to account for extensions
     password_hash = db.Column(db.String(128), nullable=False)
 
-    # Define the one-to-many relationship of Users (specifically owners) to Listings
+    # Define the one-to-many relationship of Users (specifically owners) to Listings - note that the field name is owner, not user
     # lazy=True -> when loading user, only load listings if needed
     # lazy='joined' -> when loading a listing, always load the user's information along with it (using a SQL JOIN statement)
-    listings = db.relationship('Listing', backref=db.backref('user', lazy='joined'), lazy=True)
+    listings = db.relationship('Listing', backref=db.backref('owner', lazy='joined'), lazy=True)
 
-    # toString method
+    # A list of accepted listings (specifically for pet sitters) - note that the field name is sitters, not users
+    accepted_listings = db.relationship('Listing', secondary=accepted_listings, lazy=True,
+                            backref=db.backref('sitters', lazy=True))
+
     def __repr__(self):
         return __user_repr__(self)
 
+# Listings are posts made by pet owners for their pets to be taken care of.
 class Listing(db.Model):
     __tablename__ = 'listing'
     id = db.Column(db.Integer, primary_key=True)
@@ -44,7 +56,6 @@ class Listing(db.Model):
     # Foreign Key for One-To-Many relationship with Users
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
-    # toString method
     def __repr__(self):
         return __listing_repr__(self)
 
