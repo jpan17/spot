@@ -93,4 +93,26 @@ def delete_user(id):
 # User Details
 @app.route('/users/<int:id>')
 def user_details(id):
-    return None
+    user = User.query.filter_by(id=id).one()
+
+    # Set listings and accepted listings if applicable
+    listings = []
+    accepted_listings = []
+    if user.is_owner:
+        listings = user.listings
+    if user.is_sitter:
+        accepted_listings = user.accepted_listings
+    # For some reason, can't use len in templates, so here:
+    listings_len = len(listings)
+    accepted_listings_len = len(accepted_listings)
+
+    # Make and return response
+    html = render_template('users/user_details.html',
+        title=TITLE,
+        user=user,
+        listings=listings,
+        listings_len=listings_len,
+        accepted_listings=accepted_listings,
+        accepted_listings_len=accepted_listings_len)
+    response = make_response(html)
+    return response

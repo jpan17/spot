@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <style>
+            table, th, td {
+                border: 1px black solid;
+            }
+        </style>
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <!-- TABLE WITH USER INFO -->
+        <table>
+            <thead>
+                <th>Field</th>
+                <th>Value</th>
+            </thead>
+            <tr>
+                <td>id</td>
+                <td> {{ user.id }} </td>
+            </tr>
+            <tr>
+                <td>is_owner</td>
+                <td> {{ user.is_owner }} </td>
+            </tr>
+            <tr>
+                <td>is_sitter</td>
+                <td> {{ user.is_sitter }} </td>
+            </tr>
+            <tr>
+                <td>full_name</td>
+                <td> {{ user.full_name }} </td>
+            </tr>
+            <tr>
+                <td>email</td>
+                <td> {{ user.email }} </td>
+            </tr>
+            <tr>
+                <td>phone_number</td>
+                <td> {{ user.phone_number }} </td>
+            </tr>
+            <tr>
+                <td>password_hash</td>
+                <td> {{ user.password_hash }} </td>
+            </tr>
+        </table>
+        <!-- TABLE WITH LISTINGS -->
+        {% if user.is_owner: %}
+        <br><hr><br>
+        <table>
+            <thead>
+                <tr><th colspan="1000">My Listings</th></tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Pet Name</th>
+                    <th>Pet Type</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Full Time?</th>
+                    <th>Zip Code</th>
+                    <th>Activities</th>
+                    <th>Extra Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(listings_len): %}
+                <tr>
+                    <td> {{ listings[i].id }} </td>
+                    <td> {{ listings[i].pet_name }} </td>
+                    <td> {{ listings[i].pet_type }} </td>
+                    <td> {{ listings[i].start_time }} </td>
+                    <td> {{ listings[i].end_time }} </td>
+                    <td> {{ listings[i].full_time }} </td>
+                    <td> {{ listings[i].zip_code }} </td>
+                    <td> {{ listings[i].activities }} </td>
+                    <td> {{ listings[i].extra_info }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </body>
+</html>
