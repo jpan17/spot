@@ -24,6 +24,6 @@ To test using desired test script (generally in the [test](test) folder), replac
 ``` from test.<module_name> import run_tests ```
 
 ### Text Interaction (Simple Forms)
-To test, in [app/\_\_init\_\_.py](app/__init__.py), make sure to import routes from [test](test), not [app](app). For example:
+To test, in [.flaskenv](.flaskenv), make sure to set SPOT_TEST to 'true'. For example:
 
-``` from test import routes ```
+```SPOT_TEST = true```
