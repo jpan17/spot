@@ -15,6 +15,12 @@ A web application to help pet owners find pet enthusiasts to watch over their an
 - PostgreSQL for DBMS
 
 ## Testing Information
+### Hard-coded tests
 To test using desired test script (generally in the [test](test) folder), replace the first line of [test.py](test.py) with the appropriate test module, then run [test.py](test.py). The format should be:
 
 ``` from test.<module_name> import run_tests ```
+
+### Text Interaction (Simple Forms)
+To test, in [app/\_\_init\_\_.py](app/__init__.py), make sure to import routes from [test](test), not [app](app). For example:
+
+``` from test import routes ```
