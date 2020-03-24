@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <style>
+            td {
+                text-align: right;
+            }
+        </style>
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <form action="/users/create" method="post">
+            <table>
+                <tr>
+                    <td>is_owner:</td>
+                    <td style="text-align: left;">
+                        <input type="checkbox" name="is_owner" value="True">
+                    </td>
+                </tr>
+                <tr>
+                    <td>is_sitter:</td>
+                    <td style="text-align: left;">
+                        <input type="checkbox" name="is_sitter" value="True">
+                    </td>
+                </tr>
+                <tr>
+                    <td>full_name:</td>
+                    <td><input type="text" name="full_name"></td>
+                </tr>
+                <tr>
+                    <td>email:</td>
+                    <td><input type="text" name="email"></td>
+                </tr>
+                <tr>
+                    <td>phone_number:</td>
+                    <td><input type="text" name="phone_number"></td>
+                </tr>
+                <tr>
+                    <td>password_hash:</td>
+                    <td><input type="text" name="password_hash"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="text-align: left">
+                        <input type="submit" value="Create New User">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
