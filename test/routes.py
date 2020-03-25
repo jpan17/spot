@@ -3,6 +3,7 @@ from app.models import User, Listing
 from flask import render_template, make_response
 from flask import request, redirect
 from flask import url_for
+import enums
 
 TITLE = 'Spot Testing Environment'
 
@@ -86,6 +87,7 @@ def delete_user(id):
         User.query.filter_by(id=id).delete()
         db.session.commit()
     except Exception as e:
+        db.session.rollback()
         errorMsg = e.args[0]
 
     return redirect(url_for('index', errorMsg=errorMsg))
@@ -93,11 +95,21 @@ def delete_user(id):
 # User Details
 @app.route('/users/<int:id>')
 def user_details(id):
-    user = User.query.filter_by(id=id).one()
+    errorMsg = request.args.get('errorMsg') or ''
+
+    # Get user by id
+    try:
+        user = User.query.filter_by(id=id).one()
+    except Exception as e:
+        errorMsg = 'User does not exist'
+        html = render_template('users/user_details.html',
+            title=TITLE, errorMsg=errorMsg, user=None)
+        response = make_response(html)
+        return response
 
     # Set listings and accepted listings if applicable
     listings = []
-    accepted_listings = []
+    accepted_listings = [] # Currently unused
     if user.is_owner:
         listings = user.listings
     if user.is_sitter:
@@ -113,6 +125,59 @@ def user_details(id):
         listings=listings,
         listings_len=listings_len,
         accepted_listings=accepted_listings,
-        accepted_listings_len=accepted_listings_len)
+        accepted_listings_len=accepted_listings_len,
+        errorMsg=errorMsg)
     response = make_response(html)
     return response
+    
+# Form for creating new listings (basic)
+@app.route('/users/<int:id>/listings/new')
+def new_listing(id):
+    # Get enums for the form
+    pet_types = enums.pet_types
+    activities = enums.activities
+    pet_types_len = len(pet_types)
+    activities_len = len(activities)
+
+    # Make and return response
+    html = render_template('users/new_listing.html',
+        title=TITLE,
+        id=id,
+        pet_types=pet_types,
+        pet_types_len=pet_types_len,
+        activities=activities,
+        activities_len=activities_len)
+    response = make_response(html)
+    return response
+
+# Receives data for new listing and creates it
+@app.route('/users/<int:user_id>/listings/create', methods=['POST'])
+def create_listing(user_id):
+    errorMsg = 'Listing Created Successfully'
+    
+    activities = []
+    # Get activities based on form (blegh arrays)
+    for activity in enums.activities:
+        if request.form.get('activity-{0}'.format(activity)) == 'True':
+            activities.append(activity)
+
+    # Create listing from form data
+    listing = Listing(
+        pet_name=request.form.get('pet_name'),
+        pet_type=request.form.get('pet_type'),
+        start_time=request.form.get('start_time'),
+        end_time=request.form.get('end_time'),
+        full_time=bool(request.form.get('full_time')),
+        zip_code=request.form.get('zip_code'),
+        extra_info=request.form.get('extra_info'),
+        activities=activities,
+        user_id=user_id)
+
+    try:
+        db.session.add(listing)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback() # Cancel all invalid changes
+        errorMsg = e.args[0]
+
+    return redirect(url_for('user_details', id=user_id, errorMsg=errorMsg))

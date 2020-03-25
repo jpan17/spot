@@ -42,7 +42,7 @@ class Listing(db.Model):
     __tablename__ = 'listing'
     id = db.Column(db.Integer, primary_key=True)
     pet_name = db.Column(db.String(64), nullable=False)
-    pet_type = db.Column(db.Enum(enums.PetType), nullable=False)
+    pet_type = db.Column(db.Enum(*enums.pet_types, name="pet_type"), nullable=False)
     start_time = db.Column(db.DateTime(), nullable=False)
     end_time = db.Column(db.DateTime(), nullable=False)
     # Does the pet owner require the pet to be sat the full duration, or are they looking for just sometime in between?
@@ -51,7 +51,7 @@ class Listing(db.Model):
     extra_info = db.Column(db.String(1000))
 
     # Array of Activities, using ARRAY type which is supported ONLY by Postgres
-    activities = db.Column(db.ARRAY(db.Enum(enums.Activity), dimensions=1), nullable=False)
+    activities = db.Column(db.ARRAY(db.String(64), dimensions=1), nullable=False)
 
     # Foreign Key for One-To-Many relationship with Users
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)

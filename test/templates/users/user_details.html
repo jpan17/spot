@@ -10,6 +10,8 @@
     </head>
     <body>
         {% include 'header.html' %}
+        <h2>User {{ user.id }} </h2>
+        <p style="color:darkred">{{ errorMsg }}</p>
         <!-- TABLE WITH USER INFO -->
         <table>
             <thead>
@@ -48,6 +50,8 @@
         <!-- TABLE WITH LISTINGS -->
         {% if user.is_owner: %}
         <br><hr><br>
+        <a href="/users/{{ user.id }}/listings/new"><button>Make New Listing</button></a>
+        <br><br>
         <table>
             <thead>
                 <tr><th colspan="1000">My Listings</th></tr>
