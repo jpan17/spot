@@ -5,6 +5,10 @@ A web application to help pet owners find pet enthusiasts to watch over their an
 - [config.py](config.py) contains a reference to os.environ.get('DATABASE_URL'), but I have gitignore-d the .env file I store that in (as it contains my password).
     - An example .env file would contain a line with exactly these contents: "DATABASE_URL = 'postgresql://postgres:my_password@localhost:5432/spot_dev'"
     - General format: "DATABASE_URL = 'dialect+driver://username:password@host:port/database'"
+- To run the application:
+    - Navigate to the highest level directory ([app](app), [config.py](config.py), etc. should be in that directory), and run the command:
+        - ``` flask run ```
+    - Open localhost:5000 in your browser. This may vary across computers/environments, but when Flask initializes, it will display where it opens (0.0.0.0 should be equivalent to localhost, I think)
 
 ## Developer Information
 - The [.flaskenv](.flaskenv) contains the environment variable FLASK_ENV set to 'development', enabling all development features.
