@@ -159,6 +159,11 @@ def update_listing_form(listing_id):
     pet_types_len = len(pet_types)
     activities_len = len(activities)
 
+    # get old listing details
+    old_listing = Listing.query.filter_by(id = listing_id).first()
+    start_time = str(old_listing.start_time).replace(" ", "T")
+    end_time = str(old_listing.end_time).replace(" ", "T")
+
     # Make and return response
     html = render_template('listings/update_listing.html',
         title=TITLE,
@@ -166,7 +171,11 @@ def update_listing_form(listing_id):
         pet_types=pet_types,
         pet_types_len=pet_types_len,
         activities=activities,
-        activities_len=activities_len)
+        activities_len=activities_len,
+        listing = old_listing,
+        start_time = start_time,
+        end_time = end_time
+        )
     response = make_response(html)
     
     return response
@@ -181,18 +190,6 @@ def update_listing(listing_id):
     for activity in enums.activities:
         if request.form.get('activity-{0}'.format(activity)) == 'True':
             activities.append(activity)
-
-    # Create listing from form data
-    # listing = Listing(
-    #     pet_name=request.form.get('pet_name'),
-    #     pet_type=request.form.get('pet_type'),
-    #     start_time=request.form.get('start_time'),
-    #     end_time=request.form.get('end_time'),
-    #     full_time=bool(request.form.get('full_time')),
-    #     zip_code=request.form.get('zip_code'),
-    #     extra_info=request.form.get('extra_info'),
-    #     activities=activities,
-    #     user_id=user_id)
 
     try:
         # get the listing that you're trying to update

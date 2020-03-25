@@ -16,7 +16,7 @@
                 <tr>
                     <td>pet_name:</td>
                     <td style="text-align: left;">
-                        <input type="text" name="pet_name">
+                        <input type="text" name="pet_name" value = "{{listing.pet_name}}">
                     </td>
                 </tr>
                 <tr>
@@ -24,34 +24,34 @@
                     <td style="text-align: left;">
                         <select form="listingform" name="pet_type">
                             {% for i in range(pet_types_len): %}
-                            <option value="{{ pet_types[i] }}">{{ pet_types[i] }}</option>
-                            {% endfor %}
+                            <option {% if listing.pet_type == pet_types[i] %} selected {% endif %} value="{{ pet_types[i] }}">{{ pet_types[i] }}</option>
+                            {% endfor %}""
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td>start_time:</td>
-                    <td><input type="datetime-local" name="start_time"></td>
+                    <td><input type="datetime-local" name="start_time" value = "{{start_time}}"></td>
                 </tr>
                 <tr>
                     <td>end_time:</td>
-                    <td><input type="datetime-local" name="end_time"></td>
+                    <td><input type="datetime-local" name="end_time" value="{{end_time}}"></td>
                 </tr>
                 <tr>
                     <td>full_time:</td>
                     <td style="text-align:left;">
-                        <input type="checkbox" name="full_time" value="True" checked>
+                        <input type="checkbox" name="full_time" value="{{listing.full_time}}" checked>
                     </td>
                 </tr>
                 <tr>
                     <td>zip_code:</td>
-                    <td style="text-align: left"><input type="text" name="zip_code"></td>
+                    <td style="text-align: left"><input type="text" name="zip_code" value="{{listing.zip_code}}"></td>
                 </tr>
                 <tr>
                     <td>activities:</td>
                     <td style="text-align: left">
                         {% for i in range(activities_len): %}
-                        <input type="checkbox" name="activity-{{ activities[i] }}" value="True">
+                        <input type="checkbox" name="activity-{{ activities[i] }}" value="True" {% if activities[i] in listing.activities %} checked {% endif %}>
                         {{ activities[i] }}
                         <br>
                         {% endfor %}
@@ -59,7 +59,7 @@
                 </tr>
                 <tr>
                     <td>extra_info:</td>
-                    <td style="text-align: left"><input type="text" name="extra_info"></td>
+                    <td style="text-align: left"><input type="text" name="extra_info" value = "{{listing.extra_info}}"></td>
                 </tr>
                 <tr>
                     <td></td>
