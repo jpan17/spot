@@ -247,7 +247,29 @@ def create_listing(user_id):
 
     return redirect(url_for('user_details', id=user_id, errorMsg=errorMsg))
 
+# Accept listing with certain id
+@app.route('/listings/accept/<int:user_id>/<int:listing_id>')
+def accept_listing(user_id, listing_id):
+    errorMsg = 'Accepted Successfully'
     
+    activities = []
+    # Get activities based on form (blegh arrays)
+    for activity in enums.activities:
+        if request.form.get('activity-{0}'.format(activity)) == 'True':
+            activities.append(activity)
+
+    try:
+        listing = Listing.query.filter_by(id = listing_id).first()
+        user = User.query.filter_by(id = user_id).first()
+        user.accepted_listings.append(listing)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback() # Cancel all invalid changes
+        errorMsg = e.args[0]
+
+    return redirect(url_for('user_details', id=user_id, errorMsg=errorMsg))
+
+
 # Delete listing with certain id
 @app.route('/listings/delete/<int:id>')
 def delete_listing(id):

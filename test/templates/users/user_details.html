@@ -78,7 +78,40 @@
                     <td> {{ all_listings[i].zip_code }} </td>
                     <td> {{ all_listings[i].activities }} </td>
                     <td> {{ all_listings[i].extra_info }} </td>
-                    <td><a href="/listings/accept/{{ all_listings[i].id }}">Accept</a></td>
+                    <td><a href="/listings/accept/{{ user.id }}/{{ all_listings[i].id }}">Accept</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br><hr><br>
+        <table>
+            <thead>
+                <tr><th colspan="1000">Accepted Listings</th></tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Pet Name</th>
+                    <th>Pet Type</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Full Time?</th>
+                    <th>Zip Code</th>
+                    <th>Activities</th>
+                    <th>Extra Info</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(accepted_listings_len): %}
+                <tr>
+                    <td> {{ accepted_listings[i].id }} </td>
+                    <td> {{ accepted_listings[i].pet_name }} </td>
+                    <td> {{ accepted_listings[i].pet_type }} </td>
+                    <td> {{ accepted_listings[i].start_time }} </td>
+                    <td> {{ accepted_listings[i].end_time }} </td>
+                    <td> {{ accepted_listings[i].full_time }} </td>
+                    <td> {{ accepted_listings[i].zip_code }} </td>
+                    <td> {{ accepted_listings[i].activities }} </td>
+                    <td> {{ accepted_listings[i].extra_info }} </td>
                 </tr>
                 {% endfor %}
             </tbody>
