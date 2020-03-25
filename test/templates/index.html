@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <style>
+            table, th, td {
+                border: 1px solid black;
+            }
+            td, th {
+                padding: 3px;
+            }
+        </style>
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <h2>All Users</h2>
+        <p style="color:darkred">{{errorMsg}}</p>
+        <table>
+            <thead>
+                <th>ID</th>
+                <th>Owner</th>
+                <th>Sitter</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Phone #</th>
+                <th>Pass Hash</th>
+                <th>Options</th>
+            </thead>
+            {% for i in range(users_len): %}
+            <tr>
+                <td>{{ users[i].id }} </td>
+                <td>{{ users[i].is_owner }} </td>
+                <td>{{ users[i].is_sitter }} </td>
+                <td>{{ users[i].full_name }} </td>
+                <td>{{ users[i].email }} </td>
+                <td>{{ users[i].phone_number }} </td>
+                <td>{{ users[i].password_hash }} </td>
+                <td>
+                    <a href="/users/{{ users[i].id }}">Details</a> |
+                    <a href="/users/delete/{{ users[i].id }}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
