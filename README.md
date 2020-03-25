@@ -27,3 +27,21 @@ To test using desired test script (generally in the [test](test) folder), replac
 To test, in [.flaskenv](.flaskenv), make sure to set SPOT_TEST to 'true'. For example:
 
 ```SPOT_TEST = true```
+
+### Features
+- User Creation
+- List of Users (unsorted)
+- User Deletion (partially)
+- Listing Creation
+- List of Listings (in user details, so it is by user)
+- Most of the error catching so far (have not tested this extensively)
+
+### Todos
+- User Updating
+- Listing Updating
+- Listing Deletion
+- Accepting Listings (for sitters)
+- List of Listings, not by user (which can be related to accepting listings)
+
+### Known Issues
+- Cannot delete user (pet owner) when they own listings. This is typically called "Cascading" and I have not figured out how to implement it, but to do so it is likely some sort of cascading option.
