@@ -28,7 +28,12 @@ class User(db.Model):
     # Define the one-to-many relationship of Users (specifically owners) to Listings - note that the field name is owner, not user
     # lazy=True -> when loading user, only load listings if needed
     # lazy='joined' -> when loading a listing, always load the user's information along with it (using a SQL JOIN statement)
-    listings = db.relationship('Listing', backref=db.backref('owner', lazy='joined'), lazy=True)
+    listings = db.relationship('Listing', 
+        backref=db.backref('owner', lazy='joined'), 
+        lazy=True,
+        cascade="all, delete, delete-orphan", # All changes should reflect in listings, and listings who no longer have a user associated should be deleted
+        passive_deletes=True # if possible, let DB handle the cascade deletion
+    )
 
     # A list of accepted listings (specifically for pet sitters) - note that the field name is sitters, not users
     accepted_listings = db.relationship('Listing', secondary=accepted_listings, lazy=True,
@@ -54,7 +59,7 @@ class Listing(db.Model):
     activities = db.Column(db.ARRAY(db.String(64), dimensions=1), nullable=False)
 
     # Foreign Key for One-To-Many relationship with Users
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='cascade'), nullable=False)
 
     def __repr__(self):
         return __listing_repr__(self)

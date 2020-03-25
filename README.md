@@ -47,8 +47,7 @@ To test, in [.flaskenv](.flaskenv), make sure to set SPOT_TEST to 'true'. For ex
 - List of Listings, not by user (which can be related to accepting listings)
 
 ### Todos
-- User Updating
+- User Updating (Very Optional, given listing updating works, user updating should work too)
 
 ### Known Issues
-- Cannot delete user (pet owner) when they own listings. This is typically called "Cascading" and I have not figured out how to implement it, but to do so it is likely some sort of cascading option.
-- Not sure if clear database still works (for same reason as above, just haven't tested it yet)
+None
