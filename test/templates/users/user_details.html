@@ -48,6 +48,44 @@
             </tr>
         </table>
         <!-- TABLE WITH LISTINGS -->
+        {% if user.is_sitter: %}
+        <br><hr><br>
+        <table>
+            <thead>
+                <tr><th colspan="1000">All Listings</th></tr>
+                <tr>
+                    <th>ID</th>
+                    <th>Pet Name</th>
+                    <th>Pet Type</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Full Time?</th>
+                    <th>Zip Code</th>
+                    <th>Activities</th>
+                    <th>Extra Info</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(all_listings_len): %}
+                <tr>
+                    <td> {{ all_listings[i].id }} </td>
+                    <td> {{ all_listings[i].pet_name }} </td>
+                    <td> {{ all_listings[i].pet_type }} </td>
+                    <td> {{ all_listings[i].start_time }} </td>
+                    <td> {{ all_listings[i].end_time }} </td>
+                    <td> {{ all_listings[i].full_time }} </td>
+                    <td> {{ all_listings[i].zip_code }} </td>
+                    <td> {{ all_listings[i].activities }} </td>
+                    <td> {{ all_listings[i].extra_info }} </td>
+                    <td><a href="/listings/accept/{{ all_listings[i].id }}">Accept</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        <!-- owner user -->
         {% if user.is_owner: %}
         <br><hr><br>
         <a href="/users/{{ user.id }}/listings/new"><button>Make New Listing</button></a>

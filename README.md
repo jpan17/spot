@@ -41,11 +41,11 @@ To test, in [.flaskenv](.flaskenv), make sure to set SPOT_TEST to 'true'. For ex
 - Listing Creation
 - List of Listings (in user details, so it is by user)
 - Most of the error catching so far (have not tested this extensively)
+- Listing Updating
+- Listing Deletion
 
 ### Todos
 - User Updating
-- Listing Updating
-- Listing Deletion
 - Accepting Listings (for sitters)
 - List of Listings, not by user (which can be related to accepting listings)
 

@@ -126,6 +126,8 @@ def user_details(id):
         listings_len=listings_len,
         accepted_listings=accepted_listings,
         accepted_listings_len=accepted_listings_len,
+        all_listings = Listing.query.all(),
+        all_listings_len = len(Listing.query.all()),
         errorMsg=errorMsg)
     response = make_response(html)
     return response
