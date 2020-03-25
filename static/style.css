@@ -1,0 +1,16 @@
+.header-bar {
+    position: fixed;
+    width: 100%;
+    height: 10.6667%;
+    left: 0px;
+    top: 0px;
+    background: linear-gradient(270deg, #84CEEB 0%, #5AB9EA 34.9%, #5680E9 64.58%, #8860D0 97.4%);
+}
+
+.header-logo {
+    position: fixed;
+    width: 5%;
+    height: 10.6667%;
+    left: 3.4375%;
+    top: 0px;
+}

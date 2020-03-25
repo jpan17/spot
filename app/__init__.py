@@ -10,7 +10,7 @@ template_folder = '../templates/'
 if spot_test:
     template_folder = '../test/templates/'
 
-app = Flask(__name__, template_folder=template_folder)
+app = Flask(__name__, template_folder=template_folder, static_url_path='/static', static_folder='../static')
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
