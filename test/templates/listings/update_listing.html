@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        <style>
+            td {
+                text-align: right;
+            }
+        </style>
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <h2>Update Information for Listing {{ id }} </h2>
+        <form action="/listings/{{ id }}/change" method="post" id="listingform">
+            <table>
+                <tr>
+                    <td>pet_name:</td>
+                    <td style="text-align: left;">
+                        <input type="text" name="pet_name">
+                    </td>
+                </tr>
+                <tr>
+                    <td>pet_type:</td>
+                    <td style="text-align: left;">
+                        <select form="listingform" name="pet_type">
+                            {% for i in range(pet_types_len): %}
+                            <option value="{{ pet_types[i] }}">{{ pet_types[i] }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>start_time:</td>
+                    <td><input type="datetime-local" name="start_time"></td>
+                </tr>
+                <tr>
+                    <td>end_time:</td>
+                    <td><input type="datetime-local" name="end_time"></td>
+                </tr>
+                <tr>
+                    <td>full_time:</td>
+                    <td style="text-align:left;">
+                        <input type="checkbox" name="full_time" value="True" checked>
+                    </td>
+                </tr>
+                <tr>
+                    <td>zip_code:</td>
+                    <td style="text-align: left"><input type="text" name="zip_code"></td>
+                </tr>
+                <tr>
+                    <td>activities:</td>
+                    <td style="text-align: left">
+                        {% for i in range(activities_len): %}
+                        <input type="checkbox" name="activity-{{ activities[i] }}" value="True">
+                        {{ activities[i] }}
+                        <br>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>extra_info:</td>
+                    <td style="text-align: left"><input type="text" name="extra_info"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="text-align: left">
+                        <input type="submit" value="Update Listing">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>

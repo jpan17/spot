@@ -140,7 +140,7 @@ def new_listing(id):
     activities_len = len(activities)
 
     # Make and return response
-    html = render_template('users/new_listing.html',
+    html = render_template('listings/new_listing.html',
         title=TITLE,
         id=id,
         pet_types=pet_types,
@@ -149,6 +149,72 @@ def new_listing(id):
         activities_len=activities_len)
     response = make_response(html)
     return response
+
+# Form for creating new listings (basic)
+@app.route('/listings/update/<int:listing_id>')
+def update_listing_form(listing_id):
+    # Get enums for the form
+    pet_types = enums.pet_types
+    activities = enums.activities
+    pet_types_len = len(pet_types)
+    activities_len = len(activities)
+
+    # Make and return response
+    html = render_template('listings/update_listing.html',
+        title=TITLE,
+        id=listing_id,
+        pet_types=pet_types,
+        pet_types_len=pet_types_len,
+        activities=activities,
+        activities_len=activities_len)
+    response = make_response(html)
+    
+    return response
+
+# Receives data for updated listing and update it
+@app.route('/listings/<int:listing_id>/change', methods = ['POST'])
+def update_listing(listing_id):
+    errorMsg = 'Listing Updated Successfully'
+    
+    activities = []
+    # Get activities based on form (blegh arrays) (yeah blegh arrays)
+    for activity in enums.activities:
+        if request.form.get('activity-{0}'.format(activity)) == 'True':
+            activities.append(activity)
+
+    # Create listing from form data
+    # listing = Listing(
+    #     pet_name=request.form.get('pet_name'),
+    #     pet_type=request.form.get('pet_type'),
+    #     start_time=request.form.get('start_time'),
+    #     end_time=request.form.get('end_time'),
+    #     full_time=bool(request.form.get('full_time')),
+    #     zip_code=request.form.get('zip_code'),
+    #     extra_info=request.form.get('extra_info'),
+    #     activities=activities,
+    #     user_id=user_id)
+
+    try:
+        # get the listing that you're trying to update
+        listing = Listing.query.filter_by(id = listing_id).first()
+        
+        # update the fields in the old listing
+        listing.pet_name = request.form.get('pet_name')
+        listing.pet_type = request.form.get('pet_type')
+        listing.start_time = request.form.get('start_time')
+        listing.end_time = request.form.get('end_time')
+        listing.full_time = bool(request.form.get('full_time'))
+        listing.zip_code = request.form.get('zip_code')
+        listing.extra_info = request.form.get('extra_info')
+        listing.activities = activities
+        db.session.commit()
+        
+    except Exception as e:
+        db.session.rollback() # Cancel all invalid changes
+        errorMsg = e.args[0]
+        
+    return redirect(url_for('user_details', id=listing.user_id, errorMsg=errorMsg))
+
 
 # Receives data for new listing and creates it
 @app.route('/users/<int:user_id>/listings/create', methods=['POST'])
