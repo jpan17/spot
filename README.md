@@ -5,6 +5,8 @@ A web application to help pet owners find pet enthusiasts to watch over their an
 - [config.py](config.py) contains a reference to os.environ.get('DATABASE_URL'), but I have gitignore-d the .env file I store that in (as it contains my password).
     - An example .env file would contain a line with exactly these contents: "DATABASE_URL = 'postgresql://postgres:my_password@localhost:5432/spot_dev'"
     - General format: "DATABASE_URL = 'dialect+driver://username:password@host:port/database'"
+- Before running the application, but after creating your Postgres database, run the following command to structure the database correctly:
+    - ``` flask db upgrade ```
 - To run the application:
     - Navigate to the highest level directory ([app](app), [config.py](config.py), etc. should be in that directory), and run the command:
         - ``` flask run ```
@@ -49,3 +51,4 @@ To test, in [.flaskenv](.flaskenv), make sure to set SPOT_TEST to 'true'. For ex
 
 ### Known Issues
 - Cannot delete user (pet owner) when they own listings. This is typically called "Cascading" and I have not figured out how to implement it, but to do so it is likely some sort of cascading option.
+- Not sure if clear database still works (for same reason as above, just haven't tested it yet)

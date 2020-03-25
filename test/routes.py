@@ -181,3 +181,19 @@ def create_listing(user_id):
         errorMsg = e.args[0]
 
     return redirect(url_for('user_details', id=user_id, errorMsg=errorMsg))
+
+    
+# Delete listing with certain id
+@app.route('/listings/delete/<int:id>')
+def delete_listing(id):
+    errorMsg = 'Deleted successfully'
+
+    # Find user by ID, and delete it
+    try:
+        Listing.query.filter_by(id=id).delete()
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        errorMsg = e.args[0]
+
+    return redirect(url_for('user_details', id = id, errorMsg=errorMsg))

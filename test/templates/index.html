@@ -36,8 +36,8 @@
                 <td>{{ users[i].phone_number }} </td>
                 <td>{{ users[i].password_hash }} </td>
                 <td>
-                    <a href='/users/{{ users[i].id }}'>Details</a> |
-                    <a href='/users/delete/{{ users[i].id }}'>Delete</a>
+                    <a href="/users/{{ users[i].id }}">Details</a> |
+                    <a href="/users/delete/{{ users[i].id }}">Delete</a>
                 </td>
             </tr>
             {% endfor %}

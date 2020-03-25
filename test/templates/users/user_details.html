@@ -65,6 +65,7 @@
                     <th>Zip Code</th>
                     <th>Activities</th>
                     <th>Extra Info</th>
+                    <th>Options</th>
                 </tr>
             </thead>
             <tbody>
@@ -79,6 +80,7 @@
                     <td> {{ listings[i].zip_code }} </td>
                     <td> {{ listings[i].activities }} </td>
                     <td> {{ listings[i].extra_info }} </td>
+                    <td> <a href="/listings/delete/{{ listings[i].id }}">Delete</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
