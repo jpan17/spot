@@ -9,6 +9,32 @@
         {% include 'background.html' %}
         {% include 'header.html' %}
 
+        <div class="login-container">
+            <div class="login-heading spot-font">
+                LOGIN
+            </div>
+            <!-- TODO MAKE THIS FORM ACTUALLY POST SOMEWHERE -->
+            <form class="login-form">
+
+                <div class="emailpass spot-font spot-heading">
+                    email
+                </div>
+                <input type="email" name="email" class="emailpass-input spot-font">
+                <div class="emailpass spot-font spot-heading">
+                    password
+                </div>
+                <input type="password" name="password" class="emailpass-input spot-font">
+                
+                <div class="no-account spot-font spot-heading">
+                    no account?
+                    <a href="{{ url_for('register_form') }}">sign up</a>
+                </div>
+
+                <input class="submit-button spot-font spot-heading" type="submit" value="log in">
+                
+            </form>
+        </div>
+
         {% include 'footer.html' %}
     </body>
 </html>

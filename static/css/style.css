@@ -11,6 +11,11 @@
     color: #FFFFFF;
 }
 
+a {
+    text-decoration: none;
+    color: #5AB9EA; /* Not sure what exactly to use, I just used the same as for one of the spots */
+}
+
 a.regular-text {
     color: inherit;
     text-decoration: inherit;
