@@ -14,6 +14,7 @@ A web application to help pet owners find pet enthusiasts to watch over their an
 
 ## Developer Information
 - The [.flaskenv](.flaskenv) contains the environment variable FLASK_ENV set to 'development', enabling all development features.
+- When creating HTML pages, make sure [background.html](templates/background.html) is included *before* [header.html](templates/header.html), because the spots are intended to be covered by the header bar, not the other way around.
 
 ## Required Packages (see [requirements.txt](requirements.txt) for versions)
 - pip install flask (to run web app)

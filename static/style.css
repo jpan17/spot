@@ -24,8 +24,8 @@ a.regular-text {
 
 .header-bar {
     position: fixed;
-    width: 100%;
-    height: 10.6667%;
+    width: 100vw;
+    height: 10.6667vh;
     left: 0px;
     top: 0px;
     background: linear-gradient(270deg, #84CEEB 0%, #5AB9EA 34.9%, #5680E9 64.58%, #8860D0 97.4%);
@@ -35,7 +35,7 @@ a.regular-text {
     position: fixed;
     width: 10.6667vh;
     height: 10.6667vh;
-    left: 3.4375%;
+    left: 3.4375vw;
     top: 0px;
 }
 
@@ -74,7 +74,77 @@ a.regular-text {
 
 .background-spot-1 {
     position: fixed;
+    width: calc(4.4271vw + 9.4444vh);
+    height: calc(4.4271vw + 9.4444vh);
+    left: 4.7396vw;
+    top: 8.8889vh;
 
+    opacity: 0.2;
+    background: #8860D0;
+}
 
-background: #8860D0;
+.background-spot-2 {
+    position: fixed;
+    width: calc(2.6823vw + 5.7222vh);
+    height: calc(2.6823vw + 5.7222vh);
+    left: 32.8646vw;
+    top: 17vh;
+
+    opacity: 0.2;
+    background: #84CEEB;
+}
+
+.background-spot-3 {
+    position: fixed;
+    width: calc(5.9375vw + 12.6667vh);
+    height: calc(5.9375vw + 12.6667vh);
+    left: 64.4792vw;
+    top: 10.1111vh;
+
+    opacity: 0.2;
+    background: #8860D0;
+}
+
+.background-spot-4 {
+    position: fixed;
+    width: calc(10.2604vw + 21.8889vh);
+    height: calc(10.2604vw + 21.8889vh);
+    left: 89.7396vw;
+    top: -2.1111vh;
+
+    opacity: 0.2;
+    background: #5AB9EA;
+}
+
+.background-spot-5 {
+    position: fixed;
+    width: calc(8.3854vw + 17.8889vh);
+    height: calc(8.3854vw + 17.8889vh);
+    left: -3.1771vw;
+    top: 55.5556vh;
+
+    opacity: 0.2;
+    background: #5AB9EA;
+}
+
+.background-spot-6 {
+    position: fixed;
+    width: calc(12.7083vw + 27.1111vh);
+    height: calc(12.7083vw + 27.1111vh);
+    left: 30.6771vw;
+    top: 58.3333vh;
+
+    opacity: 0.2;
+    background: #8860D0;
+}
+
+.background-spot-7 {
+    position: fixed;
+    width: calc(10.2344vw + 21.8333vh);
+    height: calc(10.2344vw + 21.8333vh);
+    left: 73.1771vw;
+    top: 54.1111vh;
+
+    opacity: 0.2;
+    background: #84CEEB;
 }
