@@ -11,7 +11,7 @@ def home():
 # Login page. Should redirect automatically to homepage if logged in already, but currently does not
 @app.route('/login')
 def login_form():
-    html = render_template('login.html',
+    html = render_template('users/login.html',
         title='Login | Spot')
     response = make_response(html)
     return response
@@ -19,7 +19,7 @@ def login_form():
 # Registration page. Temporarily is the same as Login page.
 @app.route('/register')
 def register_form():
-    html = render_template('login.html',
+    html = render_template('users/register.html',
         title='Register | Spot')
     response = make_response(html)
     return response

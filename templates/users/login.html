@@ -2,12 +2,12 @@
 <html>
     <head>
         <title>{{ title }}</title>
-        {% include 'links.html' %}
+        {% include 'components/links.html' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
     </head>
     <body>
-        {% include 'background.html' %}
-        {% include 'header.html' %}
+        {% include 'components/background.html' %}
+        {% include 'components/header.html' %}
 
         <div class="login-container">
             <div class="login-heading spot-font">
@@ -19,11 +19,11 @@
                 <div class="emailpass spot-font spot-heading">
                     email
                 </div>
-                <input type="email" name="email" class="emailpass-input spot-font">
+                <input type="email" name="email" class="emailpass-input" required>
                 <div class="emailpass spot-font spot-heading">
                     password
                 </div>
-                <input type="password" name="password" class="emailpass-input spot-font">
+                <input type="password" name="password" class="emailpass-input" required>
                 
                 <div class="no-account spot-font spot-heading">
                     no account?
@@ -35,6 +35,6 @@
             </form>
         </div>
 
-        {% include 'footer.html' %}
+        {% include 'components/footer.html' %}
     </body>
 </html>
