@@ -22,6 +22,20 @@ a.regular-text {
 
 /* ================= HEADER STYLES ============== */
 
+body {
+    /* In order for placeholder to exactly be at the top */
+    margin: 0px;
+}
+
+.header-placeholder {
+    position: relative;
+    width: 100vw;
+    height: 10.6667vh;
+    margin: 0px;
+    padding: 0px;
+    background-color: black;
+}
+
 .header-bar {
     position: fixed;
     width: 100vw;
