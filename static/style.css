@@ -1,3 +1,5 @@
+/* ================= GENERAL STYLES ============== */
+
 .spot-font {
     font-family: Varela Round;
     font-style: normal;
@@ -14,6 +16,10 @@ a.regular-text {
     text-decoration: inherit;
 }
 
+.circle {
+    border-radius: 50%
+}
+
 /* ================= HEADER STYLES ============== */
 
 .header-bar {
@@ -27,38 +33,48 @@ a.regular-text {
 
 .header-logo {
     position: fixed;
-    width: 5%;
-    height: 10.6667%;
+    width: 10.6667vh;
+    height: 10.6667vh;
     left: 3.4375%;
     top: 0px;
 }
 
 .header-name {
     position: fixed;
-    height: 9.6667%;
-    left: 8.4375%;
-    top: 0.4444%;
+    height: 9.6667vh;
+    left: calc(3.4375vw + 10.6667vh);
+    top: 0px;
 
     font-size: 8vh;
-    line-height: 9.6667vh; /* Same percentage of _view height_ as overall height's percentage*/
+    line-height: 10.6667vh; /* Same percentage of _view height_ as overall height's percentage*/
 }
 
 .header-login {
     position: fixed;
-    height: 4.7778%;
-    left: 75.7813%;
-    top: 2.8889%;
+    height: 4.7778vh;
+    left: min(75.7813vw, calc(84.2188vw - 9.45vh), calc(100vw - 23.34vh));
+    top: 0px;
 
     font-size: 4vh;
-    line-height: 4.7778vh;
+    line-height: 10.6667vh;
 }
 
 .header-signup {
     position: fixed;
-    height: 4.7778%;
-    left: 84.2188%;
-    top: 2.8889%;
+    height: 4.7778vh;
+    left: min(84.2188vw, calc(100vw - 13.89vh));
+    top: 0px;
+    white-space: nowrap;
 
     font-size: 4vh;
-    line-height: 4.7778vh;
+    line-height: 10.6667vh;
+}
+
+/* ================= BACKGROUND STYLES ============== */
+
+.background-spot-1 {
+    position: fixed;
+
+
+background: #8860D0;
 }
