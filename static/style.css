@@ -1,3 +1,21 @@
+.spot-font {
+    font-family: Varela Round;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.spot-heading {
+    text-align: center;
+    color: #FFFFFF;
+}
+
+a.regular-text {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+/* ================= HEADER STYLES ============== */
+
 .header-bar {
     position: fixed;
     width: 100%;
@@ -13,4 +31,34 @@
     height: 10.6667%;
     left: 3.4375%;
     top: 0px;
+}
+
+.header-name {
+    position: fixed;
+    height: 9.6667%;
+    left: 8.4375%;
+    top: 0.4444%;
+
+    font-size: 8vh;
+    line-height: 9.6667vh; /* Same percentage of _view height_ as overall height's percentage*/
+}
+
+.header-login {
+    position: fixed;
+    height: 4.7778%;
+    left: 75.7813%;
+    top: 2.8889%;
+
+    font-size: 4vh;
+    line-height: 4.7778vh;
+}
+
+.header-signup {
+    position: fixed;
+    height: 4.7778%;
+    left: 84.2188%;
+    top: 2.8889%;
+
+    font-size: 4vh;
+    line-height: 4.7778vh;
 }
