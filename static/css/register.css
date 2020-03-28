@@ -47,3 +47,7 @@
     display: block;
     margin: 28px auto;
 }
+
+label.is-sitter {
+    margin-left: 2em;
+}

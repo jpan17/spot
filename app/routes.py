@@ -1,5 +1,4 @@
 from app import app
-from flask import send_from_directory
 from flask import make_response, render_template, request
 from flask import url_for, redirect
 

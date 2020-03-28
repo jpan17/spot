@@ -45,7 +45,16 @@
                             <label>I am a:</label>
                         </td>
                         <td>
-                            <input type="radio">
+                            <label for="is_owner" class="radio">
+                                <input type="radio" name="user_type" id="is_owner" value="true">
+                                <span class="checked"></span>
+                                Pet Owner
+                            </label>
+                            <label for="is_sitter" class="radio is-sitter">
+                                <input type="radio" name="user_type" id="is_sitter" value="true">
+                                <span class="checked"></span>
+                                Pet Sitter
+                            </label>
                         </td>
                     </tr>
                     <tr>
