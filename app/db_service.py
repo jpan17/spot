@@ -7,6 +7,7 @@ specifically methods that will be used throughout the application.
 
 from app import app, db
 from app.models import User, Listing
+import datetime
 
 def get_user_by_id(user_id):
     """
@@ -131,7 +132,7 @@ def all_listings(pet_type = None, activities = None, zip_code = None, datetime_r
     ----------
     pet_type : str or None, optional
         Filters Listings for pet type *pet_type*, or does not filter is unspecified/None.
-    activities : list of str or None, optional
+    activities : list or tuple of str or None, optional
         Filters Listings for those that share any activity with those in the *activities* parameter,
         or does not filter is unspecified/None.
     zip_code : str or None, optional
@@ -163,10 +164,127 @@ def all_listings(pet_type = None, activities = None, zip_code = None, datetime_r
     
     """
     
-# def all_listings(pet_type = None, activities = None, zip_code = None, datetime_range = None):
+    listings = []
     
+    if type(pet_type) != str and type(pet_type) != NoneType:
+        raise TypeError('pet_type should be a parameter of type None or str')
     
-    return None
+    if type(activities) != list or type(activities) != tuple and type(activities) != NoneType:
+        raise TypeError('activities should be a parameter of type None, tuple or list')
+    
+    for activity in activities:
+        if type(activity) != str:
+            raise TypeError('activities tuple/list should only contain str')
+    
+    if type(zip_code) != str and type(zip_code) != NoneType:
+        raise TypeError('zip_code should be a parameter of type None or str')
+    
+    if type(datetime_range) != tuple and type(datetime_range) != NoneType:
+        raise(TypeError('datetime_range should be a parameter of type None or tuple'))
+    
+    for time in datetime_range:
+        if type(time) != datetime:
+            raise TypeError('datetime_range tuple should only contain datetimes')
+        
+    startTime = datetime_range[0]
+    endTime = datetime_range[1]
+    
+    if startTime >= endTime:
+        raise ValueError('starttime must be before endtime')
+    
+    return Listing.query.all()
+
+def get_listing_by_id(listing_id):
+    """
+    Returns a Listing object with ID *listing_id*, or None if no such listing exists.
+
+    Parameters
+    ----------
+    listing_id : int or str
+        ID of the Listing
+
+    Returns
+    -------
+    Listing or None
+        The Listing with ID *listing_id* or None if no listing exists with that ID
+
+    Raises
+    ------
+    TypeError
+        If *listing_id* is not an integer or string.
+    ValueError
+        If *listing_id* is a string that cannot be parsed to an integer.
+
+    Examples
+    --------
+    >>> db_service.get_listing_by_id(3)
+    Listing(id=3)
+
+    >>> db_service.get_listing_by_id('-1')
+    None
+
+    >>> db_service.get_listing_by_id([2, 4, 6])
+    TypeError('listing_id must be an integer or string')
+
+    """
+    id = listing_id
+
+    if type(listing_id) != int:
+        if type(listing_id) != str:
+            raise TypeError('listing_id must be an integer or string')
+        else:
+            if _str_is_integer(listing_id):
+                id = int(listing_id)
+            else:
+                raise ValueError('listing_id is a string, but cannot be parsed into an integer')
+
+    return Listing.query.filter_by(id=id).first()
+
+def create_listing():
+    pass
+
+def create_user(user):
+    
+    if type(user) != User:
+        raise TypeError('user parameter must be a User object')
+    
+    if hasattr(user, 'id'):
+        raise ValueError('user parameter should not have attribute id')
+    
+    if type(user.is_owner) != bool:
+        raise TypeError('user parameter attribute is_owner must be of type bool')
+    
+    if type(user.is_sitter) != bool:
+        raise TypeError('user parameter attribute is_sitter must be of type bool')
+    
+    if type(user.full_name) != str:
+        raise TypeError('user parameter attribute full_name must be of type str')
+    
+    if type(user.email) != str:
+        raise TypeError('user parameter attribute email must be of type str')
+    
+    if type(user.phone_number) != str:
+        raise TypeError('user parameter phone_number must be of type str')
+    
+    if type(user.password_hash) != str:
+        raise TypeError('user parameter password_hash must be of type str')
+    
+    if hasattr(user, 'listings'):
+        raise ValueError('user parameter should not have attribute listings')
+    
+    if hasattr(user, 'accepted_listings'):
+        raise ValueError('user parameter should not have attribute accepted_listings')
+    
+    try:
+        db.session.add(user)
+        db.session.commit()
+        return ''
+    except Excpetion as e
+        db.session.rollback()
+        return "Error: " + str(e)
+
+def update_listing():
+    pass
 
 def _str_is_integer(s):
     try:
