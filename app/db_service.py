@@ -163,6 +163,9 @@ def all_listings(pet_type = None, activities = None, zip_code = None, datetime_r
     
     """
     
+# def all_listings(pet_type = None, activities = None, zip_code = None, datetime_range = None):
+    
+    
     return None
 
 def _str_is_integer(s):
