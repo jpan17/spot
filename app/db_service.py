@@ -261,6 +261,9 @@ def create_listing(listing):
     if type(listing.end_time) != datetime:
         raise TypeError('listing parameter end_time must be of type datetime')
     
+    if listing.start_time >= listing.end_time:
+        raise ValueError('starttime must be before endtime')
+    
     if type(listing.full_time) != bool:
         raise TypeError('listing parameter full_time must be of type bool')
     
@@ -286,7 +289,7 @@ def create_listing(listing):
         db.session.add(listing)
         db.session.commit()
         return ''
-    except Exception as e
+    except Exception as e:
         db.session.rollback()
         return "Error: " + str(e)
 
@@ -326,7 +329,7 @@ def create_user(user):
         db.session.add(user)
         db.session.commit()
         return ''
-    except Exception as e
+    except Exception as e:
         db.session.rollback()
         return "Error: " + str(e)
 
@@ -346,40 +349,78 @@ def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, en
             
     listing = Listing.query.filter_by(id=id).first()
     
-    if type(pet_name) != str and type(pet_name) != Noe:
-        raise TypeError('listing parameter attribute pet_name must be of type str')
+    if type(pet_name) != str and type(pet_name) != NoneType:
+        raise TypeError('attribute pet_name must be of type str or None')
     
-    if type(listing.pet_type) != str or pet_type not in enums.pet_types:
-        raise TypeError('listing parameter pet_type must be of type str and be one of our prespecified pet types')
+    if type(pet_type) != NoneType and type(pet_type) != str:
+        raise TypeError('attribute pet_type must be of type str or None')
     
-    if type(listing.start_time) != datetime:
-        raise TypeError('listing parameter start_time must be of type datetime')
+    if pet_type not in enums.pet_types:
+        raise ValueError('attribute pet_type must be one of our prespecified pet types')
     
-    if type(listing.end_time) != datetime:
-        raise TypeError('listing parameter end_time must be of type datetime')
+    if type(start_time) != datetime:
+        raise TypeError('attribute start_time must be of type datetime')
     
-    if type(listing.full_time) != bool:
-        raise TypeError('listing parameter full_time must be of type bool')
+    if type(end_time) != datetime:
+        raise TypeError('attribute end_time must be of type datetime')
     
-    if type(listing.zip_code) != str:
-        raise TypeError('listing parameter zip_code must be of type str')
+    if listing.start_time >= listing.end_time:
+        raise ValueError('starttime must be before endtime')
     
-    if hasattr(listing, 'extra_info') and type(listing.extra_info) != str and type(listing.extra_info) != NoneType:
+    if type(full_time) != bool:
+        raise TypeError('attribute full_time must be of type bool')
+    
+    if type(zip_code) != str:
+        raise TypeError('attribute zip_code must be of type str')
+    
+    if type(extra_info) != str and type(extra_info) != NoneType:
         raise TypeError('listing parameter extra_info must be of type str or None')
     
-    if type(listing.activities) != list and type(activities) != tuple:
-        raise TypeError('listing parameter activities must be of type list or tuple')
+    if type(activities) != list and type(activities) != tuple or type(activities) != NoneType:
+        raise TypeError('listing parameter activities must be of type list or tuple or None')
     
-    for activity in listing.activities:
+    for activity in activities:
         if type(activity) != str:
             raise TypeError('listing paremeter activities must only contain strings')
         if activity not in enums.activities:
             raise ValueError('listing paremeter activities must only contain strings that are one of our prespecified activities')
-    
-    if type(listing.user_id) != int:
-        raise TypeError('listing parameter user_id must be of type int')
+        
+    if pet_name != None:
+        listing.pet_name = pet_name
+        
+    if pet_type != None:
+        listing.pet_type = pet_type
+        
+    if start_time != None:
+        listing.start_time = start_time
+        
+    if end_time != None:
+        listing.end_time = end_time
+        
+    if full_time != None:
+        listing.full_time = full_time
+        
+    if zip_code != None:
+        listing.zip_code = zip_code
+        
+    if extra_info != None:
+        listing.extra_info = extra_info
+        
+    if activities != None:
+        listing.activities = activities
             
+    try:
+        db.session.commit()
+        return ''
+    except Exception as e:
+        db.session.rollback()
+        return "Error: " + str(e)
     
+def delete_listing(listing_id):
+    pass
+
+def delete_user(user_id):
+    pass
 
 def _str_is_integer(s):
     try:
