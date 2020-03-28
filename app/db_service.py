@@ -60,10 +60,8 @@ def get_listings(user = None, user_id = -1, accepted = False):
     *user* and *user_id* must be specified when calling this function.
 
     If *user* parameter is given, uses that user directly. If *user* is not
-    provided, attempts to use *user_id* instead. If neither are given, a TypeError
-    is raised. *accepted* is only used if a user is both an owner and a sitter,
-    in which case *accepted* being True will make the function return the user's
-    accepted listings rather than the listings they own.
+    provided, attempts to get a User by *user_id* instead. *accepted* is used to determine
+    which listings to return if a user is both an owner and a sitter and is ignored otherwise.
 
     Parameters
     ----------
@@ -76,13 +74,14 @@ def get_listings(user = None, user_id = -1, accepted = False):
     accepted : bool, optional
         If the user is both an owner and a sitter, the accepted listings will be returned if
         *accepted* is True. Defaults to False, in which case the listings that the user owns
-        are returned. Ignored if the user is not both an owner and a sitter.
+        are returned.
 
     Returns
     -------
     list of Listing
-        A (potentially empty) list of all of the user's Listings. Whether the list is of
-        owned Listings or accepted Listings depends on the parameters, described above.
+        A (potentially empty) list of all of the user's Listings. For owners, this is a list of
+        their posted Listings; for sitters, a list of their accepted Listings; and for users that are
+        both owners and sitters, depends on the value of *accepted* (described above).
 
     Raises
     ------
