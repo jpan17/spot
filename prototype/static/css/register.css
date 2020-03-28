@@ -1,0 +1,53 @@
+.register-container {
+    position: relative;
+    z-index: 10;
+}
+
+.register-container .welcome {
+    margin: 24px auto 0 auto;
+}
+
+.register-container .subtitle {
+    margin: 0 auto;
+}
+
+.register-container input:not([type=radio]):not([type=submit]) {
+    width: 554px;
+    height: 36px;
+
+    font-size: 20px;
+}
+
+.register-table {
+    margin: 37px auto 0px auto;
+}
+
+.register-table td {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.register-table td:first-child {
+    text-align: right;
+    padding-left: 20px;
+}
+
+.register-table td:last-child {
+    padding-right: 20px;
+}
+
+.register-table label {
+    margin: auto 11px auto 0;
+
+    font-size: 28px;
+    line-height: 34px;
+}
+
+.register-form .submit-button {
+    display: block;
+    margin: 28px auto;
+}
+
+label.is-sitter {
+    margin-left: 2em;
+}

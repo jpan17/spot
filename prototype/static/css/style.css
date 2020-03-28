@@ -1,0 +1,288 @@
+/* ================= GENERAL STYLES ============== */
+
+.spot-font {
+    font-family: Varela Round;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.spot-heading {
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.big-button {
+    padding-left: 38px;
+    padding-right: 38px;
+    height: 72px;
+
+    background: #A72BE1;
+    border-radius: 10px;
+    border: none;
+
+    font-size: 44px;
+    line-height: 54px;
+    text-align: center;
+    color: #FFFFFF;
+    font-family: Varela Round;
+    font-style: normal;
+    font-weight: normal;
+}
+
+input[type=text], input[type=email], input[type=password], input[type=tel] {
+    padding-left: 0.72381em;
+    text-align: left;
+    font-family: Varela Round;
+    font-style: normal;
+    font-weight: normal;
+
+    background: #FFFFFF;
+
+    border: 3px solid #C1C8E4;
+}
+
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=tel]:focus {
+    border: 3px solid #A72BE1;
+}
+
+/* Note that custom radio styling is meant for a label CONTAINING the input element! */
+/* e.g. <label for="r"><input type="radio" id="r"></label> */
+label.radio input[type=radio] {
+    display: none;
+}
+
+label.radio {
+    position: relative;
+    display: inline-block;
+    padding-left: 1.32143em;
+    cursor: pointer;
+}
+
+label.radio::before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+
+    width: 0.75em;
+    height: 0.75em;
+    top: 50%;
+    left: 0.375em;
+    margin-top: -0.375em;
+    margin-left: -0.375em;
+
+    border-radius: 50%;
+    box-sizing: border-box;
+    border: 3px solid #A72BE1;
+    background: #FFFFFF;
+}
+
+label.radio input[type=radio] + *.checked {
+    display: none;
+}
+
+label.radio input[type=radio]:checked + *.checked {
+    display: inline-block;
+    position: absolute;
+
+    width: 0.35em;
+    height: 0.35em;
+    top: 50%;
+    left: 0.375em;
+    margin-top: -0.175em;
+    margin-left: -0.175em;
+
+    background: #A72BE1;
+    border-radius: 50%;
+    border-width: 0px;
+}
+
+label {
+    font-family: Varela Round;
+    font-style: normal;
+    font-weight: normal;
+    color: #858585;
+    /* cursor: text; */
+}
+
+a {
+    text-decoration: none;
+    color: #5AB9EA; /* Not sure what exactly to use, I just used the same as for one of the spots */
+}
+
+a.regular-text {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.circle {
+    border-radius: 50%
+}
+
+h2 {
+    font-family: Varela Round;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 60px;
+    line-height: 72px;
+    text-align: center;
+
+    color: #A72BE1;
+}
+
+h6 {
+    font-family: Varela Round;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20.5px;
+    line-height: 25.5px;
+    text-align: center;
+
+    color: #858585;
+}
+
+/* ================= HEADER STYLES ============== */
+
+body {
+    /* In order for placeholder to exactly be at the top */
+    margin: 0px;
+}
+
+.header-placeholder {
+    position: relative;
+    height: 10.6667vh;
+    margin: 0px;
+    padding: 0px;
+    background-color: black;
+}
+
+.header-bar {
+    z-index: 1000;
+    position: fixed;
+    width: 100vw;
+    height: 10.6667vh;
+    left: 0px;
+    top: 0px;
+    background: linear-gradient(270deg, #84CEEB 0%, #5AB9EA 34.9%, #5680E9 64.58%, #8860D0 97.4%);
+}
+
+.header-logo {
+    z-index: 1000;
+    position: fixed;
+    width: 10.6667vh;
+    height: 10.6667vh;
+    left: 3.4375vw;
+    top: 0px;
+}
+
+.header-name {
+    z-index: 1000;
+    position: fixed;
+    height: 9.6667vh;
+    left: calc(3.4375vw + 10.6667vh);
+    top: 0px;
+
+    font-size: 8vh;
+    line-height: 10.6667vh; /* Same percentage of _view height_ as overall height's percentage*/
+}
+
+.header-login {
+    z-index: 1000;
+    position: fixed;
+    height: 4.7778vh;
+    left: min(75.7813vw, calc(84.2188vw - 9.45vh), calc(100vw - 23.34vh));
+    top: 0px;
+
+    font-size: 4vh;
+    line-height: 10.6667vh;
+}
+
+.header-signup {
+    z-index: 1000;
+    position: fixed;
+    height: 4.7778vh;
+    left: min(84.2188vw, calc(100vw - 13.89vh));
+    top: 0px;
+    white-space: nowrap;
+
+    font-size: 4vh;
+    line-height: 10.6667vh;
+}
+
+/* ================= BACKGROUND STYLES ============== */
+
+.background-spot-1 {
+    position: fixed;
+    width: calc(4.4271vw + 9.4444vh);
+    height: calc(4.4271vw + 9.4444vh);
+    left: 4.7396vw;
+    top: 8.8889vh;
+
+    opacity: 0.2;
+    background: #8860D0;
+}
+
+.background-spot-2 {
+    position: fixed;
+    width: calc(2.6823vw + 5.7222vh);
+    height: calc(2.6823vw + 5.7222vh);
+    left: 32.8646vw;
+    top: 17vh;
+
+    opacity: 0.2;
+    background: #84CEEB;
+}
+
+.background-spot-3 {
+    position: fixed;
+    width: calc(5.9375vw + 12.6667vh);
+    height: calc(5.9375vw + 12.6667vh);
+    left: 64.4792vw;
+    top: 10.1111vh;
+
+    opacity: 0.2;
+    background: #8860D0;
+}
+
+.background-spot-4 {
+    position: fixed;
+    width: calc(10.2604vw + 21.8889vh);
+    height: calc(10.2604vw + 21.8889vh);
+    left: 89.7396vw;
+    top: -2.1111vh;
+
+    opacity: 0.2;
+    background: #5AB9EA;
+}
+
+.background-spot-5 {
+    position: fixed;
+    width: calc(8.3854vw + 17.8889vh);
+    height: calc(8.3854vw + 17.8889vh);
+    left: -3.1771vw;
+    top: 55.5556vh;
+
+    opacity: 0.2;
+    background: #5AB9EA;
+}
+
+.background-spot-6 {
+    position: fixed;
+    width: calc(12.7083vw + 27.1111vh);
+    height: calc(12.7083vw + 27.1111vh);
+    left: 30.6771vw;
+    top: 58.3333vh;
+
+    opacity: 0.2;
+    background: #8860D0;
+}
+
+.background-spot-7 {
+    position: fixed;
+    width: calc(10.2344vw + 21.8333vh);
+    height: calc(10.2344vw + 21.8333vh);
+    left: 73.1771vw;
+    top: 54.1111vh;
+
+    opacity: 0.2;
+    background: #84CEEB;
+}
