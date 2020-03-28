@@ -422,6 +422,9 @@ def delete_listing(listing_id):
 def delete_user(user_id):
     pass
 
+def accept_listing(user_id, listing_id):
+    pass
+
 def _str_is_integer(s):
     try:
         int(s)
