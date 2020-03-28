@@ -37,9 +37,20 @@
 <p>A file containing useful methods for querying the database of Users/Listings,
 specifically methods that will be used throughout the application.</p>
 <dl class="function">
-<dt id="app.db_service.test">
-<code class="sig-prename descclassname">app.db_service.</code><code class="sig-name descname">test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#app.db_service.test" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns 10.</p>
+<dt id="app.db_service.getUserById">
+<code class="sig-prename descclassname">app.db_service.</code><code class="sig-name descname">getUserById</code><span class="sig-paren">(</span><em class="sig-param">user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#app.db_service.getUserById" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a User object with ID <em>user_id</em>, or None if no such user exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user_id</strong> (<em>int</em>) – The ID of the User</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The User with ID <em>user_id</em> or None if no user exists with that ID</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>User or None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
