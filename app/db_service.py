@@ -67,17 +67,33 @@ def get_listings(user = None, user_id = -1, accepted = False):
 
     Parameters
     ----------
-
+    user : User, optional
+        The user to return the listings of. Note that one of *user* and *user_id* must
+        be specified in a call to this function.
+    user_id : int, optional
+        The ID of the user to return the listings of, if *user* is not specified. Note that
+        one of *user* and *user_id* must be specified in a call to this function.
+    accepted : boolean, optional
     """
-
-    if type(user_id) != int:
-        raise TypeError('user_id must be an integer or string')
 
     # If user unspecified, search for it
     if user == None:
         user = get_user_by_id(user_id)
         if user == None:
             raise TypeError('No user was provided and no user was found by the given user_id (or no user_id was provided)')
+        
+    if type(user) != User:
+        raise TypeError('A User object must be passed for the value of parameter "user"')
+    
+    if type(accepted) != bool:
+        raise TypeError('accepted parameter must be of type bool')
+    
+    if user.is_owner:
+        if user.is_sitter:
+            if accepted:
+                return user.accepted_listings
+        return user.listings
+    return user.accepted_listings
 
 def _str_is_integer(s):
     try:
