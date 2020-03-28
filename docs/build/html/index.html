@@ -37,6 +37,45 @@
 <p>A file containing useful methods for querying the database of Users/Listings,
 specifically methods that will be used throughout the application.</p>
 <dl class="function">
+<dt id="app.db_service.all_listings">
+<code class="sig-prename descclassname">app.db_service.</code><code class="sig-name descname">all_listings</code><span class="sig-paren">(</span><em class="sig-param">pet_type=None</em>, <em class="sig-param">activities=None</em>, <em class="sig-param">zip_code=None</em>, <em class="sig-param">datetime_range=None</em><span class="sig-paren">)</span><a class="headerlink" href="#app.db_service.all_listings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of all available Listings in the database, filtered by the given parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pet_type</strong> (<em>str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Filters Listings for pet type <em>pet_type</em>, or does not filter is unspecified/None.</p></li>
+<li><p><strong>activities</strong> (<em>list of str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Filters Listings for those that share any activity with those in the <em>activities</em> parameter,
+or does not filter is unspecified/None.</p></li>
+<li><p><strong>zip_code</strong> (<em>str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Filters Listings for zip code <em>zip_code</em>, or does not filter if unspecified/None.</p></li>
+<li><p><strong>datetime_range</strong> (<em>tuple of datetime</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Filters Listings by those that match the <em>datetime_range</em> parameter. Must be either None/unspecified
+or a tuple of two datetimes, the first one being the start datetime and the second being the end datetime.
+Looks for listings whose datetime ranges fall completely within the range if <em>full_time</em> of the Listing is true, or
+datetime ranges that intersect with <em>datetime_range</em> if <em>full_time</em> is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of Listings that match the specified paremeters (described above).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of Listing</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If any of the parameters are not of the type described in Parameters above, or if any of the values in <em>activities</em> or
+    <em>datetime_range</em> are not of type str or datetime, respectively.</p></li>
+<li><p><strong>ValueError</strong> – If datetime_range is a tuple that does not contain exactly 2 datetimes, the second of which is a datetime that is
+    after the first.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">all_listings</span><span class="p">(</span><span class="n">pet_type</span> <span class="o">=</span> <span class="s1">&#39;Dog&#39;</span><span class="p">,</span> <span class="n">activities</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Walking&#39;</span><span class="p">],</span> <span class="n">zip_code</span> <span class="o">=</span> <span class="s1">&#39;08540&#39;</span><span class="p">)</span>
+<span class="go">[&lt;Listing ID=15&gt;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="app.db_service.get_listings">
 <code class="sig-prename descclassname">app.db_service.</code><code class="sig-name descname">get_listings</code><span class="sig-paren">(</span><em class="sig-param">user=None</em>, <em class="sig-param">user_id=-1</em>, <em class="sig-param">accepted=False</em><span class="sig-paren">)</span><a class="headerlink" href="#app.db_service.get_listings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of listings associated with a user. Note that at least one of

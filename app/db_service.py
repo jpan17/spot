@@ -123,6 +123,48 @@ def get_listings(user = None, user_id = -1, accepted = False):
         return user.listings
     return user.accepted_listings
 
+def all_listings(pet_type = None, activities = None, zip_code = None, datetime_range = None):
+    """
+    Returns a list of all available Listings in the database, filtered by the given parameters.
+
+    Parameters
+    ----------
+    pet_type : str or None, optional
+        Filters Listings for pet type *pet_type*, or does not filter is unspecified/None.
+    activities : list of str or None, optional
+        Filters Listings for those that share any activity with those in the *activities* parameter,
+        or does not filter is unspecified/None.
+    zip_code : str or None, optional
+        Filters Listings for zip code *zip_code*, or does not filter if unspecified/None.
+    datetime_range : tuple of datetime or None, optional
+        Filters Listings by those that match the *datetime_range* parameter. Must be either None/unspecified
+        or a tuple of two datetimes, the first one being the start datetime and the second being the end datetime.
+        Looks for listings whose datetime ranges fall completely within the range if *full_time* of the Listing is true, or
+        datetime ranges that intersect with *datetime_range* if *full_time* is False.
+
+    Returns
+    -------
+    list of Listing
+        A list of Listings that match the specified paremeters (described above).
+    
+    Raises
+    ------
+    TypeError
+        If any of the parameters are not of the type described in Parameters above, or if any of the values in *activities* or
+        *datetime_range* are not of type str or datetime, respectively.
+    ValueError
+        If datetime_range is a tuple that does not contain exactly 2 datetimes, the second of which is a datetime that is
+        after the first.
+
+    Examples
+    --------
+    >>> db_service.all_listings(pet_type = 'Dog', activities = ['Walking'], zip_code = '08540')
+    [<Listing ID=15>]
+    
+    """
+    
+    return None
+
 def _str_is_integer(s):
     try:
         int(s)
