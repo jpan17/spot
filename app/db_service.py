@@ -8,6 +8,7 @@ specifically methods that will be used throughout the application.
 from app import app, db
 from app.models import User, Listing
 import datetime
+import enums
 
 def get_user_by_id(user_id):
     """
@@ -240,8 +241,54 @@ def get_listing_by_id(listing_id):
 
     return Listing.query.filter_by(id=id).first()
 
-def create_listing():
-    pass
+def create_listing(listing):
+    
+    if type(listing) != Listing:
+        raise TypeError('listing parameter must be a Listing object')
+    
+    if hasattr(listing, 'id'):
+        raise ValueError('listing parameter should not have attribute id')
+    
+    if type(listing.pet_name) != str:
+        raise TypeError('listing parameter attribute pet_name must be of type str')
+    
+    if type(listing.pet_type) != str or pet_type not in enums.pet_types:
+        raise TypeError('listing parameter pet_type must be of type str and be one of our prespecified pet types')
+    
+    if type(listing.start_time) != datetime:
+        raise TypeError('listing parameter start_time must be of type datetime')
+    
+    if type(listing.end_time) != datetime:
+        raise TypeError('listing parameter end_time must be of type datetime')
+    
+    if type(listing.full_time) != bool:
+        raise TypeError('listing parameter full_time must be of type bool')
+    
+    if type(listing.zip_code) != str:
+        raise TypeError('listing parameter zip_code must be of type str')
+    
+    if hasattr(listing, 'extra_info') and type(listing.extra_info) != str and type(listing.extra_info) != NoneType:
+        raise TypeError('listing parameter extra_info must be of type str or None')
+    
+    if type(listing.activities) != list and type(activities) != tuple:
+        raise TypeError('listing parameter activities must be of type list or tuple')
+    
+    for activity in listing.activities:
+        if type(activity) != str:
+            raise TypeError('listing paremeter activities must only contain strings')
+        if activity not in enums.activities:
+            raise ValueError('listing paremeter activities must only contain strings that are one of our prespecified activities')
+    
+    if type(listing.user_id) != int:
+        raise TypeError('listing parameter user_id must be of type int')
+    
+    try:
+        db.session.add(listing)
+        db.session.commit()
+        return ''
+    except Exception as e
+        db.session.rollback()
+        return "Error: " + str(e)
 
 def create_user(user):
     
@@ -279,12 +326,60 @@ def create_user(user):
         db.session.add(user)
         db.session.commit()
         return ''
-    except Excpetion as e
+    except Exception as e
         db.session.rollback()
         return "Error: " + str(e)
 
-def update_listing():
-    pass
+def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, end_time=None,
+                   full_time=None, zip_code=None, extra_info=None, activiies=None):
+    
+    id = listing_id
+
+    if type(listing_id) != int:
+        if type(listing_id) != str:
+            raise TypeError('listing_id must be an integer or string')
+        else:
+            if _str_is_integer(listing_id):
+                id = int(listing_id)
+            else:
+                raise ValueError('listing_id is a string, but cannot be parsed into an integer')
+            
+    listing = Listing.query.filter_by(id=id).first()
+    
+    if type(pet_name) != str and type(pet_name) != Noe:
+        raise TypeError('listing parameter attribute pet_name must be of type str')
+    
+    if type(listing.pet_type) != str or pet_type not in enums.pet_types:
+        raise TypeError('listing parameter pet_type must be of type str and be one of our prespecified pet types')
+    
+    if type(listing.start_time) != datetime:
+        raise TypeError('listing parameter start_time must be of type datetime')
+    
+    if type(listing.end_time) != datetime:
+        raise TypeError('listing parameter end_time must be of type datetime')
+    
+    if type(listing.full_time) != bool:
+        raise TypeError('listing parameter full_time must be of type bool')
+    
+    if type(listing.zip_code) != str:
+        raise TypeError('listing parameter zip_code must be of type str')
+    
+    if hasattr(listing, 'extra_info') and type(listing.extra_info) != str and type(listing.extra_info) != NoneType:
+        raise TypeError('listing parameter extra_info must be of type str or None')
+    
+    if type(listing.activities) != list and type(activities) != tuple:
+        raise TypeError('listing parameter activities must be of type list or tuple')
+    
+    for activity in listing.activities:
+        if type(activity) != str:
+            raise TypeError('listing paremeter activities must only contain strings')
+        if activity not in enums.activities:
+            raise ValueError('listing paremeter activities must only contain strings that are one of our prespecified activities')
+    
+    if type(listing.user_id) != int:
+        raise TypeError('listing parameter user_id must be of type int')
+            
+    
 
 def _str_is_integer(s):
     try:
