@@ -151,7 +151,7 @@ def get_user_by_id(user_id):
 
     return User.query.filter_by(id=id).first()
 
-def get_listings(user = None, user_id = -1, accepted = False):
+def get_user_listings(user = None, user_id = -1, accepted = False):
     """
     Returns a list of listings associated with a user. Note that at least one of
     *user* and *user_id* must be specified when calling this function.
@@ -190,13 +190,13 @@ def get_listings(user = None, user_id = -1, accepted = False):
 
     Examples
     --------
-    >>> db_service.get_listings(User(id=1))
+    >>> db_service.get_user_listings(User(id=1))
     [<Listing ID=1>, <Listing ID=2>]
 
-    >>> db_service.get_listings(user_id='2')
+    >>> db_service.get_user_listings(user_id='2')
     [<Listing ID=3>]
 
-    >>> db_service.get_listings()
+    >>> db_service.get_user_listings()
     TypeError('No user was provided and no user was found by the given user_id (or no user_id was provided)')
 
     """
@@ -465,7 +465,7 @@ def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, en
     --------
     >>> update_listing(1, pet_name = 'Spot', zip_code = '08540')
     ''
-    
+
     """
 
     listing = get_listing_by_id(listing_id)
