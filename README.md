@@ -7,6 +7,7 @@ A web application to help pet owners find pet enthusiasts to watch over their an
     - General format: "DATABASE_URL = 'dialect+driver://username:password@host:port/database'"
 - Before running the application, but after creating your Postgres database, run the following command to structure the database correctly:
     - ``` flask db upgrade ```
+    - Also, run this anytime the database structure changes (the migration scripts are in [migrations](migrations)).
 - To run the application:
     - Navigate to the highest level directory ([app](app), [config.py](config.py), etc. should be in that directory), and run the command:
         - ``` flask run ```
