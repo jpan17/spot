@@ -4,6 +4,10 @@
 
 from app import db
 import enums
+from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
+from sqlalchemy.sql.expression import or_, and_, not_
+from sqlalchemy.dialects.postgresql import ARRAY, ENUM
+from sqlalchemy import cast
 
 # Many-To-Many relationship between users (specifically sitters) and listings
 # Note: Online, the documentation has primary_key=True for both columns, but it is omitted here
@@ -47,7 +51,7 @@ class Listing(db.Model):
     __tablename__ = 'listing'
     id = db.Column(db.Integer, primary_key=True)
     pet_name = db.Column(db.String(64), nullable=False)
-    pet_type = db.Column(db.Enum(*enums.pet_types, name="pet_type"), nullable=False)
+    pet_type = db.Column(ENUM(*enums.pet_types, name="pet_type"), nullable=False)
     start_time = db.Column(db.DateTime(), nullable=False)
     end_time = db.Column(db.DateTime(), nullable=False)
     # Does the pet owner require the pet to be sat the full duration, or are they looking for just sometime in between?
@@ -56,10 +60,46 @@ class Listing(db.Model):
     extra_info = db.Column(db.String(1000))
 
     # Array of Activities, using ARRAY type which is supported ONLY by Postgres
-    activities = db.Column(db.ARRAY(db.String(64), dimensions=1), nullable=False)
+    activities = db.Column(ARRAY(db.String(64), dimensions=1), nullable=False)
 
     # Foreign Key for One-To-Many relationship with Users
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='cascade'), nullable=False)
+
+    # Can a sitter with availability from start_time to end_time fulfill this listing?
+    @hybrid_method
+    def datetime_range_matches(self, start_time, end_time):
+        if full_time:
+            return start_time <= self.start_time and end_time >= self.end_time
+        return start_time < self.end_time and end_time > self.start_time
+
+    @datetime_range_matches.expression
+    def datetime_range_matches(cls, start_time, end_time):
+        return or_(
+                and_(cls.full_time, start_time <= cls.start_time, end_time >= cls.end_time),
+                and_(not_(cls.full_time), start_time < cls.end_time, end_time > cls.start_time)
+            )
+
+    # Do any of the activities of this listing match with the queried activities?
+    @hybrid_method
+    def activities_intersect(self, activities):
+        return not set(self.activities).isdisjoint(activities)
+
+    @activities_intersect.expression
+    def activities_intersect(cls, activities):
+        conditions = [cls.activities.any(activity) for activity in set(activities)]
+        return or_(*conditions)
+
+
+    # Does this listing's zip code contain zip_code in it?
+    @hybrid_method
+    def zip_code_contains(self, zip_code):
+        return zip_code in self.zip_code
+
+    @zip_code_contains.expression
+    def zip_code_contains(cls, zip_code):
+        # Thank goodness I think this is protected from SQL injection, source:
+        # https://stackoverflow.com/questions/31949733/is-a-sqlalchemy-query-vulnerable-to-injection-attacks
+        return cls.zip_code.ilike('%{0}%'.format(zip_code))
 
     def __repr__(self):
         return __listing_repr__(self)
@@ -96,4 +136,4 @@ def __user_repr__(user):
 
 # Can be fleshed out more if needed
 def __listing_repr__(listing):
-    return '<Listing ID={0}>'.format(listing.id)
+    return '<Listing ID={0}, pet_name={1}, activities={2}>'.format(listing.id, listing.pet_name, listing.activities)

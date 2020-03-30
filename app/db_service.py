@@ -7,7 +7,7 @@ specifically methods that will be used throughout the application.
 
 from app import app, db
 from app.models import User, Listing
-import datetime
+from datetime import datetime
 import enums
 
 # TODO: Add specific validation such as empty strings, valid format for phone number, email, etc into functions!
@@ -227,12 +227,12 @@ def all_listings(pet_type = None, activities = None, zip_code = None, datetime_r
     Parameters
     ----------
     pet_type : str or None, optional
-        Filters Listings for pet type *pet_type*, or does not filter is unspecified/None.
+        Filters Listings for pet type equal to  *pet_type*, or does not filter is unspecified/None.
     activities : list or tuple of str or None, optional
         Filters Listings for those that share any activity with those in the *activities* parameter,
         or does not filter is unspecified/None.
     zip_code : str or None, optional
-        Filters Listings for zip code *zip_code*, or does not filter if unspecified/None.
+        Filters Listings for zip code *containing zip_code*, or does not filter if unspecified/None.
     datetime_range : tuple of datetime or None, optional
         Filters Listings by those that match the *datetime_range* parameter. Must be either None/unspecified
         or a tuple of two datetimes, the first one being the start datetime and the second being the end datetime.
@@ -252,6 +252,7 @@ def all_listings(pet_type = None, activities = None, zip_code = None, datetime_r
     ValueError
         If datetime_range is a tuple that does not contain exactly 2 datetimes, the second of which is a datetime that is
         after the first.
+        If pet_type is not one of the predefined pet types (defined in enums.py)
         If an activity in activities is not one of the predefined activities (defined in enums.py)
 
     Examples
@@ -261,39 +262,52 @@ def all_listings(pet_type = None, activities = None, zip_code = None, datetime_r
     
     """
     
-    # TODO: FILTER LISTINGS
+    if pet_type != None:
+        if type(pet_type) != str:
+            raise TypeError('pet_type should be a parameter of type None or str')
+        if pet_type not in enums.pet_types:
+            raise ValueError('Pet Type {0} is not in the list of valid pet types {1}'.format(pet_type, enums.pet_types))
 
-    listings = []
-    
-    if type(pet_type) != str and pet_type != None:
-        raise TypeError('pet_type should be a parameter of type None or str')
-    
-    if type(activities) != list and type(activities) != tuple and activities != None:
-        raise TypeError('activities should be a parameter of type None, tuple or list')
-    
-    for activity in activities:
-        if type(activity) != str:
-            raise TypeError('activities tuple/list should only contain str')
-        if activity not in enums.activities:
-            raise ValueError('Activity {0} is not in the list of valid activities {1}'.format(activity, enums.activities))
+    if activities != None:
+        if type(activities) != list and type(activities) != tuple:
+            raise TypeError('activities should be a parameter of type None, tuple or list')
+        for activity in activities:
+            if type(activity) != str:
+                raise TypeError('activities tuple/list should only contain str')
+            if activity not in enums.activities:
+                raise ValueError('Activity {0} is not in the list of valid activities {1}'.format(activity, enums.activities))
     
     if type(zip_code) != str and zip_code != None:
         raise TypeError('zip_code should be a parameter of type None or str')
     
-    if type(datetime_range) != tuple and datetime_range != None:
-        raise(TypeError('datetime_range should be a parameter of type None or tuple'))
+    if datetime_range != None:
+        if type(datetime_range) != tuple:
+            raise(TypeError('datetime_range should be a parameter of type None or tuple'))
+        if len(datetime_range) != 2:
+            raise ValueError('datetime_range should contain exactly 2 elements, not {0}'.format(len(datetime_range)))
+        for time in datetime_range:
+            if type(time) != datetime:
+                raise TypeError('datetime_range tuple should only contain datetimes')
+        startTime = datetime_range[0]
+        endTime = datetime_range[1]
+        if startTime >= endTime:
+            raise ValueError('start time must be before end time (in datetime_range)')
     
-    for time in datetime_range:
-        if type(time) != datetime:
-            raise TypeError('datetime_range tuple should only contain datetimes')
-        
-    startTime = datetime_range[0]
-    endTime = datetime_range[1]
+    query = Listing.query
+
+    if pet_type != None:
+        query = query.filter_by(pet_type = pet_type)
+
+    if activities != None:
+        query = query.filter(Listing.activities_intersect(activities))
+
+    if zip_code != None:
+        query = query.filter(Listing.zip_code_contains(zip_code))
     
-    if startTime >= endTime:
-        raise ValueError('start time must be before end time (in datetime_range)')
-    
-    return Listing.query.all()
+    if datetime_range != None:
+        query = query.filter(Listing.datetime_range_matches(*datetime_range))
+
+    return query.all()
 
 def get_listing_by_id(listing_id):
     """
@@ -566,6 +580,7 @@ def _check_listing_validity(listing, check_id = True):
         raise ValueError('No user exists with specified user_id {0}'.format(listing.user_id))
 
 # Raises the appropriate exception for invalid user or does nothing if user is valid
+# Does NOT check for duplicate email or phone #
 def _check_user_validity(user):
     if type(user) != User:
         raise TypeError('user parameter must be a User object')
