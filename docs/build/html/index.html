@@ -44,7 +44,7 @@ specifically methods that will be used throughout the application.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>pet_type</strong> (<em>str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Filters Listings for pet type <em>pet_type</em>, or does not filter is unspecified/None.</p></li>
-<li><p><strong>activities</strong> (<em>list of str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Filters Listings for those that share any activity with those in the <em>activities</em> parameter,
+<li><p><strong>activities</strong> (<em>list</em><em> or </em><em>tuple of str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Filters Listings for those that share any activity with those in the <em>activities</em> parameter,
 or does not filter is unspecified/None.</p></li>
 <li><p><strong>zip_code</strong> (<em>str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Filters Listings for zip code <em>zip_code</em>, or does not filter if unspecified/None.</p></li>
 <li><p><strong>datetime_range</strong> (<em>tuple of datetime</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – Filters Listings by those that match the <em>datetime_range</em> parameter. Must be either None/unspecified
@@ -64,13 +64,107 @@ datetime ranges that intersect with <em>datetime_range</em> if <em>full_time</em
 <li><p><strong>TypeError</strong> – If any of the parameters are not of the type described in Parameters above, or if any of the values in <em>activities</em> or
     <em>datetime_range</em> are not of type str or datetime, respectively.</p></li>
 <li><p><strong>ValueError</strong> – If datetime_range is a tuple that does not contain exactly 2 datetimes, the second of which is a datetime that is
-    after the first.</p></li>
+    after the first.
+    If an activity in activities is not one of the predefined activities (defined in enums.py)</p></li>
 </ul>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">all_listings</span><span class="p">(</span><span class="n">pet_type</span> <span class="o">=</span> <span class="s1">&#39;Dog&#39;</span><span class="p">,</span> <span class="n">activities</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Walking&#39;</span><span class="p">],</span> <span class="n">zip_code</span> <span class="o">=</span> <span class="s1">&#39;08540&#39;</span><span class="p">)</span>
 <span class="go">[&lt;Listing ID=15&gt;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="app.db_service.create_listing">
+<code class="sig-prename descclassname">app.db_service.</code><code class="sig-name descname">create_listing</code><span class="sig-paren">(</span><em class="sig-param">listing</em><span class="sig-paren">)</span><a class="headerlink" href="#app.db_service.create_listing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves a Listing object (<em>listing</em>) to the database, or raises an Exception if <em>listing</em> is not a valid Listing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>listing</strong> (<em>Listing</em>) – The Listing to be created</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Empty string if creation was successful, otherwise a string containing the error that occurred.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If <em>listing</em> is not of type Listing or any of its attributes are invalid types (see the documentation on Listing
+    or the documentation for update_listing for types)</p></li>
+<li><p><strong>ValueError</strong> – If any attributes of <em>listing</em> have invalid values (see documentation of Listing objects or of update_listing)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">create_listing</span><span class="p">(</span><span class="n">listing</span><span class="p">)</span>
+<span class="go">&#39;&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="app.db_service.create_user">
+<code class="sig-prename descclassname">app.db_service.</code><code class="sig-name descname">create_user</code><span class="sig-paren">(</span><em class="sig-param">user</em><span class="sig-paren">)</span><a class="headerlink" href="#app.db_service.create_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves a User object (<em>user</em>) to the database, or raises an Exception if <em>user</em> is not a valid User.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user</strong> (<em>User</em>) – The User to be created</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Empty string if creation was successful, otherwise a string containing the error that occurred.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If <em>user</em> is not of type User or any of its attributes are invalid types (see the documentation on User for types)</p></li>
+<li><p><strong>ValueError</strong> – If any attributes of <em>user</em> have invalid values (see documentation of User objects)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">create_user</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+<span class="go">&#39;&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="app.db_service.get_listing_by_id">
+<code class="sig-prename descclassname">app.db_service.</code><code class="sig-name descname">get_listing_by_id</code><span class="sig-paren">(</span><em class="sig-param">listing_id</em><span class="sig-paren">)</span><a class="headerlink" href="#app.db_service.get_listing_by_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a Listing object with ID <em>listing_id</em>, or None if no such listing exists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>listing_id</strong> (<em>int</em><em> or </em><em>str</em>) – ID of the Listing</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The Listing with ID <em>listing_id</em> or None if no listing exists with that ID</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Listing or None</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If <em>listing_id</em> is not an integer or string.</p></li>
+<li><p><strong>ValueError</strong> – If <em>listing_id</em> is a string that cannot be parsed to an integer.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">get_listing_by_id</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">Listing(id=3)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">get_listing_by_id</span><span class="p">(</span><span class="s1">&#39;-1&#39;</span><span class="p">)</span>
+<span class="go">None</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">get_listing_by_id</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="go">TypeError(&#39;listing_id must be an integer or string&#39;)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -157,6 +251,119 @@ both owners and sitters, depends on the value of <em>accepted</em> (described ab
 </pre></div>
 </div>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">get_user_by_id</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="go">TypeError(&#39;user_id must be an integer or string&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="app.db_service.listing_exists">
+<code class="sig-prename descclassname">app.db_service.</code><code class="sig-name descname">listing_exists</code><span class="sig-paren">(</span><em class="sig-param">listing_id</em><span class="sig-paren">)</span><a class="headerlink" href="#app.db_service.listing_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if a Listing object with ID <em>listing_id</em> exists, or False otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>listing_id</strong> (<em>int</em><em> or </em><em>str</em>) – ID of the Listing</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if a Listing object with ID <em>listing_id</em> exists, or False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If <em>listing_id</em> is not an integer or string.</p></li>
+<li><p><strong>ValueError</strong> – If <em>listing_id</em> is a string that cannot be parsed to an integer.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">listing_exists</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">listing_exists</span><span class="p">(</span><span class="s1">&#39;-1&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">get_listing_by_id</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="go">TypeError(&#39;listing_id must be an integer or string&#39;)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="app.db_service.update_listing">
+<code class="sig-prename descclassname">app.db_service.</code><code class="sig-name descname">update_listing</code><span class="sig-paren">(</span><em class="sig-param">listing_id</em>, <em class="sig-param">pet_name=None</em>, <em class="sig-param">pet_type=None</em>, <em class="sig-param">start_time=None</em>, <em class="sig-param">end_time=None</em>, <em class="sig-param">full_time=None</em>, <em class="sig-param">zip_code=None</em>, <em class="sig-param">extra_info=None</em>, <em class="sig-param">activities=None</em><span class="sig-paren">)</span><a class="headerlink" href="#app.db_service.update_listing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates a Listing with ID <em>listing_id</em> in the database, or raises an Exception if no such listing exists
+or any parameter is invalid (see below).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>listing_id</strong> (<em>int</em>) – The ID of the Listing to be updated</p></li>
+<li><p><strong>pet_name</strong> (<em>str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – The updated pet name, or None if <em>pet_name</em> is not to be updated.</p></li>
+<li><p><strong>pet_type</strong> (<em>str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – The updated pet type (from the list of pet types in enums.py), or None if <em>pet_type</em> is not to be updated.</p></li>
+<li><p><strong>start_time</strong> (<em>datetime</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – The updated start time, or None if <em>start_time</em> is not to be updated.</p></li>
+<li><p><strong>end_time</strong> (<em>datetime</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – The updated end time, or None if <em>end_time</em> is not to be updated.</p></li>
+<li><p><strong>full_time</strong> (<em>bool</em>) – The updated value of <em>full_time</em> (whether the owner wants a sitter for the full duration or just some part of it),
+or None if <em>full_time</em> is not to be updated.</p></li>
+<li><p><strong>zip_code</strong> (<em>str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – The updated zip code, or None if <em>zip_code</em> is not to be updated.</p></li>
+<li><p><strong>extra_info</strong> (<em>str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – The updated extra information, or None if <em>extra_info</em> is not to be updated.</p></li>
+<li><p><strong>activities</strong> (<em>list of str</em><em> or </em><em>None</em><em>, </em><em>optional</em>) – The updated list of activities (from the list of activites in enums.py), or None if <em>activities</em> is not to be updated.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Empty string if the update was successful, otherwise a string containing the error that occurred.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If any of the parameters above (or their contents, for the lists/tuples) are not of the correct type</p></li>
+<li><p><strong>ValueError</strong> – If no user exists with the ID equal to the updated listing’s <em>user_id</em> attribute, if start_time is after or the same as
+    end_time after updating, or if pet_type or any of the activities are not one of the valid values (described in enums.py).</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">update_listing</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">pet_name</span> <span class="o">=</span> <span class="s1">&#39;Spot&#39;</span><span class="p">,</span> <span class="n">zip_code</span> <span class="o">=</span> <span class="s1">&#39;08540&#39;</span><span class="p">)</span>
+<span class="go">&#39;&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="app.db_service.user_exists">
+<code class="sig-prename descclassname">app.db_service.</code><code class="sig-name descname">user_exists</code><span class="sig-paren">(</span><em class="sig-param">user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#app.db_service.user_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if a User object exists with ID <em>user_id</em>, or False otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>user_id</strong> (<em>int</em><em> or </em><em>str</em>) – ID of the User</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if a User object exists with ID <em>user_id</em>, or False otherwise</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>TypeError</strong> – If <em>user_id</em> is not an integer or string.</p></li>
+<li><p><strong>ValueError</strong> – If <em>user_id</em> is a string that cannot be parsed to an integer.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">user_exists</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">user_exists</span><span class="p">(</span><span class="s1">&#39;-1&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db_service</span><span class="o">.</span><span class="n">user_exists</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
 <span class="go">TypeError(&#39;user_id must be an integer or string&#39;)</span>
 </pre></div>
 </div>
