@@ -145,7 +145,7 @@ def update_listing_form(id, listing_id):
     # Make and return response
     html = render_template('listings/update_listing.html',
         title="Update Listing | Spot",
-        id=listing_id,
+        id=id,
         pet_types=pet_types,
         pet_types_len=pet_types_len,
         activities=activities,
@@ -157,8 +157,7 @@ def update_listing_form(id, listing_id):
         pet_name=pet_name,
         pet_type=pet_type,
         full_time=full_time,
-        extra_info=description,
-        old_activities=old_activities
+        extra_info=description
         )
     response = make_response(html)
     

@@ -51,7 +51,7 @@
                     <td>Activities:</td>
                     <td style="text-align: left">
                         {% for i in range(activities_len): %}
-                        <input type="checkbox" name="activity-{{ activities[i] }}" value="{{ old_activities[i] }}">
+                        <input type="checkbox" name="activity-{{ activities[i] }}" value="{{ listing.activities[i] }}">
                         {{ activities[i] }}
                         <br>
                         {% endfor %}
