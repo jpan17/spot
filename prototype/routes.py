@@ -124,6 +124,72 @@ def new_listing(id):
     response = make_response(html)
     return response
 
+@app.route('/owner/<int:id>/update/<int:listing_id>')
+def update_listing_form(id, listing_id):
+    pet_types = enums.pet_types
+    activities = enums.activities
+    pet_types_len = len(pet_types)
+    activities_len = len(activities)
+
+    # get old listing details
+    old_listing = Listing.query.filter_by(id = listing_id).first()
+    pet_name = old_listing.pet_name
+    start_time = str(old_listing.start_time).replace(" ", "T")
+    end_time = str(old_listing.end_time).replace(" ", "T")
+    old_activities = old_listing.activities
+    pet_type = old_listing.pet_type
+    full_time = old_listing.full_time
+    zip_code = old_listing.zip_code
+    description=old_listing.extra_info
+    
+    # Make and return response
+    html = render_template('listings/update_listing.html',
+        title="Update Listing | Spot",
+        id=listing_id,
+        pet_types=pet_types,
+        pet_types_len=pet_types_len,
+        activities=activities,
+        activities_len=activities_len,
+        listing = old_listing,
+        start_time = start_time,
+        end_time = end_time,
+        zip_code=zip_code,
+        pet_name=pet_name,
+        pet_type=pet_type,
+        full_time=full_time,
+        extra_info=description,
+        old_activities=old_activities
+        )
+    response = make_response(html)
+    
+    return response  
+    
+@app.route('/owner/<int:id>/change/<int:listing_id>', methods=['POST'])
+def update_listing(id, listing_id):
+    activities = []
+    # Get activities based on form (blegh arrays) (yeah blegh arrays)
+    for activity in enums.activities:
+        if request.form.get('activity-{0}'.format(activity)) == 'True':
+            activities.append(activity)
+    
+    pet_name = request.form.get('pet_name')
+    pet_type = request.form.get('pet_type')
+    start_time = datetime.fromisoformat(request.form.get('start_time'))
+    end_time = datetime.fromisoformat(request.form.get('end_time'))
+    full_time = bool(request.form.get('full_time'))
+    zip_code = request.form.get('zip_code')
+    extra_info = request.form.get('extra_info')
+
+    updated = db_service.update_listing(listing_id, pet_name, pet_type, start_time,
+                              end_time, full_time, zip_code, extra_info, activities)
+    
+    
+    if updated == '':
+        return redirect(url_for('owner_home', id=id))
+    else:
+        print(updated)
+        return ''
+
 @app.route('/owner/<int:id>', methods=['POST'])
 def create_listing(id):
     
@@ -149,5 +215,11 @@ def create_listing(id):
         return redirect(url_for('owner_home', id=id))
     else:
         print("Listing not created")
-        return ''
-    
+        return ''    
+
+@app.route('/owner/<int:id>/delete/<int:listing_id>')
+def delete_listing(id, listing_id):
+
+    deleted = db_service.delete_listing(listing_id)
+        
+    return redirect(url_for('owner_home', id=id))

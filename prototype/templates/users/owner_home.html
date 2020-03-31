@@ -40,9 +40,9 @@
                     <td> {{ listings[i].zip_code }} </td>
                     <td> {{ listings[i].activities }} </td>
                     <td> {{ listings[i].extra_info }} </td>
-                    <td><a href="/listings/update/{{ listings[i].id }}">Update</a> |
-                        <a href="/listings/delete/{{ listings[i].id }}">Delete</a>
-                        <a href="/listings/view/{{ listings[i].id }}"> View</a></td>
+                    <td><a href="/owner/{{ id }}/update/{{ listings[i].id }}">Update</a> |
+                        <a href="/owner/{{ id }}/delete/{{ listings[i].id }}">Delete</a> |
+                        <a href="/owner/{{ id }}/view/{{ listings[i].id }}"> View</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

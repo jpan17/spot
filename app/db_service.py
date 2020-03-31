@@ -534,7 +534,13 @@ def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, en
         return "Error: " + str(e)
     
 def delete_listing(listing_id):
-    pass
+    try:
+        Listing.query.filter_by(id=listing_id).delete()
+        db.session.commit()
+        return ''
+    except Exception as e:
+        db.session.rollback()
+        return e
 
 def delete_user(user_id):
     pass
