@@ -102,12 +102,22 @@ def sitter_home(id):
     user = db_service.get_user_by_id(id)
     first_name = user.full_name.split()[0]
     all_listings = db_service.all_listings()
-    accepted_listings = db_service.get_user_listings(user, True)
     html = render_template('users/sitter_home.html',
                            title=first_name+" | Spot",
                            id=id,
                            listings=all_listings,
-                           listings_len=len(all_listings),
+                           listings_len=len(all_listings))
+    response = make_response(html)
+    return response
+
+@app.route('/sitter/<int:id>/accepted')
+def accepted_listings(id):
+    user = db_service.get_user_by_id(id)
+    first_name = user.full_name.split()[0]
+    accepted_listings=db_service.get_user_listings(user, True)
+    html = render_template('listings/accepted_listings.html',
+                           title="Accepted Listings | Spot",
+                           id=id,
                            accepted_listings=accepted_listings,
                            accepted_listings_len=len(accepted_listings))
     response = make_response(html)
@@ -125,7 +135,7 @@ def accept_listing(id, listing_id):
 
     accepted = db_service.accept_listing(id, listing_id)
     if accepted == '':
-        return redirect(url_for('sitter_home', id=id))
+        return redirect(url_for('accepted_listings', id=id))
     else:
         print(accepted)
         return ''

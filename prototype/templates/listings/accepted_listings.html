@@ -8,13 +8,9 @@
     <body>
         {% include 'components/header.html' %}
 
-        <p>Explore our listings:</p>
-        <form>
-            <input type="text" value="Enter a town, state, or zip code" method="get">
-        </form>
-        <hr>
-
-        <h3>Results:</h3>
+        <h3><a href="{{ url_for('sitter_home', id=id) }}">< return home</a></h3>
+    
+        <h3>Accepted Listings:</h3>
         <table>
             <thead>
                 <tr>
@@ -29,23 +25,21 @@
                 </tr>
             </thead>
             <tbody>
-                {% for i in range(listings_len): %}
+                {% for i in range(accepted_listings_len): %}
                 <tr>
-                    <td> {{ listings[i].pet_name }} </td>
-                    <td> {{ listings[i].pet_type }} </td>
-                    <td> {{ listings[i].start_time }} </td>
-                    <td> {{ listings[i].end_time }} </td>
-                    <td> {{ listings[i].full_time }} </td>
-                    <td> {{ listings[i].zip_code }} </td>
-                    <td> {{ listings[i].activities }} </td>
-                    <td><a href="/sitter/{{ id }}/view/{{ listings[i].id }}">View</a> |
-                        <a href="/sitter/{{ id }}/accept/{{ listings[i].id }}">Accept</a>
+                    <td> {{ accepted_listings[i].pet_name }} </td>
+                    <td> {{ accepted_listings[i].pet_type }} </td>
+                    <td> {{ accepted_listings[i].start_time }} </td>
+                    <td> {{ accepted_listings[i].end_time }} </td>
+                    <td> {{ accepted_listings[i].full_time }} </td>
+                    <td> {{ accepted_listings[i].zip_code }} </td>
+                    <td> {{ accepted_listings[i].activities }} </td>
+                    <td>
+                        <a href="/sitter/{{ id }}/view/{{ accepted_listings[i].id }}">View</a>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-
-        <h3><a href="{{ url_for('accepted_listings', id=id) }}">Accepted Listings</a></h3>
 
         {% include 'components/background.html' %}
         {% include 'components/footer.html' %}
