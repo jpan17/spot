@@ -216,7 +216,8 @@ body {
     height: calc(4.4271vw + 9.4444vh);
     left: 4.7396vw;
     top: 8.8889vh;
-
+    
+    z-index: -1000;
     opacity: 0.2;
     background: #8860D0;
 }
@@ -227,7 +228,8 @@ body {
     height: calc(2.6823vw + 5.7222vh);
     left: 32.8646vw;
     top: 17vh;
-
+    
+    z-index: -1000;
     opacity: 0.2;
     background: #84CEEB;
 }
@@ -238,7 +240,8 @@ body {
     height: calc(5.9375vw + 12.6667vh);
     left: 64.4792vw;
     top: 10.1111vh;
-
+    
+    z-index: -1000;
     opacity: 0.2;
     background: #8860D0;
 }
@@ -249,7 +252,8 @@ body {
     height: calc(10.2604vw + 21.8889vh);
     left: 89.7396vw;
     top: -2.1111vh;
-
+    
+    z-index: -1000;
     opacity: 0.2;
     background: #5AB9EA;
 }
@@ -260,7 +264,8 @@ body {
     height: calc(8.3854vw + 17.8889vh);
     left: -3.1771vw;
     top: 55.5556vh;
-
+    
+    z-index: -1000;
     opacity: 0.2;
     background: #5AB9EA;
 }
@@ -271,7 +276,8 @@ body {
     height: calc(12.7083vw + 27.1111vh);
     left: 30.6771vw;
     top: 58.3333vh;
-
+    
+    z-index: -1000;
     opacity: 0.2;
     background: #8860D0;
 }
@@ -282,7 +288,8 @@ body {
     height: calc(10.2344vw + 21.8333vh);
     left: 73.1771vw;
     top: 54.1111vh;
-
+    
+    z-index: -1000;
     opacity: 0.2;
     background: #84CEEB;
 }

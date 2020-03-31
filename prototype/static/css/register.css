@@ -1,6 +1,5 @@
 .register-container {
     position: relative;
-    z-index: 10;
 }
 
 .register-container .welcome {
