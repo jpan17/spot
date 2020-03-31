@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        {% include 'components/links.html' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    </head>
+    <body>
+        {% include 'components/header.html' %}
+
+        <h3><a href="{{ url_for('owner_home', id=id) }}">< return home</a></h3>
+
+        <h2>What Does Your Pet Require?</h2>
+        <form action="/owner/{{ id }}" method="post" id="newlisting">
+            <table>
+                <tr>
+                    <td>Pet Name:</td>
+                    <td style="text-align: left;">
+                        <input type="text" name="pet_name">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Pet Type:</td>
+                    <td style="text-align: left;">
+                        <select form="newlisting" name="pet_type">
+                            {% for i in range(pet_types_len): %}
+                            <option value="{{ pet_types[i] }}">{{ pet_types[i] }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Start Time:</td>
+                    <td><input type="datetime-local" name="start_time"></td>
+                </tr>
+                <tr>
+                    <td>End Time:</td>
+                    <td><input type="datetime-local" name="end_time"></td>
+                </tr>
+                <tr>
+                    <td>Full Time:</td>
+                    <td style="text-align:left;">
+                        <input type="checkbox" name="full_time" value="True" checked>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Zip Code:</td>
+                    <td style="text-align: left"><input type="text" name="zip_code"></td>
+                </tr>
+                <tr>
+                    <td>Activities:</td>
+                    <td style="text-align: left">
+                        {% for i in range(activities_len): %}
+                        <input type="checkbox" name="activity-{{ activities[i] }}" value="True">
+                        {{ activities[i] }}
+                        <br>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Description:</td>
+                    <td style="text-align: left"><input type="text" name="extra_info"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="text-align: left">
+                        <input type="submit" value="Submit">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <hr>
+
+        {% include 'components/background.html' %}
+        {% include 'components/footer.html' %}
+    </body>
+</html>

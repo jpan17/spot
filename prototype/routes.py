@@ -3,6 +3,8 @@ from app import db_service
 from flask import make_response, render_template, request
 from flask import url_for, redirect
 from app.models import User, Listing
+import enums
+from datetime import datetime
 
 # Temporary - just redirects to login page as of now
 @app.route('/')
@@ -86,8 +88,12 @@ def register_user():
 def owner_home(id):
     user = db_service.get_user_by_id(id)
     first_name = user.full_name.split()[0]
+    listings = db_service.get_user_listings(user,id)
     html = render_template('users/owner_home.html',
-                           title=first_name+" | Spot")
+                           title=first_name+" | Spot",
+                           id=id,
+                           listings=listings,
+                           listings_len=len(listings))
     response = make_response(html)
     return response
 
@@ -96,6 +102,52 @@ def sitter_home(id):
     user = db_service.get_user_by_id(id)
     first_name = user.full_name.split()[0]
     html = render_template('users/sitter_home.html',
-                           title=first_name+" | Spot")
+                           title=first_name+" | Spot",
+                           id=id)
     response = make_response(html)
     return response
+
+@app.route('/newlisting/<int:id>')
+def new_listing(id):
+    pet_types = enums.pet_types
+    activities = enums.activities
+    pet_types_len = len(pet_types)
+    activities_len = len(activities)
+    
+    html = render_template('listings/new_listing.html',
+                         title="New Listing | Spot",
+                         id=id,
+                         pet_types=pet_types,
+                         pet_types_len=pet_types_len,
+                         activities=activities,
+                         activities_len=activities_len)
+    response = make_response(html)
+    return response
+
+@app.route('/owner/<int:id>', methods=['POST'])
+def create_listing(id):
+    
+    activities = []
+    for activity in enums.activities:
+        if request.form.get('activity-{0}'.format(activity)) == 'True':
+            activities.append(activity)
+    
+    listing = Listing(
+        pet_name=request.form.get('pet_name'),
+        pet_type=request.form.get('pet_type'),
+        start_time=datetime.fromisoformat(request.form.get('start_time')),
+        end_time=datetime.fromisoformat(request.form.get('end_time')),
+        full_time=bool(request.form.get('full_time')),
+        zip_code=request.form.get('zip_code'),
+        extra_info=request.form.get('extra_info'),
+        activities=activities,
+        user_id=id)
+    
+    new_listing = db_service.create_listing(listing)
+    
+    if new_listing == '':
+        return redirect(url_for('owner_home', id=id))
+    else:
+        print("Listing not created")
+        return ''
+    
