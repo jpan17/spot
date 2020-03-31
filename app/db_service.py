@@ -151,6 +151,29 @@ def get_user_by_id(user_id):
 
     return User.query.filter_by(id=id).first()
 
+
+def get_user_by_login(email, password):
+
+    if type(email) != str or email == None:
+        raise TypeError('email must be string')
+    
+    if type(password) != str or password == None:
+        raise TypeError('password must be a string')
+    
+    user = User.query.filter_by(email=email).first()
+    
+    if user == None:
+        print('No user exists with this email')
+        return None
+        
+    get_password = user.password
+    
+    if password != get_password:
+        print('incorrect password')
+        return None
+    
+    return user    
+
 def get_user_listings(user = None, user_id = -1, accepted = False):
     """
     Returns a list of listings associated with a user. Note that at least one of
