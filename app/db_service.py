@@ -612,55 +612,5 @@ def _check_user_validity(user):
     if user.listings != None and user.listings != []:
         raise ValueError('user parameter listings should be None or an empty list')
     
-<<<<<<< HEAD
-def delete_listing(listing_id):
-    
-    id = listing_id
-
-    if type(listing_id) != int:
-        if type(listing_id) != str:
-            raise TypeError('listing_id must be an integer or string')
-        else:
-            if _str_is_integer(listing_id):
-                id = int(listing_id)
-            else:
-                raise ValueError('listing_id is a string, but cannot be parsed into an integer')
-
-    # check if listing exists in the first place
-    listing = Listing.query.filter_by(id=id).first()
-    
-    if listing == None:
-        raise ValueError('listing does not exist in database')
-    
-    # delete listing from owner's listings (and sitter's accepted listings? but idk how to)
-    # implement that HELP RELATIONSHIPS :(
-    userid = listing.userid
-    user = get_user(userid)
-    
-    # did I do this part right?
-    listing.delete()
-    
-    try:
-        db.session.commit()
-        return ''
-    except Exception as e:
-        db.session.rollback()
-        return "Error: " + str(e)
-    
-
-def delete_user(user_id):
-    pass
-
-def accept_listing(user_id, listing_id):
-    pass
-
-def _str_is_integer(s):
-    try:
-        int(s)
-        return True
-    except ValueError as e:
-        return False
-=======
     if user.accepted_listings != None and user.accepted_listings != []:
         raise ValueError('user parameter accepted_listings should be None or an empty list')
->>>>>>> 3d6aca44926b4c6ac7a6ea3f8aabacc246371c74
