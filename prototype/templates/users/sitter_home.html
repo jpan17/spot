@@ -8,13 +8,13 @@
     <body>
         {% include 'components/header.html' %}
 
-        <h3>Request care for your pet:</h3>
+        <p>Explore our listings:</p>
         <form>
-            <input type="submit" value="+ add listing">
+            <input type="text" value="Enter a town, state, or zip code" method="get">
         </form>
         <hr>
 
-        <h3>Current listings:</h3>
+        <h3>Results:</h3>
 
         {% include 'components/background.html' %}
         {% include 'components/footer.html' %}

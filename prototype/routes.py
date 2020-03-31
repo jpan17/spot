@@ -2,6 +2,7 @@ from app import app
 from app import db_service
 from flask import make_response, render_template, request
 from flask import url_for, redirect
+from app.models import User, Listing
 
 # Temporary - just redirects to login page as of now
 @app.route('/')
@@ -30,26 +31,71 @@ def user_type():
         return response
     
     if user.is_owner:
-        owner_home(user)
-        
-    return
+        return redirect(url_for('owner_home', id=user.id))
+        # return owner_home(user)
+    elif user.is_sitter:
+        return redirect(url_for('sitter_home', id=user.id))
+    else:
+        return ''
 
-# Registration page. Temporarily is the same as Login page.
-@app.route('/register', methods=['POST'])
+# Registration page.
+@app.route('/register')
 def register_form():
     html = render_template('users/register.html',
         title='Register | Spot')
     response = make_response(html)
     return response
 
-@app.route('/owner', methods=['POST'])
-def owner_home(user):
+@app.route('/register', methods=['POST'])
+def register_user():
+    full_name = request.form.get('full_name')
+    email = request.form.get('email')
+    phone_number = request.form.get('password')
+    # print(request.form.get('user_type'))
+    is_owner = request.form.get('user_type') == 'owner'
+    is_sitter = not is_owner
+    password = request.form.get('password')
+    confirm_password = request.form.get('confirm_password')
+    
+    # if password != confirm_password:
+    #     html = render_template('users/register.html',
+    #                             title='Register | Spot')
+    #     response = make_response(html)
+    #     return response
+
+    user = User()
+    user.full_name = full_name
+    user.email = email
+    user.phone_number = phone_number
+    user.is_owner = is_owner
+    user.is_sitter = is_sitter
+    user.password_hash = password
+    
+    new_user = db_service.create_user(user)
+    if new_user != '':
+        print(new_user)
+    else:
+        print('Created a new user ', user.full_name)
+    
+    html = render_template('users/login.html',
+                            title='Login | Spot')
+    response = make_response(html)
+    return response 
+
+@app.route('/owner/<int:id>')
+def owner_home(id):
+    user = db_service.get_user_by_id(id)
     first_name = user.full_name.split()[0]
     html = render_template('users/owner_home.html',
-                           title=first_name+ " | Spot")
+                           title=first_name+" | Spot")
     response = make_response(html)
     return response
 
-@app.route('/sitter')
-def sitter_home():
-    pass
+@app.route('/sitter/<int:id>')
+def sitter_home(id):
+    user = db_service.get_user_by_id(id)
+    first_name = user.full_name.split()[0]
+    html = render_template('users/sitter_home.html',
+                           title=first_name+" | Spot")
+    response = make_response(html)
+    return response

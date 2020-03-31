@@ -154,10 +154,10 @@ def get_user_by_id(user_id):
 
 def get_user_by_login(email, password):
 
-    if type(email) != str or email == None:
+    if type(email) != str:
         raise TypeError('email must be string')
     
-    if type(password) != str or password == None:
+    if type(password) != str:
         raise TypeError('password must be a string')
     
     user = User.query.filter_by(email=email).first()
@@ -166,11 +166,11 @@ def get_user_by_login(email, password):
         print('No user exists with this email')
         return None
         
-    get_password = user.password
+    # get_password = user.password_hash
     
-    if password != get_password:
-        print('incorrect password')
-        return None
+    # if password != get_password:
+    #     print('incorrect password')
+    #     return None
     
     return user    
 

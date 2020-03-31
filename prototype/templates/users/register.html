@@ -13,7 +13,7 @@
             <h2 class="welcome">Welcome to Spot!</h2>
             <h6 class="subtitle">new here? fill out this form to create an account</h6>
             <!-- TODO MAKE THIS FORM ACTUALLY POST SOMEWHERE -->
-            <form class="register-form">
+            <form class="register-form" action="/register" method="post">
                 <table class="register-table">
                     <tr>
                         <td>
@@ -46,12 +46,12 @@
                         </td>
                         <td>
                             <label for="is_owner" class="radio">
-                                <input type="radio" name="user_type" id="is_owner" value="true">
+                                <input type="radio" name="user_type" id="is_owner" value="owner">
                                 <span class="checked"></span>
                                 Pet Owner
                             </label>
                             <label for="is_sitter" class="radio is-sitter">
-                                <input type="radio" name="user_type" id="is_sitter" value="true">
+                                <input type="radio" name="user_type" id="is_sitter" value="sitter">
                                 <span class="checked"></span>
                                 Pet Sitter
                             </label>
