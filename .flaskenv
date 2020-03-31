@@ -1,3 +1,3 @@
 FLASK_APP = spot.py
 FLASK_ENV = development
-SPOT_MODE = test
+SPOT_MODE = prototype
