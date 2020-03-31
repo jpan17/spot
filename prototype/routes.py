@@ -101,11 +101,35 @@ def owner_home(id):
 def sitter_home(id):
     user = db_service.get_user_by_id(id)
     first_name = user.full_name.split()[0]
+    all_listings = db_service.all_listings()
+    accepted_listings = db_service.get_user_listings(user, True)
     html = render_template('users/sitter_home.html',
                            title=first_name+" | Spot",
-                           id=id)
+                           id=id,
+                           listings=all_listings,
+                           listings_len=len(all_listings),
+                           accepted_listings=accepted_listings,
+                           accepted_listings_len=len(accepted_listings))
     response = make_response(html)
     return response
+
+# Accept listing with certain id
+@app.route('/sitter/<int:id>/accept/<int:listing_id>')
+def accept_listing(id, listing_id):
+    
+    activities = []
+    # Get activities based on form (blegh arrays)
+    for activity in enums.activities:
+        if request.form.get('activity-{0}'.format(activity)) == 'True':
+            activities.append(activity)
+
+    accepted = db_service.accept_listing(id, listing_id)
+    if accepted == '':
+        return redirect(url_for('sitter_home', id=id))
+    else:
+        print(accepted)
+        return ''
+
 
 @app.route('/newlisting/<int:id>')
 def new_listing(id):
@@ -146,6 +170,7 @@ def update_listing_form(id, listing_id):
     html = render_template('listings/update_listing.html',
         title="Update Listing | Spot",
         id=id,
+        listing_id=listing_id,
         pet_types=pet_types,
         pet_types_len=pet_types_len,
         activities=activities,

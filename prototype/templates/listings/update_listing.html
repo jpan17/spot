@@ -24,7 +24,7 @@
                     <td style="text-align: left;">
                         <select form="updatelisting" name="pet_type" value="{{pet_type}}">
                             {% for i in range(pet_types_len): %}
-                            <option value="{{ pet_types[i] }}">{{ pet_types[i] }}</option>
+                            <option {% if listing.pet_type == pet_types[i] %} selected {% endif %} value="{{ pet_types[i] }}">{{ pet_types[i] }}</option>
                             {% endfor %}
                         </select>
                     </td>
@@ -51,7 +51,7 @@
                     <td>Activities:</td>
                     <td style="text-align: left">
                         {% for i in range(activities_len): %}
-                        <input type="checkbox" name="activity-{{ activities[i] }}" value="{{ listing.activities[i] }}">
+                        <input type="checkbox" name="activity-{{ activities[i] }}" value="True" {% if activities[i] in listing.activities %} checked {% endif %}>
                         {{ activities[i] }}
                         <br>
                         {% endfor %}
@@ -64,7 +64,7 @@
                 <tr>
                     <td></td>
                     <td style="text-align: left">
-                        <input type="submit" value="Submit">
+                        <input type="submit" value="Update">
                     </td>
                 </tr>
             </table>

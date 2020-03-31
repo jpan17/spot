@@ -546,7 +546,16 @@ def delete_user(user_id):
     pass
 
 def accept_listing(user_id, listing_id):
-    pass
+    try:
+        listing = Listing.query.filter_by(id = listing_id).first()
+        user = User.query.filter_by(id = user_id).first()
+        user.accepted_listings.append(listing)
+        db.session.commit()
+        return ''
+    except Exception as e:
+        db.session.rollback() # Cancel all invalid changes
+        errorMsg = e.args[0]
+        return errorMsg
 
 # Can a string be parsed to an integer?
 def _str_is_integer(s):

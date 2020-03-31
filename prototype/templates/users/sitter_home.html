@@ -15,6 +15,66 @@
         <hr>
 
         <h3>Results:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Pet Name</th>
+                    <th>Pet Type</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Full Time? </th>
+                    <th>Zip Code</th>
+                    <th>Activities</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(listings_len): %}
+                <tr>
+                    <td> {{ listings[i].pet_name }} </td>
+                    <td> {{ listings[i].pet_type }} </td>
+                    <td> {{ listings[i].start_time }} </td>
+                    <td> {{ listings[i].end_time }} </td>
+                    <td> {{ listings[i].full_time }} </td>
+                    <td> {{ listings[i].zip_code }} </td>
+                    <td> {{ listings[i].activities }} </td>
+                    <td><a href="/sitter/{{ id }}/view/{{ listings[i].id }}">View</a> |
+                        <a href="/sitter/{{ id }}/accept/{{ listings[i].id }}">Accept</a>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3>Accepted Listings:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Pet Name</th>
+                    <th>Pet Type</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Full Time? </th>
+                    <th>Zip Code</th>
+                    <th>Activities</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(accepted_listings_len): %}
+                <tr>
+                    <td> {{ accepted_listings[i].pet_name }} </td>
+                    <td> {{ accepted_listings[i].pet_type }} </td>
+                    <td> {{ accepted_listings[i].start_time }} </td>
+                    <td> {{ accepted_listings[i].end_time }} </td>
+                    <td> {{ accepted_listings[i].full_time }} </td>
+                    <td> {{ accepted_listings[i].zip_code }} </td>
+                    <td> {{ accepted_listings[i].activities }} </td>
+                    <td>
+                        <a href="/sitter/{{ id }}/view/{{ accepted_listings[i].id }}">View</a>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
         {% include 'components/background.html' %}
         {% include 'components/footer.html' %}
