@@ -1,13 +1,19 @@
-<div class="header-placeholder"></div>
+<div class="header-placeholder">
+    <!-- This is for relative positioning, so nothing can go at the top of the *page*  -->
+</div>
 <div class="header-bar">
-    <a href="{{ url_for('home') }}" class="header-home-links">
-        <img class="header-logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="logo.png">
-        <div class="header-name spot-font spot-heading">Spot</div>
-    </a>
-    <div class="header-signup spot-font spot-heading">
-        <a class="regular-text" href="{{ url_for('register_form') }}">sign up</a>
+    <div class="header-logo-name">
+        <a href="{{ url_for('home') }}">
+            <img class="header-logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="logo.png">
+            <div class="header-name spot-font spot-heading">Spot</div>
+        </a>
     </div>
-    <div class="header-login spot-font spot-heading">
-        <a class="regular-text" href="{{ url_for('login_form') }}">login</a>
+    <div class="header-user-links">
+        <div class="header-login spot-font spot-heading">
+            <a class="regular-text" href="{{ url_for('login_form') }}">login</a>
+        </div>
+        <div class="header-signup spot-font spot-heading">
+            <a class="regular-text" href="{{ url_for('register_form') }}">sign up</a>
+        </div>
     </div>
 </div>

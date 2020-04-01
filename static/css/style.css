@@ -157,6 +157,7 @@ body {
 
 .header-bar {
     z-index: 1000;
+    display: inline-block;
     position: fixed;
     width: 100vw;
     height: 10.6667vh;
@@ -165,15 +166,17 @@ body {
     background: linear-gradient(270deg, #84CEEB 0%, #5AB9EA 34.9%, #5680E9 64.58%, #8860D0 97.4%);
 }
 
-.header-home-links {
-    display: inline-block;
-    vertical-align: top;
+.header-logo-name {
+    float: left;
+}
+.header-logo-name > * {
+    vertical-align: middle;
 }
 
 .header-logo {
     z-index: 1000;
     position: relative;
-    float: left;
+    display: inline-block;
 
     width: 10.6667vh;
     height: 10.6667vh;
@@ -183,7 +186,7 @@ body {
 .header-name {
     z-index: 1000;
     position: relative;
-    float: left;
+    display: inline-block;
 
     height: 10.6667vh;
     margin: 0;
@@ -192,10 +195,17 @@ body {
     line-height: 10.6667vh; /* Same percentage of _view height_ as overall height's percentage*/
 }
 
+.header-user-links {
+    float: right;
+}
+.header-user-links > * {
+    vertical-align: middle;
+}
+
 .header-login {
     z-index: 1000;
     position: relative;
-    float: right;
+    display: inline-block;
 
     margin: 0 4.0104vw 0 0;
 
@@ -206,7 +216,7 @@ body {
 .header-signup {
     z-index: 1000;
     position: relative;
-    float: right;
+    display: inline-block;
 
     margin: 0 9.2708vw 0 0;
     white-space: nowrap;
