@@ -166,74 +166,84 @@ body {
     background: linear-gradient(270deg, #84CEEB 0%, #5AB9EA 34.9%, #5680E9 64.58%, #8860D0 97.4%);
 }
 
-.header-logo-name {
-    float: left;
+.header-bar * {
+    position: relative;
 }
-.header-logo-name * {
+
+.header-logo-name-container {
+    float: left;
+    height: 100%;
+
+}
+.header-logo-name-container * {
     vertical-align: middle;
 }
 
 .header-logo {
-    position: relative;
     display: inline-block;
 
     width: 10.6667vh;
     height: 10.6667vh;
-    margin: 0 0 0 3.4375vw;
+    margin-left: 3.4375vw;
 }
 
 .header-name {
-    position: relative;
     display: inline-block;
-
-    height: 10.6667vh;
-    margin: 0;
+    margin-left: 0;
 
     font-size: 8vh;
-    line-height: 10.6667vh; /* Same percentage of _view height_ as overall height's percentage*/
 }
 
-.header-user-links {
+.header-user-links-container {
     float: right;
+    height: 100%;
 }
-.header-user-links * {
-    vertical-align: middle;
+.header-user-links-container * {
+    vertical-align: top;
+    line-height: 10.6667vh;
+
+    font-size: 4vh;
+    white-space: nowrap;
 }
 
 .header-login {
-    position: relative;
     display: inline-block;
-
-    margin: 0 4.0104vw 0 0;
-
-    font-size: 4vh;
-    line-height: 10.6667vh;
+    margin-right: 4.0104vw;
 }
 
 .header-signup {
-    position: relative;
     display: inline-block;
-
-    margin: 0 9.2708vw 0 0;
-    white-space: nowrap;
-
-    font-size: 4vh;
-    line-height: 10.6667vh;
+    margin-right: 9.2708vw;
 }
 
 /* If logged in */
 
-.header-user-img {
-    position: relative;
+.header-profile-container {
+    display: inline-block;
+    margin: 0 4.6875vw 0 1.875vw;
+}
+
+.header-profile-img {
     display: inline-block;
 
     width: 7.1111vh;
     height: 7.1111vh;
-    margin: 1.7778vh 4.6875vw 1.7778vh 0;
+    margin: 1.7778vh 0;
 }
 
 .header-greetings {
-    
+    display: inline-block;
+    margin: 0 0.78125vw 0 1.875vw;
+}
+
+.header-accepted-listings {
+    display: inline-block;
+    margin: 0 0 0 1.25vw;
+}
+
+.header-sign-out {
+    display: inline-block;
+    margin: 0;
 }
 
 /* ================= BACKGROUND STYLES ============== */
