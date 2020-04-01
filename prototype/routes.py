@@ -255,6 +255,8 @@ def create_listing(id):
 def delete_listing(id, listing_id):
 
     deleted = db_service.delete_listing(listing_id)
+    
+    print(deleted, 'hello')
         
     return redirect(url_for('owner_home', id=id))
 

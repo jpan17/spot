@@ -535,7 +535,10 @@ def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, en
     
 def delete_listing(listing_id):
     try:
-        Listing.query.filter_by(id=listing_id).delete()
+        listing_query = Listing.query.filter_by(id=listing_id)
+        listing = listing_query.first()
+        listing.sitters = []
+        listing_query.delete()
         db.session.commit()
         return ''
     except Exception as e:
