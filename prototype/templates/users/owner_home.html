@@ -42,7 +42,7 @@
                     <td> {{ listings[i].extra_info }} </td>
                     <td><a href="/owner/{{ id }}/update/{{ listings[i].id }}">Update</a> |
                         <a href="/owner/{{ id }}/delete/{{ listings[i].id }}">Delete</a> |
-                        <a href="/owner/{{ id }}/view/{{ listings[i].id }}"> View</a></td>
+                        <a href="/owner/{{ id }}/owner_listing/{{ listings[i].id }}"> View</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

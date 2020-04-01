@@ -257,3 +257,63 @@ def delete_listing(id, listing_id):
     deleted = db_service.delete_listing(listing_id)
         
     return redirect(url_for('owner_home', id=id))
+
+# loads up a listing on the owner's side
+@app.route('/owner/<int:id>/owner_listing/<int:listing_id>')
+def owner_listing(id, listing_id):
+
+    listing = db_service.get_listing_by_id(listing_id)
+
+    pet_type = listing.pet_type
+    pet_name = listing.pet_name
+
+    # temporarily keeping days and time the same cuz can't figure out how to separate at this early hour
+    days =  str(listing.start_time) + " - " + str(listing.end_time)
+    time =  str(listing.start_time) + " - " + str(listing.end_time)
+    zip_code = listing.zip_code
+    activity = listing.activities
+    description = listing.extra_info
+
+    html = render_template('/listings/owner_listing.html',
+        listing_id = listing_id,
+        id = id,
+        pet_type = pet_type,
+        pet_name = pet_name, 
+        days = days,
+        time = time, 
+        zip_code = zip_code,
+        activities = activity,
+        description = description)
+
+    response = make_response(html)
+    return response
+
+# loads up a listing on the sitter's side
+@app.route('/sitter/<int:id>/sitter_listing/<int:listing_id>')
+def sitter_listing(id, listing_id):
+    
+    listing = db_service.get_listing_by_id(listing_id)
+
+    pet_type = listing.pet_type
+    pet_name = listing.pet_name
+
+    # temporarily keeping days and time the same cuz can't figure out how to separate at this early hour
+    days =  str(listing.start_time) + " - " + str(listing.end_time)
+    time =  str(listing.start_time) + " - " + str(listing.end_time)
+    zip_code = listing.zip_code
+    activities = listing.activities
+    description = listing.extra_info
+
+    html = render_template('/listings/sitter_listing.html',
+        listing_id = listing_id,
+        id = id,
+        pet_type = pet_type,
+        pet_name = pet_name, 
+        days = days,
+        time = time, 
+        zip_code = zip_code,
+        activities = activities,
+        description = description)
+
+    response = make_response(html)
+    return response
