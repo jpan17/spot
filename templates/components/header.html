@@ -9,11 +9,15 @@
         </a>
     </div>
     <div class="header-user-links">
+        {% if not user: %}
+        <img class="header-user-img" src="{{ url_for('static', filename='img/user.png') }}" alt="user.png">
+        {% else: %}
         <div class="header-login spot-font spot-heading">
             <a class="regular-text" href="{{ url_for('login_form') }}">login</a>
         </div>
         <div class="header-signup spot-font spot-heading">
             <a class="regular-text" href="{{ url_for('register_form') }}">sign up</a>
         </div>
+        {% endif %}
     </div>
 </div>

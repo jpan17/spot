@@ -169,12 +169,11 @@ body {
 .header-logo-name {
     float: left;
 }
-.header-logo-name > * {
+.header-logo-name * {
     vertical-align: middle;
 }
 
 .header-logo {
-    z-index: 1000;
     position: relative;
     display: inline-block;
 
@@ -184,7 +183,6 @@ body {
 }
 
 .header-name {
-    z-index: 1000;
     position: relative;
     display: inline-block;
 
@@ -198,12 +196,11 @@ body {
 .header-user-links {
     float: right;
 }
-.header-user-links > * {
+.header-user-links * {
     vertical-align: middle;
 }
 
 .header-login {
-    z-index: 1000;
     position: relative;
     display: inline-block;
 
@@ -214,7 +211,6 @@ body {
 }
 
 .header-signup {
-    z-index: 1000;
     position: relative;
     display: inline-block;
 
@@ -225,14 +221,19 @@ body {
     line-height: 10.6667vh;
 }
 
+/* If logged in */
+
 .header-user-img {
-    z-index: 1000;
-    position: fixed;
+    position: relative;
+    display: inline-block;
+
     width: 7.1111vh;
     height: 7.1111vh;
+    margin: 1.7778vh 4.6875vw 1.7778vh 0;
+}
 
-    right: 4.6875vw;
-    top: 1.7778vh;
+.header-greetings {
+    
 }
 
 /* ================= BACKGROUND STYLES ============== */
