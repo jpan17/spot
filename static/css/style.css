@@ -165,21 +165,28 @@ body {
     background: linear-gradient(270deg, #84CEEB 0%, #5AB9EA 34.9%, #5680E9 64.58%, #8860D0 97.4%);
 }
 
+.header-home-links {
+    display: inline-block;
+    vertical-align: top;
+}
+
 .header-logo {
     z-index: 1000;
-    position: fixed;
+    position: relative;
+    float: left;
+
     width: 10.6667vh;
     height: 10.6667vh;
-    left: 3.4375vw;
-    top: 0px;
+    margin: 0 0 0 3.4375vw;
 }
 
 .header-name {
     z-index: 1000;
-    position: fixed;
-    height: 9.6667vh;
-    left: calc(3.4375vw + 10.6667vh);
-    top: 0px;
+    position: relative;
+    float: left;
+
+    height: 10.6667vh;
+    margin: 0;
 
     font-size: 8vh;
     line-height: 10.6667vh; /* Same percentage of _view height_ as overall height's percentage*/
@@ -187,10 +194,10 @@ body {
 
 .header-login {
     z-index: 1000;
-    position: fixed;
-    height: 4.7778vh;
-    left: min(75.7813vw, calc(84.2188vw - 9.45vh), calc(100vw - 23.34vh));
-    top: 0px;
+    position: relative;
+    float: right;
+
+    margin: 0 4.0104vw 0 0;
 
     font-size: 4vh;
     line-height: 10.6667vh;
@@ -198,14 +205,24 @@ body {
 
 .header-signup {
     z-index: 1000;
-    position: fixed;
-    height: 4.7778vh;
-    left: min(84.2188vw, calc(100vw - 13.89vh));
-    top: 0px;
+    position: relative;
+    float: right;
+
+    margin: 0 9.2708vw 0 0;
     white-space: nowrap;
 
     font-size: 4vh;
     line-height: 10.6667vh;
+}
+
+.header-user-img {
+    z-index: 1000;
+    position: fixed;
+    width: 7.1111vh;
+    height: 7.1111vh;
+
+    right: 4.6875vw;
+    top: 1.7778vh;
 }
 
 /* ================= BACKGROUND STYLES ============== */
