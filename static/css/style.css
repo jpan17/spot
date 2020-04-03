@@ -417,6 +417,10 @@ body {
     background-clip: padding-box;
 }
 
+.listing-table td.transparent {
+    background: none;
+}
+
 .listing-table td:not(:last-child) {
     border-right: 1.1979vw solid transparent;
 }

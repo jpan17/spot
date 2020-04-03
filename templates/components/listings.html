@@ -6,7 +6,7 @@
                 {% include 'components/listing.html' %}
             {% endwith %}    
         </td>
-        <td>
+        <td {% if not listings[2 * i + 1] %} class="transparent" {% endif %}>
             {% if listings[2 * i + 1] %}
             {% with listing=listings[2 * i + 1] %}
                 {% include 'components/listing.html' %}
