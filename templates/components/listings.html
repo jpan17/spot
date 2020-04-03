@@ -3,13 +3,17 @@
     <tr>
         <td>
             {% with listing=listings[2 * i] %}
-                {% include 'components/listing.html' %}
-            {% endwith %}    
+                <a href="{{ url_for('listing_details', listing_id=listing.id ) }}">  
+                    {% include 'components/listing.html' %}
+                </a>
+            {% endwith %}  
         </td>
         <td {% if not listings[2 * i + 1] %} class="transparent" {% endif %}>
             {% if listings[2 * i + 1] %}
             {% with listing=listings[2 * i + 1] %}
-                {% include 'components/listing.html' %}
+                <a href="{{ url_for('listing_details', listing_id=listing.id ) }}">  
+                    {% include 'components/listing.html' %}
+                </a>
             {% endwith %}
             {% endif %}
         </td>

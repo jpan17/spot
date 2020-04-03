@@ -29,8 +29,12 @@ def register_form():
     return response
 
 @app.route('/listings/new')
-def new_listing():
+def listing_new():
     html = render_template('users/owners/home.html',
         title='New Listing | Spot')
     response = make_response(html)
     return response
+
+@app.route('/listings/<int:listing_id>')
+def listing_details(listing_id):
+    return redirect(url_for('home'))
