@@ -18,7 +18,9 @@
             </a>
             <br><br>
             <h3>Current listings:</h3>
-            {% include 'components/listings.html' %}
+            {% with listings = listings %}
+                {% include 'components/listings.html' %}
+            {% endwith %}
         </div>
 
         {% include 'components/footer.html' %}

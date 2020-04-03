@@ -7,7 +7,8 @@ from flask import url_for, redirect
 @app.route('/')
 def home():
     html = render_template('users/owners/home.html',
-        title='Home | Spot')
+        title='Home | Spot',
+        listings=db_service.all_listings())
     response = make_response(html)
     return response
 

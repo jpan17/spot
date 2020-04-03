@@ -1,26 +1,27 @@
 <div class="listing-cell-container">
     <div class="portrait">
         <div class="background">
-            <img class="cat" src="{{ url_for('static', filename='img/cat-blue.png') }}" alt="cat-blue.png">
+            <img class="{{ listing.pet_type.lower() }}"
+                src="{{ url_for('static', filename='img/{0}-blue.png'.format(listing.pet_type.lower())) }}"
+                alt="{{ '{0} silhouette'.format(listing.pet_type.lower()) }}">
         </div>
-        <div class="pet-type">CAT</div>
+        <div class="pet-type {{ listing.pet_type.lower() }}">{{ listing.pet_type.upper() }}</div>
     </div>
     <div class="description">
         <div class="title">
-            Scruffy
+            {{ listing.pet_name }}
         </div>
         <div class="info">
-            <strong>DAY(S):</strong> Hi
+            <strong>START:</strong> {{ '{dt.month}/{dt.day} {hour}:{minute_am_pm}'.format(dt=listing.start_time, hour=((listing.start_time.hour + 11) % 12 + 1), minute_am_pm=listing.start_time.strftime('%M %p')) }}
             <br>
-            <strong>TIME:</strong> Hi
+            <strong>END:</strong> {{ '{dt.month}/{dt.day} {hour}:{minute_am_pm}'.format(dt=listing.end_time, hour=((listing.end_time.hour + 11) % 12 + 1), minute_am_pm=listing.end_time.strftime('%M %p')) }}
             <br>
-            <strong>LOCATION:</strong> Hi
+            <strong>ZIP CODE:</strong> {{ listing.zip_code }}
             <br>
-            <strong>ACTIVITY:</strong> Hi
-            <br>
-            eee
-            <br>
-            ffff
+            <strong>ACTIVITIES:</strong>
+            <span class="activities">
+                {{ ', '.join(listing.activities) }}
+            </span>
         </div>
     </div>
 </div>

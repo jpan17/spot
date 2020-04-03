@@ -412,10 +412,17 @@ body {
     box-sizing: border-box;
     border: none;
     min-width: 40.8854vw;
+    
+    background: #84CEEB;
+    background-clip: padding-box;
 }
 
 .listing-table td:not(:last-child) {
     border-right: 1.1979vw solid transparent;
+}
+
+.listing-table tr:not(:last-child) td {
+    border-bottom: 1.1979vw solid transparent;
 }
 
 .listing-cell-container {
@@ -438,7 +445,7 @@ body {
 }
 
 .listing-cell-container .portrait .background {
-    width: 100%;
+    width: 8.9615em;
     height: 8.9615em;
     position: relative;
 
@@ -446,17 +453,55 @@ body {
     background: #FFFFFF;
 }
 
-.listing-cell-container .portrait .background .cat {
+.listing-cell-container .portrait .background img {
     position: absolute;
-    
     top: 50%;
-    margin-top: -3.1154em;
     left: 50%;
-    margin-left: -3.1154em;
 
     font-size: 1em;
+    
+    /* Default sizing (different sizes are listed below) */
+    margin-top: -3.1154em;
+    margin-left: -3.1154em;
     width: 6.23077em;
     height: 6.23077em;
+}
+
+.listing-cell-container .portrait .background img.dog {
+    margin-top: -3.15em;
+    margin-left: -3.15em;
+    width: 6.3em;
+    height: 6.3em;
+}
+
+.listing-cell-container .portrait .background img.rodent {
+    margin-top: -3.35em;
+    margin-left: -3.35em;
+    width: 6.7em;
+    height: 6.7em;
+}
+
+.listing-cell-container .portrait .background img.bird {
+    margin-top: -3.25em;
+    margin-left: -3.25em;
+    width: 6.5em;
+    height: 6.5em;
+}
+
+
+.listing-cell-container .portrait .background img.reptile {
+    margin-top: -3.35em;
+    margin-left: -3.35em;
+    width: 6.7em;
+    height: 6.7em;
+}
+
+
+.listing-cell-container .portrait .background img.other {
+    margin-top: -3.45em;
+    margin-left: -3.45em;
+    width: 6.9em;
+    height: 6.9em;
 }
 
 .listing-cell-container .pet-type {
@@ -467,6 +512,13 @@ body {
     font-size: 1.84615em;
     line-height: 1.20833em;
     color: #FFFFFF;
+}
+
+.listing-cell-container .pet-type.amphibian {
+    margin-top: 0.4615375em;
+
+    font-size: 1.5em;
+    line-height: 1.20833em;
 }
 
 .listing-cell-container .description {
@@ -486,11 +538,16 @@ body {
 
 .listing-cell-container .description .info {
     font-style: 'Sunflower', 'Varela Round';
-
+    white-space: nowrap;
+    
     color: #8860D0;
     mix-blend-mode: multiply;
 }
 
 .listing-cell-container .description .info strong {
     text-decoration: underline;
+}
+
+.listing-cell-container .description .info .activities{
+    white-space: normal;
 }

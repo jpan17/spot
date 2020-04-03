@@ -1,10 +1,18 @@
 <table class="listing-table">
+    {% for i in range((listings|length + 1) // 2) %}
     <tr>
         <td>
-            {% include 'components/listing.html' %}
+            {% with listing=listings[2 * i] %}
+                {% include 'components/listing.html' %}
+            {% endwith %}    
         </td>
         <td>
-            {% include 'components/listing.html' %}
+            {% if listings[2 * i + 1] %}
+            {% with listing=listings[2 * i + 1] %}
+                {% include 'components/listing.html' %}
+            {% endwith %}
+            {% endif %}
         </td>
     </tr>
+    {% endfor %}
 </table>
