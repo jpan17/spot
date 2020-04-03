@@ -190,6 +190,7 @@ body {
 
 /* Take up remainder of screen (at minimum) after header */
 .content-container {
+    box-sizing: border-box;
     width: 100%;
     display: flex;
     flex-flow: row; /* Row + align center => vertical centering */
@@ -405,22 +406,12 @@ body {
     margin: 0;
     padding: 0;
     border: none;
-
-    /* Determines most of the sizing of everything in the table */
-    font-size: 1.625rem; 
-    line-height: 2.0769em;
 }
 
 .listing-table td {
     box-sizing: border-box;
     border: none;
     min-width: 40.8854vw;
-    padding: 1.5385em 1.2308em;
-
-    font-size: 1em;
-
-    background: #84CEEB;
-    background-clip: padding-box;
 }
 
 .listing-table td:not(:last-child) {
@@ -428,9 +419,17 @@ body {
 }
 
 .listing-cell-container {
+    background: #84CEEB;
+    padding: 1.5385em 1.2308em 1.5385em 1.2308em;
+    background-clip: padding-box;
+
     display: flex;
     flex-flow: row;
     align-items: center;
+
+    /* Determines most of the sizing of everything in the table */
+    font-size: 1.625rem; 
+    line-height: 2.0769em;
 }
 
 .listing-cell-container .portrait {
