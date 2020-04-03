@@ -140,6 +140,27 @@ h6 {
     color: #858585;
 }
 
+html {
+    min-height: 100%;
+    display: flex;
+    flex-flow: column;
+}
+
+body {
+    display: flex;
+    flex-flow: column;
+    flex-grow: 1;
+}
+
+/* Take up remainder of screen (at minimum) after header */
+.content-container {
+    width: 100%;
+    display: flex;
+    flex-flow: row; /* Row + align center => vertical centering */
+    align-items: center;
+    flex-grow: 1;
+}
+
 /* ================= HEADER STYLES ============== */
 
 body {

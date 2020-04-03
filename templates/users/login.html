@@ -9,30 +9,35 @@
         {% include 'components/background.html' %}
         {% include 'components/header.html' %}
 
-        <div class="login-container">
-            <div class="login-heading spot-font">
-                LOGIN
+        <div class="content-container">
+            <div class="login-img-container">
+                <img class="login-img" src="{{ url_for('static', filename='img/dog_cat_color.png') }}">
             </div>
-            <!-- TODO MAKE THIS FORM ACTUALLY POST SOMEWHERE -->
-            <form class="login-form">
+            <div class="login-container">
+                <div class="login-heading spot-font">
+                    LOGIN
+                </div>
+                <!-- TODO MAKE THIS FORM ACTUALLY POST SOMEWHERE -->
+                <form class="login-form">
 
-                <div class="emailpass spot-font spot-heading">
-                    email
-                </div>
-                <input type="email" name="email" class="emailpass-input" required>
-                <div class="emailpass spot-font spot-heading">
-                    password
-                </div>
-                <input type="password" name="password" class="emailpass-input" required>
-                
-                <div class="no-account spot-font spot-heading">
-                    no account?
-                    <a href="{{ url_for('register_form') }}">sign up</a>
-                </div>
+                    <div class="emailpass spot-font spot-heading">
+                        email
+                    </div>
+                    <input type="email" name="email" class="emailpass-input" required>
+                    <div class="emailpass spot-font spot-heading">
+                        password
+                    </div>
+                    <input type="password" name="password" class="emailpass-input" required>
+                    
+                    <div class="no-account spot-font spot-heading">
+                        no account?
+                        <a href="{{ url_for('register_form') }}">sign up</a>
+                    </div>
 
-                <input class="submit-button spot-font spot-heading" type="submit" value="log in">
-                
-            </form>
+                    <input class="submit-button spot-font spot-heading" type="submit" value="log in">
+                    
+                </form>
+            </div>
         </div>
 
         {% include 'components/footer.html' %}
