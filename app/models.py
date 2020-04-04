@@ -6,7 +6,7 @@ from app import db
 import enums
 from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 from sqlalchemy.sql.expression import or_, and_, not_
-from sqlalchemy.dialects.postgresql import ARRAY, ENUM
+from sqlalchemy.dialects.postgresql import ARRAY, ENUM, TEXT
 from sqlalchemy import cast
 
 # Many-To-Many relationship between users (specifically sitters) and listings
@@ -79,16 +79,16 @@ class Listing(db.Model):
                 and_(not_(cls.full_time), start_time < cls.end_time, end_time > cls.start_time)
             )
 
-    # Do any of the activities of this listing match with the queried activities?
+    # Does the list of activities contain this listing's list?
     @hybrid_method
-    def activities_intersect(self, activities):
-        return not set(self.activities).isdisjoint(activities)
+    def activities_satisfied(self, activities):
+        return set(self.activities).issubset(set(activities))
 
-    @activities_intersect.expression
-    def activities_intersect(cls, activities):
-        conditions = [cls.activities.any(activity) for activity in set(activities)]
-        return or_(*conditions)
-
+    @activities_satisfied.expression
+    def activities_satisfied(cls, activities):
+        temp = set(activities)
+        temp.add('3frvdg4gtbn434') # So temp will be a strict superset iff activities was a superset
+        return cast(cls.activities, ARRAY(TEXT)).contained_by(temp)
 
     # Does this listing's zip code contain zip_code in it?
     @hybrid_method

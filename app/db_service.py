@@ -252,7 +252,7 @@ def all_listings(pet_type = None, activities = None, zip_code = None, datetime_r
     pet_type : str or None, optional
         Filters Listings for pet type equal to  *pet_type*, or does not filter is unspecified/None.
     activities : list or tuple of str or None, optional
-        Filters Listings for those that share any activity with those in the *activities* parameter,
+        Filters Listings for those for which every activity is satisfied in the *activities* parameter,
         or does not filter is unspecified/None.
     zip_code : str or None, optional
         Filters Listings for zip code *containing zip_code*, or does not filter if unspecified/None.
@@ -322,7 +322,7 @@ def all_listings(pet_type = None, activities = None, zip_code = None, datetime_r
         query = query.filter_by(pet_type = pet_type)
 
     if activities != None:
-        query = query.filter(Listing.activities_intersect(activities))
+        query = query.filter(Listing.activities_satisfied(activities))
 
     if zip_code != None:
         query = query.filter(Listing.zip_code_contains(zip_code))
