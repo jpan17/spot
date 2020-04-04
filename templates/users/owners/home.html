@@ -11,15 +11,13 @@
 
         <div class="content-container standard vertical">
             <h3>Request care for your pet:</h3>
-            <a href="{{ url_for('listing_new') }}">
-                <button type="button" class="big-blue-button">
-                    + add listing
-                </button>
+            <a href="{{ url_for('listing_new') }}" class="big-blue-button">
+                + add listing
             </a>
             <br><br>
             <h3>Current listings:</h3>
             {% with listings = listings %}
-                {% include 'components/listings.html' %}
+                {% include 'components/listing_table.html' %}
             {% endwith %}
         </div>
 

@@ -8,7 +8,8 @@ from flask import url_for, redirect
 def home():
     html = render_template('users/owners/home.html',
         title='Home | Spot',
-        listings=db_service.all_listings())
+        listings=db_service.all_listings(),
+        overlay=True)
     response = make_response(html)
     return response
 
@@ -37,4 +38,12 @@ def listing_new():
 
 @app.route('/listings/<int:listing_id>')
 def listing_details(listing_id):
+    return redirect(url_for('home'))
+
+@app.route('/listings/<int:listing_id>/delete')
+def listing_delete(listing_id):
+    return redirect(url_for('home'))
+
+@app.route('/listings/<int:listing_id>/update')
+def listing_update(listing_id):
     return redirect(url_for('home'))

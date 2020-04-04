@@ -1,0 +1,49 @@
+<table class="listing-table">
+    {% for i in range((listings|length + 1) // 2) %}
+    <tr>
+        {% with listing = listings[2 * i] %}
+        <td onclick="redirect('{{ url_for('listing_details', listing_id=listing.id) }}')"
+            class="clickable">
+            {% with overlay = False %}
+                {% include 'components/listing.html' %}
+            {% endwith %}
+            {% if overlay: %}
+            <div class="listing-overlay">
+                <a class="nested-link" href="{{ url_for('listing_delete', listing_id=listing.id) }}">
+                    <img src="{{ url_for('static', filename='img/dog-blue.png') }}">
+                </a>
+                <a class="nested-link" href="{{ url_for('listing_update', listing_id=listing.id)}}">
+                    <img src="{{ url_for('static', filename='img/cat-blue.png') }}">
+                </a>
+            </div>
+            {% endif %}
+        </td>
+        {% endwith %}
+        {% with listing = listings[2 * i + 1] %}  
+        <td class="{% if not listing %} transparent {% else %} clickable {% endif %}"
+            {% if listing %}
+            onclick="redirect('{{ url_for('listing_details', listing_id=listing.id) }}')"
+            {% endif %}>
+            {% if listing %}
+            
+            {% with overlay = False %}
+                {% include 'components/listing.html' %}
+            {% endwith %}
+
+            {% if overlay: %}
+            <div class="listing-overlay">
+                <a class="nested-link" href="{{ url_for('listing_delete', listing_id=listing.id) }}">
+                    <img src="{{ url_for('static', filename='img/dog-blue.png') }}">
+                </a>
+                <a class="nested-link" href="{{ url_for('listing_update', listing_id=listing.id)}}">
+                    <img src="{{ url_for('static', filename='img/cat-blue.png') }}">
+                </a>
+            </div>
+            {% endif %}
+
+            {% endif %}
+        </td>
+        {% endwith %}
+    </tr>
+    {% endfor %}
+</table>
