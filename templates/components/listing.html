@@ -3,7 +3,7 @@ onclick="redirect('{{ url_for('listing_details', listing_id=listing.id) }}')">
     <div class="portrait">
         <div class="background">
             <img class="{{ listing.pet_type.lower() }}"
-                src="{{ url_for('static', filename='img/{0}-blue.png'.format(listing.pet_type.lower())) }}"
+                src="{{ url_for('static', filename='img/portrait/{0}-blue.png'.format(listing.pet_type.lower())) }}"
                 alt="{{ '{0} silhouette'.format(listing.pet_type.lower()) }}">
         </div>
         <div class="pet-type {{ listing.pet_type.lower() }}">{{ listing.pet_type.upper() }}</div>
@@ -28,10 +28,10 @@ onclick="redirect('{{ url_for('listing_details', listing_id=listing.id) }}')">
     {% if overlay: %}
     <div class="listing-overlay">
         <a class="nested-link" href="{{ url_for('listing_delete', listing_id=listing.id) }}">
-            <img src="{{ url_for('static', filename='img/dog-blue.png') }}">
+            <img src="{{ url_for('static', filename='img/portrait/dog-blue.png') }}">
         </a>
         <a class="nested-link" href="{{ url_for('listing_update', listing_id=listing.id)}}">
-            <img src="{{ url_for('static', filename='img/cat-blue.png') }}">
+            <img src="{{ url_for('static', filename='img/portrait/cat-blue.png') }}">
         </a>
     </div>
     {% endif %}

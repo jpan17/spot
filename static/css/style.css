@@ -177,6 +177,19 @@ h3 {
     color: #A72BE1;
 }
 
+h4 {
+    font-family: 'Varela Round';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 42px;
+    line-height: 50px;
+    text-align: center;
+    
+    margin: 0;
+
+    color: #858585;
+}
+
 h6 {
     font-family: 'Varela Round';
     font-style: normal;
@@ -510,10 +523,10 @@ body {
 
 
 .listing-container .portrait .background img.reptile {
-    margin-top: -3.35em;
-    margin-left: -3.35em;
-    width: 6.7em;
-    height: 6.7em;
+    margin-top: -3.4em;
+    margin-left: -3.4em;
+    width: 6.8em;
+    height: 6.8em;
 }
 
 
@@ -524,7 +537,7 @@ body {
     height: 6.9em;
 }
 
-.listing-container .pet-type {
+.listing-container .portrait .pet-type {
     display: block;
     margin: 0.375em auto 0 auto;
     text-align: center;
@@ -534,7 +547,7 @@ body {
     color: #FFFFFF;
 }
 
-.listing-container .pet-type.amphibian {
+.listing-container .portrait .pet-type.amphibian {
     margin-top: 0.4615375em;
 
     font-size: 1.5em;

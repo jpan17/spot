@@ -1,0 +1,88 @@
+.listing-details-container {
+    width: 100%;
+    flex-grow: 1;
+
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+
+    font-size: 1.75rem;
+    line-height: 1.25em;
+}
+
+.small-portrait .background {
+    width: 8.32143em;
+    height: 8.32143em;
+    position: relative;
+
+    border-radius: 50%;
+    background: #5680E9;
+}
+
+.small-portrait .background img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    font-size: 1em;
+    
+    /* Default sizing (different sizes are listed below) */
+    margin-top: -3.1154em;
+    margin-left: -3.1154em;
+    width: 6.23077em;
+    height: 6.23077em;
+}
+
+.small-portrait .background img.dog {
+    margin-top: -3.15em;
+    margin-left: -3.15em;
+    width: 6.3em;
+    height: 6.3em;
+}
+
+.small-portrait .background img.rodent {
+    margin-top: -3.35em;
+    margin-left: -3.35em;
+    width: 6.7em;
+    height: 6.7em;
+}
+
+.small-portrait .background img.bird {
+    margin-top: -3.25em;
+    margin-left: -3.25em;
+    width: 6.5em;
+    height: 6.5em;
+}
+
+
+.small-portrait .background img.reptile {
+    margin-top: -3.45em;
+    margin-left: -3.45em;
+    width: 6.9em;
+    height: 6.9em;
+}
+
+
+.small-portrait .background img.other {
+    margin-top: -3.35em;
+    margin-left: -3.35em;
+    width: 6.7em;
+    height: 6.7em;
+}
+
+.small-portrait .pet-type {
+    display: block;
+    margin: 0.325em auto 0 auto;
+    text-align: center;
+
+    font-size: 1.7em;
+    line-height: 1.20833em;
+    color: #5680E9;
+}
+
+.small-portrait .pet-type.amphibian {
+    margin-top: 0.4615375em;
+
+    font-size: 1.375em;
+    line-height: 1.20833em;
+}

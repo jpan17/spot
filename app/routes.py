@@ -38,7 +38,15 @@ def listing_new():
 
 @app.route('/listings/<int:listing_id>')
 def listing_details(listing_id):
-    return redirect(url_for('home'))
+    listing = db_service.get_listing_by_id(listing_id)
+    if listing == None:
+        return redirect(url_for('error', error='Listing not found.'))
+
+    html = render_template('users/owners/listing_details.html',
+        title='Listing Details | Spot',
+        listing=listing)
+    response = make_response(html)
+    return response
 
 @app.route('/listings/<int:listing_id>/delete')
 def listing_delete(listing_id):
@@ -46,4 +54,10 @@ def listing_delete(listing_id):
 
 @app.route('/listings/<int:listing_id>/update')
 def listing_update(listing_id):
+    return redirect(url_for('home'))
+
+@app.route('/error')
+def error():
+    error = request.args.get('error') or ''
+    
     return redirect(url_for('home'))
