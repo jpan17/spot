@@ -151,6 +151,23 @@ a.regular-text {
     border-radius: 50%
 }
 
+span.horizontal-line {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 5px;
+
+    padding: 0;
+    margin: 14px 0;
+
+    background-color: #5680E9;
+    border-radius: 2.5px;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
+
 h2 {
     font-family: 'Varela Round';
     font-style: normal;
@@ -216,7 +233,7 @@ body {
 /* Take up remainder of screen (at minimum) after header */
 .content-container {
     box-sizing: border-box;
-    width: 100%;
+    min-width: 100%;
     display: flex;
     flex-flow: row; /* Row + align center => vertical centering */
     align-items: center;
@@ -577,7 +594,7 @@ body {
     mix-blend-mode: multiply;
 }
 
-.listing-container .description .info strong {
+.listing-container .description .info strong, strong {
     text-decoration: underline;
 }
 

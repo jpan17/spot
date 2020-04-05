@@ -6,11 +6,19 @@
     align-items: flex-start;
     flex-direction: row;
 
-    font-size: 1.75rem;
+    font-size: 1.625rem; /* Typically, 1rem = 16px and 1.75rem = 28px */
     line-height: 1.25em;
+
+    color: #858585;
+    mix-blend-mode: multiply;
 }
 
-.small-portrait .background {
+.listing-details-container .small-portrait {
+    margin-right: 3.2857em;
+    font-size: 1em;
+}
+
+.listing-details-container .small-portrait .background {
     width: 8.32143em;
     height: 8.32143em;
     position: relative;
@@ -19,7 +27,7 @@
     background: #5680E9;
 }
 
-.small-portrait .background img {
+.listing-details-container .small-portrait .background img {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -33,21 +41,21 @@
     height: 6.23077em;
 }
 
-.small-portrait .background img.dog {
+.listing-details-container .small-portrait .background img.dog {
     margin-top: -3.15em;
     margin-left: -3.15em;
     width: 6.3em;
     height: 6.3em;
 }
 
-.small-portrait .background img.rodent {
+.listing-details-container .small-portrait .background img.rodent {
     margin-top: -3.35em;
     margin-left: -3.35em;
     width: 6.7em;
     height: 6.7em;
 }
 
-.small-portrait .background img.bird {
+.listing-details-container .small-portrait .background img.bird {
     margin-top: -3.25em;
     margin-left: -3.25em;
     width: 6.5em;
@@ -55,7 +63,7 @@
 }
 
 
-.small-portrait .background img.reptile {
+.listing-details-container .small-portrait .background img.reptile {
     margin-top: -3.45em;
     margin-left: -3.45em;
     width: 6.9em;
@@ -63,14 +71,14 @@
 }
 
 
-.small-portrait .background img.other {
+.listing-details-container .small-portrait .background img.other {
     margin-top: -3.35em;
     margin-left: -3.35em;
     width: 6.7em;
     height: 6.7em;
 }
 
-.small-portrait .pet-type {
+.listing-details-container .small-portrait .pet-type {
     display: block;
     margin: 0.325em auto 0 auto;
     text-align: center;
@@ -80,9 +88,77 @@
     color: #5680E9;
 }
 
-.small-portrait .pet-type.amphibian {
+.listing-details-container .small-portrait .pet-type.amphibian {
     margin-top: 0.4615375em;
 
     font-size: 1.375em;
     line-height: 1.20833em;
+}
+
+.listing-details-container .details {
+    
+}
+
+.listing-details-container div .header {
+    margin-bottom: 0.14286em;
+
+    font-size: 2.2857em;
+    line-height: 1.2031em;
+    color: #5680E9;
+}
+
+.listing-details-container .details .body {
+    display: inline-block; /* Otherwise margin collapsing occurs */
+    margin-top: 0.225em;
+}
+
+.listing-details-container .details .body span {
+    display: block;
+    margin: 0 0 0.7em 0;
+
+    font-size: 1em;
+}
+
+.listing-details-container .details .body span.no-wrap {
+    margin-right: 8em;
+}
+
+.listing-details-container .volunteers-container {
+    margin-left: 3em;
+    padding-right: 1.25em;
+    flex-grow: 1;
+
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.listing-details-container .volunteers-container .header {
+    margin-right: 1em;
+}
+
+.listing-details-container .volunteers-container .volunteer-list {
+    display: inline-block;
+}
+
+.listing-details-container .volunteer-list .volunteer:first-child {
+    margin-top: 0.5em;
+}
+
+.listing-details-container .volunteers-container .volunteer {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    margin-bottom: 1em;
+}
+
+.listing-details-container .volunteers-container .volunteer .user-icon {
+    width: 2.5em; /* 2x LINE HEIGHT (since there are two lines) */
+    height: 2.5em;
+
+    margin-right: 0.6em;
+}
+
+.listing-details-container .volunteers-container .volunteer .contact-info {
+    white-space: nowrap;
 }

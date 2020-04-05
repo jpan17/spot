@@ -13,9 +13,9 @@ onclick="redirect('{{ url_for('listing_details', listing_id=listing.id) }}')">
             {{ listing.pet_name }}
         </div>
         <div class="info">
-            <strong>START:</strong> {{ '{dt.month}/{dt.day} {hour}:{minute_am_pm}'.format(dt=listing.start_time, hour=((listing.start_time.hour + 11) % 12 + 1), minute_am_pm=listing.start_time.strftime('%M %p')) }}
+            <strong>START:</strong> {{ listing.start_time_repr() }}
             <br>
-            <strong>END:</strong> {{ '{dt.month}/{dt.day} {hour}:{minute_am_pm}'.format(dt=listing.end_time, hour=((listing.end_time.hour + 11) % 12 + 1), minute_am_pm=listing.end_time.strftime('%M %p')) }}
+            <strong>END:</strong> {{ listing.end_time_repr() }}
             <br>
             <strong>ZIP CODE:</strong> {{ listing.zip_code }}
             <br>
@@ -28,10 +28,10 @@ onclick="redirect('{{ url_for('listing_details', listing_id=listing.id) }}')">
     {% if overlay: %}
     <div class="listing-overlay">
         <a class="nested-link" href="{{ url_for('listing_delete', listing_id=listing.id) }}">
-            <img src="{{ url_for('static', filename='img/portrait/dog-blue.png') }}">
+            <img src="{{ url_for('static', filename='img/icon/trash.png') }}">
         </a>
         <a class="nested-link" href="{{ url_for('listing_update', listing_id=listing.id)}}">
-            <img src="{{ url_for('static', filename='img/portrait/cat-blue.png') }}">
+            <img src="{{ url_for('static', filename='img/icon/edit.png') }}">
         </a>
     </div>
     {% endif %}

@@ -104,6 +104,12 @@ class Listing(db.Model):
     def __repr__(self):
         return __listing_repr__(self)
 
+    def start_time_repr(self):
+        return '{dt.month}/{dt.day} {hour}:{minute_am_pm}'.format(dt=self.start_time, hour=((self.start_time.hour + 11) % 12 + 1), minute_am_pm=self.start_time.strftime('%M %p'))
+
+    def end_time_repr(self):
+        return '{dt.month}/{dt.day} {hour}:{minute_am_pm}'.format(dt=self.end_time, hour=((self.end_time.hour + 11) % 12 + 1), minute_am_pm=self.end_time.strftime('%M %p'))
+
 # =======================================================================================================
 # =                            __repr__ functions (for use in debugging)                                =
 # =======================================================================================================

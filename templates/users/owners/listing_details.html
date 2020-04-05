@@ -25,6 +25,50 @@
                         listing.pet_type.upper()      
                     }}</div>
                 </div>
+
+                <div class="details">
+                    <div class="header">
+                        {{ listing.pet_name }}
+                    </div>
+                    <span class="horizontal-line"></span>
+                    <div class="body">
+                        <span class="no-wrap">
+                            <strong>START:</strong> {{ listing.start_time_repr() }}
+                        </span>
+                        <span class="no-wrap">
+                            <strong>END:</strong> {{ listing.end_time_repr() }}
+                        </span>
+                        <span class="no-wrap">
+                            <strong>ZIP CODE:</strong> {{ listing.zip_code }}
+                        </span>
+                        <span>
+                            <strong>ACTIVITIES:</strong> {{ ', '.join(listing.activities) }}
+                        </span>
+                        <span>
+                            <strong>DESCRIPTION:</strong> {{ listing.extra_info }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="volunteers-container">
+                    <div class="header">
+                        Volunteers
+                    </div>
+                    <span class="horizontal-line"></span>
+                    <div class="volunteer-list">
+                        {% for sitter in listing.sitters %}
+                        <div class="volunteer">
+                            <img class="user-icon"
+                                src="{{ url_for('static', filename='img/icon/user-cyan.png') }}">
+                            <div class="contact-info">
+                                {{ sitter.full_name }}
+                                <br>
+                                {{ sitter.email }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
 
