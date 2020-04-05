@@ -7,7 +7,7 @@
     align-items: flex-start;
     flex-direction: row;
 
-    font-size: 1.625rem; /* Typically, 1rem = 16px and 1.75rem = 28px */
+    font-size: 1.625rem; /* Typically, 1rem = 16px */
     line-height: 1.25em;
 
     color: #858585;
@@ -97,7 +97,7 @@
 }
 
 .listing-details-container .details {
-    
+    flex-grow: 1;   
 }
 
 .listing-details-container div .header {
@@ -145,7 +145,6 @@
 .listing-details-container .volunteers-container {
     margin-left: 3em;
     padding-right: 1.25em;
-    flex-grow: 1;
 
     font-size: inherit;
     line-height: inherit;
