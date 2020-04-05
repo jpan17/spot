@@ -507,26 +507,28 @@ def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, en
 
     listing = get_listing_by_id(listing_id)
 
-    if pet_name != None:
-        listing.pet_name = pet_name
-    if pet_type != None:
-        listing.pet_type = pet_type
-    if start_time != None:
-        listing.start_time = start_time
-    if end_time != None:
-        listing.end_time = end_time
-    if full_time != None:
-        listing.full_time = full_time
-    if zip_code != None:
-        listing.zip_code = zip_code
-    if extra_info != None:
-        listing.extra_info = extra_info
-    if activities != None:
-        listing.activities = activities
-            
-    _check_listing_validity(listing, check_id = False)
-
     try:
+
+        if pet_name != None:
+            listing.pet_name = pet_name
+        if pet_type != None:
+            listing.pet_type = pet_type
+        if start_time != None:
+            listing.start_time = start_time
+        if end_time != None:
+            listing.end_time = end_time
+        if full_time != None:
+            listing.full_time = full_time
+        if zip_code != None:
+            listing.zip_code = zip_code
+        if extra_info != None:
+            listing.extra_info = extra_info
+        if activities != None:
+            listing.activities = activities
+                
+        _check_listing_validity(listing, check_id = False)
+
+    
         db.session.commit()
         return ''
     except Exception as e:
