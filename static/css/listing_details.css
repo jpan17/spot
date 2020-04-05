@@ -3,6 +3,7 @@
     flex-grow: 1;
 
     display: flex;
+    justify-content: flex-start;
     align-items: flex-start;
     flex-direction: row;
 
@@ -107,6 +108,24 @@
     color: #5680E9;
 }
 
+.listing-details-container div .header .name {
+    margin-right: 0.25em;
+}
+
+.listing-details-container .details .header .icons {
+    display: inline-flex;
+    align-items: center;
+}
+
+.listing-details-container .details .header img {
+    width: 0.90625em;
+    height: 0.90625em;
+
+    margin-right: 0.2em;
+
+    font-size: 1em;
+}
+
 .listing-details-container .details .body {
     display: inline-block; /* Otherwise margin collapsing occurs */
     margin-top: 0.225em;
@@ -147,6 +166,7 @@
 .listing-details-container .volunteers-container .volunteer {
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
     align-items: flex-start;
 
     margin-bottom: 1em;

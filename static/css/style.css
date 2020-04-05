@@ -237,6 +237,7 @@ body {
     display: flex;
     flex-flow: row; /* Row + align center => vertical centering */
     align-items: center;
+    justify-content: flex-start;
     flex-grow: 1;
 }
 
@@ -248,6 +249,7 @@ body {
 .content-container.vertical {
     flex-flow: column;
     align-items: flex-start;
+    justify-content: flex-start;
 }
 
 /* ================= HEADER STYLES ============== */
@@ -446,7 +448,7 @@ body {
 
 .listing-table {
     margin: 0;
-    padding: 0;
+    padding: 0 1em 0 0;
     border: none;
     
     /* Determines most of the sizing of everything in the table */
@@ -484,6 +486,7 @@ body {
     display: flex;
     flex-flow: row;
     align-items: center;
+    justify-content: flex-start;
 
     font-size: 1em; 
     line-height: 2.0769em;
@@ -631,7 +634,7 @@ body {
 .listing-table td > .listing-overlay img {
     width: 2.1923em;
     height: 2.1923em;
-    margin-left: 0.4231em;
+    margin-left: 0.15em;
 
     font-size: 1em;
 }
