@@ -5,3 +5,42 @@
 .listing-form-table {
     white-space: nowrap;
 }
+
+.listing-form-table td {
+    border-bottom: 0.35em transparent solid;
+}
+
+.listing-form-table td:first-child {
+    border-right: 1.5em transparent solid;
+}
+
+.listing-form-table .secondary-label {
+    padding-right: 0;
+    border-right: 0;
+}
+
+.listing-form-table input[type=text] {
+    width: 8.5em;
+}
+
+.listing-form-table label.radio:not(:last-child), .listing-form-table label.checkbox:not(:last-child) {
+    margin-right: 1.25em;
+}
+
+.listing-form-table #pet_name {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.listing-form-table #extra_info {
+    white-space: normal;
+    width: 100%;
+    box-sizing: border-box;
+
+    resize: vertical;
+}
+
+.listing-form-table .submit-cell {
+    padding-left: 1.5em;
+    vertical-align: middle;
+}

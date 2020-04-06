@@ -14,7 +14,7 @@
                 <a href="{{ url_for('home') }}"
                     class="regular-text">&lt; return home</a>
             </h4>
-            <br>
+            
             <h3>What Does Your Pet Require?</h3>
             <div class="listing-form-container">
                 <form class="listing-form">
@@ -25,46 +25,46 @@
                                     Name of Pet:
                                 </label>
                             </td>
-                            <td colspan="1000">
+                            <td colspan="2">
                                 <input type="text" id="pet_name" name="pet_name">
                             </td>
                         </tr>
 
                         <tr>
                             <td>
-                                <label>
+                                <label for="start_date">
                                     Start Date:
                                 </label>
                             </td>
                             <td>
-                                <input type="text" placeholder="MM/DD/YYYY"> 
+                                <input type="text" placeholder="MM/DD/YYYY" id="start_date"> 
                             </td>
-                            <td>
-                                <label>
+                            <td class="secondary-label">
+                                <label for="start_time">
                                     Start Time:
                                 </label>
                             </td>
                             <td>
-                                <input type="text" placeholder="HH:MM">
+                                <input type="text" placeholder="HH:MM" id="start_time">
                             </td>
                         </tr>
                         
                         <tr>
                             <td>
-                                <label>
+                                <label for="end_date">
                                     End Date:
                                 </label>
                             </td>
                             <td>
-                                <input type="text" placeholder="MM/DD/YYYY"> 
+                                <input type="text" placeholder="MM/DD/YYYY" id="end_date"> 
                             </td>
-                            <td>
-                                <label>
+                            <td class="secondary-label">
+                                <label for="end_time">
                                     End Time:
                                 </label>
                             </td>
                             <td>
-                                <input type="text" placeholder="HH:MM">
+                                <input type="text" placeholder="HH:MM" id="end_time">
                             </td>
                         </tr>
 
@@ -77,7 +77,8 @@
                             <td colspan="1000">
                                 {% for pet_type in pet_types: %}
                                     <label class="radio" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
-                                        <input type="radio" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" name="pet_type"> 
+                                        <input type="radio" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
+                                            name="pet_type" value="{{ pet_type }}"> 
                                         <span class="checked"></span>
                                         {{ pet_type }}
                                     </label>
@@ -94,7 +95,8 @@
                             <td colspan="1000">
                                 {% for activity in activities: %}
                                     <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
-                                        <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" name="activities"> 
+                                        <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
+                                            name="activity_{{ activity.lower().replace(' ', '_') }}" value="true"> 
                                         <span class="checked"></span>
                                         {{ activity }}
                                     </label>
@@ -113,15 +115,17 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>
+                            <td class="align-top">
                                 <label for="extra_info">
                                     Description:
                                 </label>
                             </td>
-                            <td colspan="3">
-                                <input type="text" id="extra_info" name="extra_info" placeholder="(optional) Tell us more about your pet!">
+                            <td class="align-top" colspan="3">
+                                <textarea type="text" id="extra_info" 
+                                    placeholder="(optional) Tell us more about your pet!"
+                                    rows="4"></textarea>
                             </td>
-                            <td>
+                            <td class="submit-cell">
                                 <input class="big-button" type="submit" value="submit">
                             </td>
                         </tr>
