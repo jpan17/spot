@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        {% include 'components/links.html' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/listing_new.css') }}">
+    </head>
+    <body>
+        {% include 'components/header.html' %}
+        {% include 'components/background.html' %}
+
+        <div class="content-container standard vertical">
+            <h4>
+                <a href="{{ url_for('home') }}"
+                    class="regular-text">&lt; return home</a>
+            </h4>
+            <br>
+            <h3>What Does Your Pet Require?</h3>
+            <div class="listing-form-container">
+                <form class="listing-form">
+                    <table class="listing-form-table">
+                        <tr>
+                            <td>
+                                <label for="pet_name">
+                                    Name of Pet:
+                                </label>
+                            </td>
+                            <td colspan="1000">
+                                <input type="text" id="pet_name" name="pet_name">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>
+                                    Start Date:
+                                </label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="MM/DD/YYYY"> 
+                            </td>
+                            <td>
+                                <label>
+                                    Start Time:
+                                </label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="HH:MM">
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <label>
+                                    End Date:
+                                </label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="MM/DD/YYYY"> 
+                            </td>
+                            <td>
+                                <label>
+                                    End Time:
+                                </label>
+                            </td>
+                            <td>
+                                <input type="text" placeholder="HH:MM">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>
+                                    Pet Type:
+                                </label>
+                            </td>
+                            <td colspan="1000">
+                                {% for pet_type in pet_types: %}
+                                    <label class="radio" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
+                                        <input type="radio" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" name="pet_type"> 
+                                        <span class="checked"></span>
+                                        {{ pet_type }}
+                                    </label>
+                                {% endfor %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>
+                                    Activities:
+                                </label>
+                            </td>
+                            <td colspan="1000">
+                                {% for activity in activities: %}
+                                    <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
+                                        <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" name="activities"> 
+                                        <span class="checked"></span>
+                                        {{ activity }}
+                                    </label>
+                                {% endfor %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label for="zip_code">
+                                    Zip Code:
+                                </label>
+                            </td>
+                            <td>
+                                <input type="text" id="zip_code" name="zip_code">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="extra_info">
+                                    Description:
+                                </label>
+                            </td>
+                            <td colspan="3">
+                                <input type="text" id="extra_info" name="extra_info" placeholder="(optional) Tell us more about your pet!">
+                            </td>
+                            <td>
+                                <input class="big-button" type="submit" value="submit">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+
+        {% include 'components/footer.html' %}
+    </body>
+</html>

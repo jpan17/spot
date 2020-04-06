@@ -21,6 +21,10 @@
     margin: 37px auto 0px auto;
 }
 
+.register-table * {
+    white-space: nowrap;
+}
+
 .register-table td {
     padding-top: 8px;
     padding-bottom: 8px;

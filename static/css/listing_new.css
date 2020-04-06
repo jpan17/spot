@@ -1,0 +1,7 @@
+.listing-form-container {
+    font-size: 1.625rem; /* Typically, 1rem = 16px */
+}
+
+.listing-form-table {
+    white-space: nowrap;
+}

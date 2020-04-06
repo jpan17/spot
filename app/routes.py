@@ -2,6 +2,7 @@ from app import app
 from app import db_service
 from flask import make_response, render_template, request
 from flask import url_for, redirect
+import enums
 
 # Homepage with listings for users
 @app.route('/')
@@ -31,8 +32,10 @@ def register_form():
 
 @app.route('/listings/new')
 def listing_new():
-    html = render_template('users/owners/home.html',
-        title='New Listing | Spot')
+    html = render_template('users/owners/listing_new.html',
+        title='New Listing | Spot',
+        pet_types=enums.pet_types,
+        activities=enums.activities)
     response = make_response(html)
     return response
 
