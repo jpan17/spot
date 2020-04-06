@@ -36,8 +36,6 @@
     white-space: normal;
     width: 100%;
     box-sizing: border-box;
-
-    resize: vertical;
 }
 
 .listing-form-table .submit-cell {
