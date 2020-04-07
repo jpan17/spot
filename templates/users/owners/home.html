@@ -16,7 +16,7 @@
             </a>
             <br><br>
             <h3>Current listings:</h3>
-            {% with listings = listings %}
+            {% with listings = listings, overlay = True %}
                 {% include 'components/listing_table.html' %}
             {% endwith %}
         </div>
