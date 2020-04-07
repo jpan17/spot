@@ -50,6 +50,19 @@ def listing_details(listing_id):
     response = make_response(html)
     return response
 
+@app.route('/sitter/<int:id>/accepted')
+def accepted_listings(id):
+    user = db_service.get_user_by_id(id)
+    first_name = user.full_name.split()[0]
+    accepted_listings=db_service.get_user_listings(user, True)
+    html = render_template('listings/accepted_listings.html',
+                           title="Accepted Listings | Spot",
+                           id=id,
+                           accepted_listings=accepted_listings,
+                           accepted_listings_len=len(accepted_listings))
+    response = make_response(html)
+    return response
+
 @app.route('/listings/<int:listing_id>/delete')
 def listing_delete(listing_id):
     return redirect(url_for('home'))
