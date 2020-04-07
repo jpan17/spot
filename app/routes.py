@@ -9,8 +9,7 @@ import enums
 def home():
     html = render_template('users/owners/home.html',
         title='Home | Spot',
-        listings=db_service.all_listings(),
-        overlay=True)
+        listings=db_service.all_listings())
     response = make_response(html)
     return response
 
