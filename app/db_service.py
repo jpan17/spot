@@ -181,7 +181,8 @@ def get_user_listings(user = None, user_id = -1, accepted = False):
 
     If *user* parameter is given, uses that user directly. If *user* is not
     provided, attempts to get a User by *user_id* instead. *accepted* is used to determine
-    which listings to return if a user is both an owner and a sitter and is ignored otherwise.
+    which listings to return (can be empty if accepted is True and user is not a sitter, and if
+    accepted is False and user is not an owner)
 
     Parameters
     ----------
@@ -192,16 +193,13 @@ def get_user_listings(user = None, user_id = -1, accepted = False):
         The ID of the user to return the listings of, if *user* is not specified or None. 
         Note that one of *user* and *user_id* must be specified in a call to this function.
     accepted : bool, optional
-        If the user is both an owner and a sitter, the accepted listings will be returned if
-        *accepted* is True. Defaults to False, in which case the listings that the user owns
-        are returned.
+        Whether to return accepted_listings or just listings
 
     Returns
     -------
     list of Listing
-        A (potentially empty) list of all of the user's Listings. For owners, this is a list of
-        their posted Listings; for sitters, a list of their accepted Listings; and for users that are
-        both owners and sitters, depends on the value of *accepted* (described above).
+        A (potentially empty) list of all of the user's Listings. Will be accepted_listings if
+        accepted is True and listings if accepted is False.
 
     Raises
     ------
@@ -236,12 +234,9 @@ def get_user_listings(user = None, user_id = -1, accepted = False):
     if type(accepted) != bool:
         raise TypeError('accepted parameter must be of type bool')
     
-    if user.is_owner:
-        if user.is_sitter:
-            if accepted:
-                return user.accepted_listings
-        return user.listings
-    return user.accepted_listings
+    if accepted:
+        return user.accepted_listings
+    return user.listings
 
 def all_listings(pet_type = None, activities = None, zip_code = None, datetime_range = None):
     """
