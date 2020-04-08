@@ -7,9 +7,11 @@ import enums
 # Homepage with listings for users
 @app.route('/')
 def home():
-    html = render_template('users/owners/home.html',
+    html = render_template('users/sitters/home.html',
         title='Home | Spot',
-        listings=db_service.all_listings())
+        listings=db_service.all_listings(),
+        pet_types=enums.pet_types,
+        activities=enums.activities)
     response = make_response(html)
     return response
 
