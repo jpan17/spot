@@ -14,9 +14,10 @@
                 <a href="{{ url_for('home') }}"
                     class="regular-text">&lt; return home</a>
             </h4>
-            <br><br>
+            <br>
             <h3>Accepted listings:</h3>
-            {% with listings = listings, overlay = True %}
+            <br>
+            {% with listings = accepted_listings, overlay = True %}
                 {% include 'components/listing_table.html' %}
             {% endwith %}
         </div>
