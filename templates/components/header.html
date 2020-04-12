@@ -14,11 +14,11 @@
         {% if user: %}
         <div class="header-profile-container">
             <div class="header-sign-out spot-font spot-heading">
-                <a class="regular-text" href="{{url_for('logout')}}"> sign out </a>
+                <a class="regular-text" href="{{ url_for('logout') }}"> sign out </a>
             </div>
             {% if user.is_sitter: %}
             <div class="header-accepted-listings spot-font spot-heading">
-                accepted listings
+                <a class="regular-text" href="{{ url_for('accepted_listings') }}">accepted listings</a>
             </div>
             {% endif %}
             <div class="header-greetings spot-heading spot-font">

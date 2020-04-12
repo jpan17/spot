@@ -138,7 +138,8 @@ def listing_new():
     html = render_template('users/owners/listing_new.html',
         title='New Listing | Spot',
         pet_types=enums.pet_types,
-        activities=enums.activities)
+        activities=enums.activities,
+        user = current_user)
     response = make_response(html)
     return response
 
@@ -152,25 +153,27 @@ def listing_details(listing_id):
 
     html = render_template('users/owners/listing_details.html',
         title='Listing Details | Spot',
-        listing=listing)
+        listing=listing,
+        user = current_user)
     response = make_response(html)
     return response
 
 # will be implemented after a proper sitter_home.html added
-@app.route('/sitter/<int:id>/accepted')
+@app.route('/accepted')
 @login_required
-def accepted_listings(id):
-    user = db_service.get_user_by_id(id)
-    if user is not None:
-        accepted_listings = user.accepted_listings
-        html = render_template('users/sitters/accepted_listings.html',
-                            title="Accepted Listings | Spot",
-                            id=id,
-                            accepted_listings=accepted_listings)
-        response = make_response(html)
-        return response
-    else:
-        return redirect(url_for('error', error='User does not exist.'))
+def accepted_listings():
+    user = current_user
+    if not user.is_sitter:
+        return redirect(url_for('error', error='Invalid URL.'))
+
+    accepted_listings = user.accepted_listings
+    html = render_template('users/sitters/accepted_listings.html',
+                        title="Accepted Listings | Spot",
+                        id=id,
+                        accepted_listings=accepted_listings,
+                        user = current_user)
+    response = make_response(html)
+    return response
 
 # implemented once delete functionality added 
 @app.route('/listings/<int:listing_id>/delete')
