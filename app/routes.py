@@ -39,7 +39,6 @@ def home():
         all_listings = db_service.all_listings()
         html = render_template('users/sitters/home.html',
                             title="Home | Spot",
-                            id=user_id,
                             listings=all_listings,
                             listings_len=len(all_listings),
                             pet_types=enums.pet_types,
@@ -62,6 +61,8 @@ def login():
     password = request.form.get('password')
     user = db_service.get_user_by_email(email)
 
+    # As much as I like descriptive error messages, it's been a while since I've seen a site specify which one of email and password is wrong.
+    # My guess is it's for security purposes, so I'm just going to not specify which is incorrect.
     if user == None:
         return redirect(url_for('home', error='Email or password is incorrect.'))
 
@@ -81,7 +82,6 @@ def logout():
 # Registration page with the form
 @app.route('/register')
 def register_form():
-    print("fucked up")
     html = render_template('users/register.html',
         title='Register | Spot')
     response = make_response(html)
@@ -90,11 +90,9 @@ def register_form():
 # registers the user and redirects to login page
 @app.route('/register', methods=['POST'])
 def register_user():
-    print("registering user now")
     full_name = request.form.get('full_name')
     email = request.form.get('email')
     phone_number = request.form.get('password')
-    # print(request.form.get('user_type'))
     is_owner = request.form.get('user_type') == 'owner'
     is_sitter = not is_owner
     password = request.form.get('password')
@@ -102,7 +100,8 @@ def register_user():
     
     if password != confirm_password:
         html = render_template('users/register.html',
-                                 title='Register | Spot')
+                                 title='Register | Spot',
+                                 error='Passwords don\'t match.')
         response = make_response(html)
         return response
 

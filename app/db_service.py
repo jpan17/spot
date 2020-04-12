@@ -15,19 +15,13 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # TODO: Add specific validation such as empty strings, valid format for phone number, email, etc into functions!
 
 
-def set_password(user, password):
-        """Create hashed password."""
-        print("generating hash")
-        user.password_hash = generate_password_hash(password, method='sha256')
-        print("hash saved")
-        print(type(user.password_hash))
-        print(user.password_hash)
-        
-        return user.password_hash
+def generate_password(password):
+    """Create hashed password."""
+    return generate_password_hash(password, method='sha256')
 
 def check_password(user, password):
-        """Check hashed password."""
-        return check_password_hash(user.password_hash, password)
+    """Check hashed password."""
+    return check_password_hash(user.password_hash, password)
 
 def user_exists(user_id):
     """
