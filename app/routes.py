@@ -1,17 +1,16 @@
-from app import app
+from app import app, login_manager
 from app import db_service
+from app.logger import Logger
 from flask import Flask
 from flask import make_response, render_template, request, session
 from flask import url_for, redirect
-from flask_login import LoginManager, UserMixin, login_required, current_user, login_user, logout_user
+from flask_login import UserMixin, login_required, current_user, login_user, logout_user
 from app.models import User, Listing
 import enums
 import os
 from datetime import datetime
 
-app.secret_key = os.urandom(24)
-login_manager = LoginManager()
-login_manager.init_app(app)
+logger = Logger()
 
 # determines which home page to route to based on current_user (login, sitter_home, owner_home)
 @app.route('/')
@@ -20,10 +19,7 @@ def home():
     user_id = current_user.get_id()
 
     if user_id is None: 
-        html = render_template('users/login.html',
-        title='Login | Spot')
-        response = make_response(html)
-        return response    
+        return redirect(url_for('login_form'))
 
     if current_user.is_owner:
         listings = db_service.get_user_listings(current_user)
@@ -54,6 +50,14 @@ def home():
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# Login form (for separation from homepage)
+@app.route('/login')
+def login_form():
+    html = render_template('users/login.html',
+        title='Login | Spot')
+    response = make_response(html)
+    return response   
+
 # processes login info and redirects to appropriate page (login, sitter home, owner home)
 @app.route('/login', methods=['POST'])
 def login():
@@ -64,19 +68,19 @@ def login():
     # As much as I like descriptive error messages, it's been a while since I've seen a site specify which one of email and password is wrong.
     # My guess is it's for security purposes, so I'm just going to not specify which is incorrect.
     if user == None:
-        return redirect(url_for('home', error='Email or password is incorrect.'))
+        return redirect(url_for('login_form', error='Email or password is incorrect.'))
 
-    passwordMatch = db_service.check_password(user, password)
+    passwordMatch = db_service.check_password_hash(user, password)
     
     if passwordMatch:
         login_user(user)
         return redirect(url_for('home'))
-    return redirect(url_for('home', error='Email or password is incorrect.'))
+    return redirect(url_for('login_form', error='Email or password is incorrect.'))
 
 @app.route('/logout')
 def logout():
     logout_user()
-    response = redirect(url_for('home'))
+    response = redirect(url_for('login_form'))
     return response
 
 # Registration page with the form
@@ -92,18 +96,14 @@ def register_form():
 def register_user():
     full_name = request.form.get('full_name')
     email = request.form.get('email')
-    phone_number = request.form.get('password')
+    phone_number = request.form.get('phone_number')
     is_owner = request.form.get('user_type') == 'owner'
     is_sitter = not is_owner
     password = request.form.get('password')
     confirm_password = request.form.get('confirm_password')
     
     if password != confirm_password:
-        html = render_template('users/register.html',
-                                 title='Register | Spot',
-                                 error='Passwords don\'t match.')
-        response = make_response(html)
-        return response
+        return redirect(url_for('register_form', error='Passwords don\'t match.'))
 
     user = User()
     user.full_name = full_name
@@ -111,19 +111,15 @@ def register_user():
     user.phone_number = phone_number
     user.is_owner = is_owner
     user.is_sitter = is_sitter
-    user.password_hash = db_service.generate_password(user, password)
-    print(user.password_hash)
+    user.password_hash = db_service.generate_password_hash(password)
     
-    new_user = db_service.create_user(user)
-    if new_user != '':
-        print(new_user)
+    user_error = db_service.create_user(user)
+    if user_error != '':
+        logger.warn('Error occurred creating user:', user_error)
     else:
-        print('Created a new user ', user.full_name)
+        logger.log('Created a new user:\n', user)
     
-    html = render_template('users/login.html',
-                            title='Login | Spot')
-    response = make_response(html)
-    return response 
+    return redirect(url_for('login_form'))
 
 # haven't touched yet, but idt needs cookies. 
 @app.route('/listings/new')

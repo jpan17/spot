@@ -32,9 +32,6 @@ class User(UserMixin, db.Model):
     phone_number = db.Column(db.String(32), unique=True, nullable=False) # String to account for extensions
     password_hash = db.Column(db.String(32), nullable=False)
 
-    print(password_hash)
-
-
     # Define the one-to-many relationship of Users (specifically owners) to Listings - note that the field name is owner, not user
     # lazy=True -> when loading user, only load listings if needed
     # lazy='joined' -> when loading a listing, always load the user's information along with it (using a SQL JOIN statement)
@@ -139,7 +136,7 @@ def __user_repr__(user):
         ret += '\nFull Name: {0}'.format(user.full_name)
         ret += '\nEmail: {0}'.format(user.email)
         ret += '\nPhone Number: {0}'.format(user.phone_number)
-        ret += '\nPassword Hash: You probably shouldn\'t be viewing that...'
+        ret += '\nPassword Hash: {0}'.format(user.password_hash)
 
         return ret
 

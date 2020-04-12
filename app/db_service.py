@@ -9,19 +9,17 @@ from app import app, db
 from app.models import User, Listing
 from datetime import datetime
 import enums
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash as generate_hash, check_password_hash as check_hash
 
 
 # TODO: Add specific validation such as empty strings, valid format for phone number, email, etc into functions!
-
-
-def generate_password(password):
+def generate_password_hash(password):
     """Create hashed password."""
-    return generate_password_hash(password, method='sha256')
+    return generate_hash(password, method='sha256')
 
-def check_password(user, password):
+def check_password_hash(user, password):
     """Check hashed password."""
-    return check_password_hash(user.password_hash, password)
+    return check_hash(user.password_hash, password)
 
 def user_exists(user_id):
     """
@@ -642,7 +640,6 @@ def _check_user_validity(user):
     if type(user.phone_number) != str:
         raise TypeError('user parameter phone_number must be of type str')
     
-    print(type(user.password_hash))
     if type(user.password_hash) != str:
         raise TypeError('user parameter password_hash must be of type str')
     

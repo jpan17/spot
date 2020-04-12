@@ -2,6 +2,7 @@ from flask import Flask
 from spot_config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_login import LoginManager
 import os
 
 # Is testing mode activated? (Use test routes.py if yes)
@@ -15,10 +16,18 @@ if spot_mode == 'prototype':
     template_folder = '../prototype/templates/'
     static_folder = '../prototype/static/'
 
+# Start app with config
 app = Flask(__name__, template_folder=template_folder, static_url_path='/static', static_folder=static_folder)
 app.config.from_object(Config)
+
+# Initialize SQLAlchemy and Migrate for database management
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+# Initialize flask-login for user authentication/session management
+app.secret_key = os.urandom(24)
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 from app import models
 
