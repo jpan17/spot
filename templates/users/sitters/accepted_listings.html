@@ -18,7 +18,7 @@
             <br>
             <h3>Accepted listings:</h3>
             <br>
-            {% with listings = accepted_listings, overlay = True %}
+            {% with listings = accepted_listings, overlay = False %}
                 {% include 'components/listing_table.html' %}
             {% endwith %}
         </div>

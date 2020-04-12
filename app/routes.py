@@ -151,12 +151,26 @@ def listing_details(listing_id):
     if listing == None:
         return redirect(url_for('error', error='Listing not found.'))
 
-    html = render_template('users/owners/listing_details.html',
-        title='Listing Details | Spot',
-        listing=listing,
-        user = current_user)
-    response = make_response(html)
-    return response
+    if current_user.is_owner:
+        if listing.user_id == current_user.id:
+            html = render_template('users/owners/listing_details.html',
+                title='Listing Details | Spot',
+                listing=listing,
+                user = current_user)
+            response = make_response(html)
+            return response
+        else:
+            return redirect(url_for('error', error='Listing is owned by a different user.'))
+    
+    if current_user.is_sitter:
+        html = render_template('users/sitters/listing_details.html',
+            title = 'Listing Details | Spot',
+            listing = listing,
+            user = current_user)
+        response = make_response(html)
+        return response
+
+    return redirect(url_for('error', error='User is neither owner nor sitter. Please create a new user instead.'))
 
 # will be implemented after a proper sitter_home.html added
 @app.route('/accepted')

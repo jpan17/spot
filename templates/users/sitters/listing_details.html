@@ -32,14 +32,6 @@
                         <span class="name">
                             {{ listing.pet_name }}
                         </span>
-                        <div class="icons">
-                            <a href="{{ url_for('listing_delete', listing_id=listing.id) }}">
-                                <img src="{{ url_for('static', filename='img/icon/trash-blue.png') }}">
-                            </a>
-                            <a href="{{ url_for('listing_update', listing_id=listing.id) }}">
-                                <img src="{{ url_for('static', filename='img/icon/edit-blue.png') }}">
-                            </a>
-                        </div>
                     </div>
                     <span class="horizontal-line"></span>
                     <div class="body">

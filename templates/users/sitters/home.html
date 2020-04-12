@@ -59,7 +59,7 @@
         </div>
         <br><br>
         <h3>Results:</h3>
-        {% with listings = listings, overlay = True %}
+        {% with listings = listings, overlay = False %}
             {% include 'components/listing_table.html' %}
         {% endwith %}
 
