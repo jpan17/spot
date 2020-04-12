@@ -68,6 +68,17 @@ class Listing(db.Model):
     # Foreign Key for One-To-Many relationship with Users
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete='cascade'), nullable=False)
 
+    # Is the pet type one of the queried pet types?
+    @hybrid_method
+    def pet_type_is_in(self, pet_types):
+        return self.pet_type in pet_types
+
+    @pet_type_is_in.expression
+    def pet_type_is_in(cls, pet_types):
+        return or_(
+            *[cls.pet_type == pet_type for pet_type in pet_types]
+        )
+
     # Can a sitter with availability from start_time to end_time fulfill this listing?
     @hybrid_method
     def datetime_range_matches(self, start_time, end_time):

@@ -237,14 +237,14 @@ def get_user_by_email(email):
 #         return user.accepted_listings
 #     return user.listings
 
-def all_listings(pet_type = None, activities = None, zip_code = None, datetime_range = None):
+def all_listings(pet_types = None, activities = None, zip_code = None, datetime_range = None):
     """
     Returns a list of all available Listings in the database, filtered by the given parameters.
 
     Parameters
     ----------
-    pet_type : str or None, optional
-        Filters Listings for pet type equal to  *pet_type*, or does not filter is unspecified/None.
+    pet_types : list or tuple of str or None, optional
+        Filters Listings for pet type in list of pet types  *pet_types*, or does not filter if unspecified/None.
     activities : list or tuple of str or None, optional
         Filters Listings for those for which every activity is satisfied in the *activities* parameter,
         or does not filter is unspecified/None.
@@ -264,12 +264,12 @@ def all_listings(pet_type = None, activities = None, zip_code = None, datetime_r
     Raises
     ------
     TypeError
-        If any of the parameters are not of the type described in Parameters above, or if any of the values in *activities* or
-        *datetime_range* are not of type str or datetime, respectively.
+        If any of the parameters are not of the type described in Parameters above, or if any of the values in *activities*, *pet_types*, or
+        *datetime_range* are not of type str, str, or datetime, respectively.
     ValueError
         If datetime_range is a tuple that does not contain exactly 2 datetimes, the second of which is a datetime that is
         after the first.
-        If pet_type is not one of the predefined pet types (defined in enums.py)
+        If a pet type in pet_types is not one of the predefined pet types (defined in enums.py)
         If an activity in activities is not one of the predefined activities (defined in enums.py)
 
     Examples
@@ -279,11 +279,14 @@ def all_listings(pet_type = None, activities = None, zip_code = None, datetime_r
     
     """
     
-    if pet_type != None:
-        if type(pet_type) != str:
-            raise TypeError('pet_type should be a parameter of type None or str')
-        if pet_type not in enums.pet_types:
-            raise ValueError('Pet Type {0} is not in the list of valid pet types {1}'.format(pet_type, enums.pet_types))
+    if pet_types != None:
+        if type(pet_types) != list and type(pet_types) != tuple:
+            raise TypeError('pet_type should be a parameter of type None, tuple, or list')
+        for pet_type in pet_types:
+            if type(pet_type) != str:
+                raise TypeError('pet_types tuple/list should only contain str')
+            if pet_type not in enums.pet_types:
+                raise ValueError('Pet Type {0} is not in the list of valid pet types {1}'.format(pet_type, enums.pet_types))
 
     if activities != None:
         if type(activities) != list and type(activities) != tuple:
@@ -312,8 +315,8 @@ def all_listings(pet_type = None, activities = None, zip_code = None, datetime_r
     
     query = Listing.query
 
-    if pet_type != None:
-        query = query.filter_by(pet_type = pet_type)
+    if pet_types != None:
+        query = query.filter(Listing.pet_type_is_in(pet_types))
 
     if activities != None:
         query = query.filter(Listing.activities_satisfied(activities))
