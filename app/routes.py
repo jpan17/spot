@@ -21,8 +21,11 @@ def home():
     if user_id is None: 
         return redirect(url_for('login_form'))
 
+    # current_user is now known to be a User object
+    logger.trace('Home accessed with user', current_user.id)
+
     if current_user.is_owner:
-        listings = db_service.get_user_listings(current_user)
+        listings = current_user.listings
         html = render_template('users/owners/home.html',
                             title="Home | Spot",
                             listings=listings,
@@ -68,13 +71,17 @@ def login():
     # As much as I like descriptive error messages, it's been a while since I've seen a site specify which one of email and password is wrong.
     # My guess is it's for security purposes, so I'm just going to not specify which is incorrect.
     if user == None:
+        logger.debug('Failed login using email', email)
         return redirect(url_for('login_form', error='Email or password is incorrect.'))
 
     passwordMatch = db_service.check_password_hash(user, password)
     
     if passwordMatch:
         login_user(user)
+        logger.debug('Logged in user with email', email)
         return redirect(url_for('home'))
+
+    logger.debug('Failed login using email', email)
     return redirect(url_for('login_form', error='Email or password is incorrect.'))
 
 @app.route('/logout')
@@ -116,6 +123,7 @@ def register_user():
     user_error = db_service.create_user(user)
     if user_error != '':
         logger.warn('Error occurred creating user:', user_error)
+        return redirect(url_for('register_form', error='Email or phone number already exists.'))
     else:
         logger.log('Created a new user:\n', user)
     
@@ -152,7 +160,7 @@ def listing_details(listing_id):
 def accepted_listings(id):
     user = db_service.get_user_by_id(id)
     if user is not None:
-        accepted_listings = db_service.get_user_listings(user = user, accepted = True)
+        accepted_listings = user.accepted_listings
         html = render_template('users/sitters/accepted_listings.html',
                             title="Accepted Listings | Spot",
                             id=id,

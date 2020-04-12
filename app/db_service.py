@@ -170,69 +170,72 @@ def get_user_by_email(email):
 
     return user    
 
-def get_user_listings(user = None, user_id = -1, accepted = False):
-    """
-    Returns a list of listings associated with a user. Note that at least one of
-    *user* and *user_id* must be specified when calling this function.
+# Not working at the moment, also seems not to have a use so maybe just remove
 
-    If *user* parameter is given, uses that user directly. If *user* is not
-    provided, attempts to get a User by *user_id* instead. *accepted* is used to determine
-    which listings to return (can be empty if accepted is True and user is not a sitter, and if
-    accepted is False and user is not an owner)
+# def get_user_listings(user = None, user_id = -1, accepted = False):
+#     """
+#     Returns a list of listings associated with a user. Note that at least one of
+#     *user* and *user_id* must be specified when calling this function.
 
-    Parameters
-    ----------
-    user : User or None, optional
-        The user to return the listings of. Note that one of *user* and *user_id* must
-        be specified in a call to this function.
-    user_id : int or str, optional
-        The ID of the user to return the listings of, if *user* is not specified or None. 
-        Note that one of *user* and *user_id* must be specified in a call to this function.
-    accepted : bool, optional
-        Whether to return accepted_listings or just listings
+#     If *user* parameter is given, uses that user directly. If *user* is not
+#     provided, attempts to get a User by *user_id* instead. *accepted* is used to determine
+#     which listings to return (can be empty if accepted is True and user is not a sitter, and if
+#     accepted is False and user is not an owner)
 
-    Returns
-    -------
-    list of Listing
-        A (potentially empty) list of all of the user's Listings. Will be accepted_listings if
-        accepted is True and listings if accepted is False.
+#     Parameters
+#     ----------
+#     user : User or None, optional
+#         The user to return the listings of. Note that one of *user* and *user_id* must
+#         be specified in a call to this function.
+#     user_id : int or str, optional
+#         The ID of the user to return the listings of, if *user* is not specified or None. 
+#         Note that one of *user* and *user_id* must be specified in a call to this function.
+#     accepted : bool, optional
+#         Whether to return accepted_listings or just listings
 
-    Raises
-    ------
-    TypeError
-        If *user* is not of type User or None, if *user* is None/unspecified and *user_id* 
-        is not of type int or str, or if *accepted* is not of type bool.
-    ValueError
-        If *user* is None/unspecified and *user_id* is a str that cannot be parsed to an int.
+#     Returns
+#     -------
+#     list of Listing
+#         A (potentially empty) list of all of the user's Listings. Will be accepted_listings if
+#         accepted is True and listings if accepted is False.
 
-    Examples
-    --------
-    >>> db_service.get_user_listings(User(id=1))
-    [<Listing ID=1>, <Listing ID=2>]
+#     Raises
+#     ------
+#     TypeError
+#         If *user* is not of type User or None, if *user* is None/unspecified and *user_id* 
+#         is not of type int or str, or if *accepted* is not of type bool.
+#     ValueError
+#         If *user* is None/unspecified and *user_id* is a str that cannot be parsed to an int.
 
-    >>> db_service.get_user_listings(user_id='2')
-    [<Listing ID=3>]
+#     Examples
+#     --------
+#     >>> db_service.get_user_listings(User(id=1))
+#     [<Listing ID=1>, <Listing ID=2>]
 
-    >>> db_service.get_user_listings()
-    TypeError('No user was provided and no user was found by the given user_id (or no user_id was provided)')
+#     >>> db_service.get_user_listings(user_id='2')
+#     [<Listing ID=3>]
 
-    """
+#     >>> db_service.get_user_listings()
+#     TypeError('No user was provided and no user was found by the given user_id (or no user_id was provided)')
 
-    # If user unspecified, search for it
-    if user == None:
-        user = get_user_by_id(user_id)
-        if user == None:
-            raise TypeError('No user was provided and no user was found by the given user_id (or no user_id was provided)')
+#     """
+
+#     # If user unspecified, search for it
+#     if user == None:
+#         user = get_user_by_id(user_id)
+#         if user == None:
+#             raise TypeError('No user was provided and no user was found by the given user_id (or no user_id was provided)')
         
-    if type(user) != User:
-        raise TypeError('A User object must be passed for the value of parameter "user"')
+#     print(type(user))
+#     if not issubclass(type(user), User):
+#         raise TypeError('A User object must be passed for the value of parameter "user"')
     
-    if type(accepted) != bool:
-        raise TypeError('accepted parameter must be of type bool')
+#     if type(accepted) != bool:
+#         raise TypeError('accepted parameter must be of type bool')
     
-    if accepted:
-        return user.accepted_listings
-    return user.listings
+#     if accepted:
+#         return user.accepted_listings
+#     return user.listings
 
 def all_listings(pet_type = None, activities = None, zip_code = None, datetime_range = None):
     """

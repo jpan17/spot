@@ -8,11 +8,13 @@ class Logger():
     INFO = 2
     WARN = 1
     ERROR = 0
+    _LEVEL_STRS = ('ERROR', 'WARN', 'INFO', 'DEBUG', 'TRACE')
 
     def __init__(self, filename = 'default'):
         if filename == 'default':
             frame = inspect.stack()[1]
             filename = frame[0].f_code.co_filename
+            filename = os.path.basename(filename)
 
         self._filename = filename
         self._level = (os.environ.get('SPOT_LOG_LEVEL') or '').lower()
@@ -34,21 +36,22 @@ class Logger():
 
         if level <= self._level:
             now = datetime.now()
-            dtstr = now.strftime('[%d/%b/%Y %H:%M:%S]')
+            level_str = self._LEVEL_STRS[level]
+            dtstr = now.strftime('[%d/%b/%Y %H:%M:%S -- {0}]'.format(level_str))
 
             print(dtstr, '{0}:'.format(self._filename), *message)
 
     def trace(self, *message):
-        self.log(*message, self.TRACE)
+        self.log(*message, level = self.TRACE)
 
     def debug(self, *message):
-        self.log(*message, self.DEBUG)
+        self.log(*message, level = self.DEBUG)
 
     def info(self, *message):
-        self.log(*message, self.INFO)
+        self.log(*message, level = self.INFO)
 
     def warn(self, *message):
-        self.log(*message, self.WARN)
+        self.log(*message, level = self.WARN)
 
     def error(self, *message):
-        self.log(*message, self.ERROR)
+        self.log(*message, level = self.ERROR)
