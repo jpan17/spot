@@ -111,7 +111,7 @@ def register_user():
     user.phone_number = phone_number
     user.is_owner = is_owner
     user.is_sitter = is_sitter
-    user.password_hash = db_service.set_password(user, password)
+    user.password_hash = db_service.generate_password(user, password)
     print(user.password_hash)
     
     new_user = db_service.create_user(user)
