@@ -11,6 +11,7 @@ import os
 from datetime import datetime
 
 logger = Logger()
+login_manager.login_view = 'login_form'
 
 # determines which home page to route to based on current_user (login, sitter_home, owner_home)
 @app.route('/')
@@ -85,6 +86,7 @@ def login():
     return redirect(url_for('login_form', error='Email or password is incorrect.'))
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     response = redirect(url_for('login_form'))
