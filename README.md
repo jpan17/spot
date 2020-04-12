@@ -22,6 +22,7 @@ A web application to help pet owners find pet enthusiasts to watch over their an
 - pip install flask-sqlalchemy (to handle ORM from web app)
 - pip install python-dotenv (for .flaskenv to work, otherwise the environment variable would have to be set every time a new terminal is opened)
 - pip install flask-migrate (for database migration)
+- pip install flask-login (for user authentication)
 - pip install psycopg2 (for PostgreSQL)
 - pip install -U sphinx (for documentation)
 - PostgreSQL for DBMS
