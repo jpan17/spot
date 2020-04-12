@@ -9,7 +9,7 @@ import enums
 import os
 from datetime import datetime
 
-app.secret_key = os.environ.get('SPOT_SECRET_KEY')
+app.secret_key = os.urandom(24)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -26,12 +26,9 @@ def home():
         return response    
 
     if current_user.is_owner:
-        print (current_user.id)
-        first_name = current_user.full_name.split()[0]
-        listings = db_service.get_user_listings(user_id)
-        html = render_template('users/owner_home.html',
-                            title=first_name+" | Spot",
-                            id=user_id,
+        listings = db_service.get_user_listings(current_user)
+        html = render_template('users/owners/home.html',
+                            title="Home | Spot",
                             listings=listings,
                             listings_len=len(listings),
                             user = current_user)
@@ -39,19 +36,19 @@ def home():
         return response
 
     if current_user.is_sitter:
-        print (current_user.id)
-        first_name = current_user.full_name.split()[0]
         all_listings = db_service.all_listings()
-        html = render_template('users/sitter_home.html',
-                            title=first_name+" | Spot",
+        html = render_template('users/sitters/home.html',
+                            title="Home | Spot",
                             id=user_id,
                             listings=all_listings,
                             listings_len=len(all_listings),
+                            pet_types=enums.pet_types,
+                            activities=enums.activities,
                             user = current_user)
         response = make_response(html)
         return response
 
-    return redirect(url_for('login_form'))
+    return redirect(url_for('error', error='User is neither owner nor sitter. Please create a new user instead.'))
 
 # apparently necessary, crashes program if removed. Just following what flask says lol. 
 @login_manager.user_loader
@@ -60,33 +57,26 @@ def load_user(user_id):
 
 # processes login info and redirects to appropriate page (login, sitter home, owner home)
 @app.route('/login', methods=['POST'])
-def user_type():
-
-    print("you wanna be here")
-
+def login():
     email = request.form.get('email')
     password = request.form.get('password')
-    
-    user = db_service.get_user_by_login(email)
+    user = db_service.get_user_by_email(email)
 
     if user == None:
-        return redirect(url_for('login_form'))
+        return redirect(url_for('home', error='Email or password is incorrect.'))
 
     passwordMatch = db_service.check_password(user, password)
     
     if passwordMatch:
         login_user(user)
-        response = redirect(url_for('home'))
-        return response
-    else:
-        return redirect(url_for('login_form'))
+        return redirect(url_for('home'))
+    return redirect(url_for('home', error='Email or password is incorrect.'))
 
 @app.route('/logout')
 def logout():
     logout_user()
     response = redirect(url_for('home'))
     return response
-
 
 # Registration page with the form
 @app.route('/register')

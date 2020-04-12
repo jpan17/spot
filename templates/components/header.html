@@ -14,7 +14,7 @@
         {% if user: %}
         <div class="header-profile-container">
             <div class="header-sign-out spot-font spot-heading">
-                <a  href="{{url_for('logout')}}"> sign out </a>
+                <a href="{{url_for('logout')}}"> sign out </a>
             </div>
             {% if user.is_sitter: %}
             <div class="header-accepted-listings spot-font spot-heading">
@@ -22,9 +22,7 @@
             </div>
             {% endif %}
             <div class="header-greetings spot-heading spot-font">
-                {% if current_user.is_authenticated %}
-                Hi, {{ current_user.full_name }}!
-                {% endif %}
+                Hi, {{ user.full_name.split(' ')[0] }}!
             </div>
             <img class="header-profile-img" src="{{ url_for('static', filename='img/icon/user.png') }}" alt="user.png">
         </div>
