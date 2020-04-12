@@ -8,6 +8,9 @@ from sqlalchemy.ext.hybrid import hybrid_method, hybrid_property
 from sqlalchemy.sql.expression import or_, and_, not_
 from sqlalchemy.dialects.postgresql import ARRAY, ENUM, TEXT
 from sqlalchemy import cast
+from flask import Flask
+from flask_login import UserMixin
+
 
 # Many-To-Many relationship between users (specifically sitters) and listings
 # Note: Online, the documentation has primary_key=True for both columns, but it is omitted here
@@ -19,7 +22,7 @@ accepted_listings = db.Table('accepted_listings',
 
 # Generic user data object - can represent either an owner or sitter, 
 # or both depending on the values of is_owner and is_sitter
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'user' # To be safe, I believe table name is used in the ForeignKey declaration in Listing
     id = db.Column(db.Integer, primary_key=True)
     is_owner = db.Column(db.Boolean(), default=False, nullable=False)
@@ -27,7 +30,10 @@ class User(db.Model):
     full_name = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(128), index=True, unique=True, nullable=False)
     phone_number = db.Column(db.String(32), unique=True, nullable=False) # String to account for extensions
-    password_hash = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(32), nullable=False)
+
+    print(password_hash)
+
 
     # Define the one-to-many relationship of Users (specifically owners) to Listings - note that the field name is owner, not user
     # lazy=True -> when loading user, only load listings if needed

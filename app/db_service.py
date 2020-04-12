@@ -9,8 +9,26 @@ from app import app, db
 from app.models import User, Listing
 from datetime import datetime
 import enums
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 # TODO: Add specific validation such as empty strings, valid format for phone number, email, etc into functions!
+
+
+def set_password(user, password):
+        """Create hashed password."""
+        print("generating hash")
+        user.password_hash = generate_password_hash(password, method='sha256')
+        print("hash saved")
+        print(type(user.password_hash))
+        print(user.password_hash)
+        
+        return user.password_hash
+
+def check_password(user, password):
+        """Check hashed password."""
+        print("checking hash")
+        return check_password_hash(user.password_hash, password)
 
 def user_exists(user_id):
     """
@@ -152,13 +170,13 @@ def get_user_by_id(user_id):
     return User.query.filter_by(id=id).first()
 
 
-def get_user_by_login(email, password):
+def get_user_by_login(email):
 
     if type(email) != str:
         raise TypeError('email must be string')
     
-    if type(password) != str:
-        raise TypeError('password must be a string')
+    #if type(password) != str:
+    #    raise TypeError('password must be a string')
     
     user = User.query.filter_by(email=email).first()
     
@@ -169,8 +187,8 @@ def get_user_by_login(email, password):
     # get_password = user.password_hash
     
     # if password != get_password:
-    #     print('incorrect password')
-    #     return None
+    #    print('incorrect password')
+    #    return None
     
     return user    
 
@@ -406,7 +424,7 @@ def create_listing(listing):
     _check_listing_validity(listing)
 
     try:
-        db.session.add(listing)
+        db.session.add(listing) 
         db.session.commit()
         return ''
     except Exception as e:
@@ -644,6 +662,7 @@ def _check_user_validity(user):
     if type(user.phone_number) != str:
         raise TypeError('user parameter phone_number must be of type str')
     
+    print(type(user.password_hash))
     if type(user.password_hash) != str:
         raise TypeError('user parameter password_hash must be of type str')
     
