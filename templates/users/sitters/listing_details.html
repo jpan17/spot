@@ -16,16 +16,6 @@
             </h4>
             <br>
             <div class="listing-details-container">
-                <div class="small-portrait">
-                    <div class="background">
-                        <img class="{{ listing.pet_type.lower() }}"
-                            src="{{ url_for('static', filename='img/portrait/{0}.png'.format(listing.pet_type.lower())) }}">
-                    </div>
-                    <div class="pet-type {{ listing.pet_type.lower() }}">{{
-                        listing.pet_type.upper()      
-                    }}</div>
-                </div>
-
                 <div class="details">
                     <div class="header">
                         <!-- Figure out how to lock icons to same line and ideally only have margin if on same line as the pet name -->
@@ -51,6 +41,15 @@
                             <strong>DESCRIPTION:</strong> {{ listing.extra_info }}
                         </span>
                     </div>
+                </div>
+                <div class="small-portrait">
+                    <div class="background">
+                        <img class="{{ listing.pet_type.lower() }}"
+                            src="{{ url_for('static', filename='img/portrait/{0}.png'.format(listing.pet_type.lower())) }}">
+                    </div>
+                    <div class="pet-type {{ listing.pet_type.lower() }}">{{
+                        listing.pet_type.upper()      
+                    }}</div>
                 </div>
             </div>
         </div>

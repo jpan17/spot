@@ -2,6 +2,7 @@
     width: 100%;
     flex-grow: 1;
 
+    position: relative;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -15,6 +16,7 @@
 }
 
 .listing-details-container .small-portrait {
+    position: relative;
     margin-right: 3.2857em;
     font-size: 1em;
 }
@@ -23,6 +25,7 @@
     width: 8.32143em;
     height: 8.32143em;
     position: relative;
+    z-index: 100;
 
     border-radius: 50%;
     background: #5680E9;
