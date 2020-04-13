@@ -57,6 +57,8 @@ def load_user(user_id):
 # Login form (for separation from homepage)
 @app.route('/login')
 def login_form():
+    logger.trace('Login form accessed')
+
     html = render_template('users/login.html',
         title='Login | Spot')
     response = make_response(html)
@@ -65,13 +67,15 @@ def login_form():
 # processes login info and redirects to appropriate page (login, sitter home, owner home)
 @app.route('/login', methods=['POST'])
 def login():
+    logger.trace('Attempting to login user with email', request.form.get('email'))
+
     email = request.form.get('email')
     password = request.form.get('password')
     user = db_service.get_user_by_email(email)
 
     # As much as I like descriptive error messages, it's been a while since I've seen a site specify which one of email and password is wrong.
     # My guess is it's for security purposes, so I'm just going to not specify which is incorrect.
-    if user == None:
+    if user is None:
         logger.debug('Failed login using email', email)
         return redirect(url_for('login_form', error='Email or password is incorrect.'))
 
@@ -88,6 +92,7 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
+    logger.trace('Logging out user', current_user.id)
     logout_user()
     response = redirect(url_for('login_form'))
     return response
@@ -95,6 +100,8 @@ def logout():
 # Registration page with the form
 @app.route('/register')
 def register_form():
+    logger.trace('Register form accessed')
+    
     html = render_template('users/register.html',
         title='Register | Spot')
     response = make_response(html)
@@ -103,6 +110,8 @@ def register_form():
 # registers the user and redirects to login page
 @app.route('/register', methods=['POST'])
 def register_user():
+    logger.trace('User attempting to register with fields', request.form)
+
     full_name = request.form.get('full_name')
     email = request.form.get('email')
     phone_number = request.form.get('phone_number')
@@ -122,19 +131,26 @@ def register_user():
     user.is_sitter = is_sitter
     user.password_hash = db_service.generate_password_hash(password)
     
-    user_error = db_service.create_user(user)
-    if user_error != '':
-        logger.warn('Error occurred creating user:', user_error)
-        return redirect(url_for('register_form', error='Email or phone number already exists.'))
-    else:
-        logger.log('Created a new user:\n', user)
+    try:
+        logger.debug('Attempting to persist user:', user)
+        new_user = db_service.create_user(user)
+        if type(new_user) == str:
+            logger.info('Error occurred creating user:', new_user)
+            return redirect(url_for('register_form', error='Email or phone number already exists.'))
+        else:
+            logger.info('Created a new user with id', new_user.id)
     
-    return redirect(url_for('login_form'))
+        return redirect(url_for('login_form'))
+    except Exception as e:
+        logger.warn('Error occurred creating user:', str(e))
+        return redirect(url_for('register_form', error=str(e)))
 
 # haven't touched yet, but idt needs cookies. 
 @app.route('/listings/new')
 @login_required
 def listing_new():
+    logger.trace('User', current_user.id, 'accessed new listing form')
+
     html = render_template('users/owners/listing_form.html',
         title='New Listing | Spot',
         pet_types=enums.pet_types,
@@ -147,8 +163,9 @@ def listing_new():
 @app.route('/listings/new', methods=['POST'])
 @login_required
 def listing_new_endpoint():
-    
+    logger.trace('User', current_user.id, 'attempting to create new listing with form values', str(request.form))
     if not current_user.is_owner:
+        logger.warn('Non-owner {0} attempted to create a listing'.format(current_user.id))
         return redirect(url_for('error', error='User must be owner to create a listing'))
     
     activities = []
@@ -194,6 +211,17 @@ def listing_new_endpoint():
         user_id=current_user.id)
 
     try:
+        logger.debug('Attempting to persist listing with fields: (pet_name={0},pet_type={1},start_time={2},end_time={3},full_time={4},zip_code={5},extra_info={6},activities={7},user_id={8})'.format(
+            pet_name,
+            pet_type,
+            start.isoformat(),
+            end.isoformat(),
+            True,
+            zip_code,
+            extra_info,
+            activities,
+            current_user.id
+        ))
         new_listing = db_service.create_listing(listing)
         
         if type(new_listing) != str:
@@ -211,6 +239,8 @@ def listing_new_endpoint():
 @app.route('/listings/<int:listing_id>')
 @login_required
 def listing_details(listing_id):
+    logger.trace('User', current_user.id, 'accessing details for listing', listing_id)
+
     listing = db_service.get_listing_by_id(listing_id)
     if listing == None:
         return redirect(url_for('error', error='Listing not found.'))
@@ -240,6 +270,8 @@ def listing_details(listing_id):
 @app.route('/accepted')
 @login_required
 def accepted_listings():
+    logger.trace('User', current_user.id, 'accessing accepted listings')
+
     user = current_user
     if not user.is_sitter:
         return redirect(url_for('error', error='Invalid URL.'))
@@ -257,15 +289,21 @@ def accepted_listings():
 @app.route('/listings/<int:listing_id>/delete')
 @login_required
 def listing_delete(listing_id):
+    logger.trace('User', current_user.id, 'attempting to delete listing', listing_id)
+
     result = db_service.delete_listing(listing_id)
     if result != '':
+        logger.warn('User', current_user.id, 'failed to delete listing', listing_id)
         return redirect(url_for('error', error='Listing deletion failed: {0}'.format(result)))
+    logger.info('User', current_user.id, 'deleted listing', listing_id)
     return redirect(url_for('home'))
 
 # implemented once update funcitonality added
 @app.route('/listings/<int:listing_id>/update')
 @login_required
 def listing_update(listing_id):
+    logger.trace('User', current_user.id, 'accessing form to update listing', listing_id)
+
     listing = db_service.get_listing_by_id(listing_id)
     if listing is None:
         logger.warn('User {0} attempted to access update form for non-existent listing {1}'.format(current_user.id, listing_id))
@@ -287,6 +325,8 @@ def listing_update(listing_id):
 @app.route('/listings/<int:listing_id>/update', methods=['POST'])
 @login_required
 def listing_update_endpoint(listing_id):
+    logger.trace('User', current_user.id, 'attempting to update listing', listing_id)
+
     listing = db_service.get_listing_by_id(listing_id)
     if listing is None:
         logger.warn('User {0} attempted to update non-existent listing {1}'.format(current_user.id, listing_id))
@@ -370,5 +410,10 @@ def listing_accept(listing_id):
 @app.route('/error')
 def error():
     error = request.args.get('error') or ''
-    
+    if current_user.get_id() is not None:
+        userStr = 'user {0}'.format(current_user.id)
+    else:
+        userStr = 'anonymous user'
+
+    logger.warn('Error page reached/accessed by', userStr, 'with error:', error)
     return redirect(url_for('home'))

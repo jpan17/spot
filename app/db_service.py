@@ -386,8 +386,8 @@ def create_listing(listing):
 
     Returns
     -------
-    str
-        Empty string if creation was successful, otherwise a string containing the error that occurred.
+    Listing or str
+        The Listing object if creation was successful, otherwise a string containing the error that occurred.
 
     Raises
     ------
@@ -426,8 +426,8 @@ def create_user(user):
 
     Returns
     -------
-    str
-        Empty string if creation was successful, otherwise a string containing the error that occurred.
+    User or str
+        The User object if creation was successful, otherwise a string containing the error that occurred.
 
     Raises
     ------
@@ -449,7 +449,7 @@ def create_user(user):
     try:
         db.session.add(user)
         db.session.commit()
-        return ''
+        return user
     except Exception as e:
         db.session.rollback()
         return "Error: " + str(e)

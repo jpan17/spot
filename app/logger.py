@@ -18,6 +18,7 @@ class Logger():
 
         self._filename = filename
         self._level = (os.environ.get('SPOT_LOG_LEVEL') or '').lower()
+        self._active = self._level != 'none'
 
         if(self._level == 'trace'):
             self._level = self.TRACE
@@ -31,15 +32,16 @@ class Logger():
             self._level = self.INFO
 
     def log(self, *message, level = -1):
-        if level == -1:
-            level = self.INFO
+        if self._active:
+            if level == -1:
+                level = self.INFO
 
-        if level <= self._level:
-            now = datetime.now()
-            level_str = self._LEVEL_STRS[level]
-            dtstr = now.strftime('[%d/%b/%Y %H:%M:%S -- {0}]'.format(level_str))
+            if level <= self._level:
+                now = datetime.now()
+                level_str = self._LEVEL_STRS[level]
+                dtstr = now.strftime('[%d/%b/%Y %H:%M:%S -- {0}]'.format(level_str))
 
-            print(dtstr, '{0}:'.format(self._filename), *message)
+                print(dtstr, '{0}:'.format(self._filename), *message)
 
     def trace(self, *message):
         self.log(*message, level = self.TRACE)
