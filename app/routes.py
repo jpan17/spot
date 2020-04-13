@@ -140,8 +140,67 @@ def listing_new():
         pet_types=enums.pet_types,
         activities=enums.activities,
         user = current_user)
+    
     response = make_response(html)
     return response
+
+@app.route('/listings/new', methods=['POST'])
+@login_required
+def listing_create():
+    
+    if not current_user.is_owner:
+        return redirect(url_for('error', error='User must be owner to create a listing'))
+    
+    activities = []
+    for activity in enums.activities:
+        if request.form.get('activity_{0}'.format(activity.lower().
+                                                  replace(' ', '_'))) == 'true':
+            activities.append(activity)
+    
+    pet_name = request.form.get('pet_name')
+    # split and construct start_date
+    start_date = request.form.get('start_date')
+    start_time = request.form.get('start_time')
+    start_date_array = start_date.split('/')
+    start_time_array = start_time.split(':')
+    
+    start = datetime(int(start_date_array[2]), int(start_date_array[0]),
+                              int(start_date_array[1]), int(start_time_array[0]),
+                              int(start_time_array[1]))    
+    
+    # split and construct end_date
+    end_date = request.form.get('end_date')
+    end_time = request.form.get('end_time')
+    end_date_array = end_date.split('/')
+    end_time_array = end_time.split(':')
+    
+    end = datetime(int(end_date_array[2]), int(end_date_array[0]),
+                              int(end_date_array[1]), int(end_time_array[0]),
+                              int(end_time_array[1]))
+    
+    pet_type = request.form.get('pet_type')
+    zip_code = request.form.get('zip_code')
+    extra_info = request.form.get('extra_info')
+    
+    listing = Listing(
+        pet_name=pet_name,
+        pet_type=pet_type,
+        start_time=start,
+        end_time=end,
+        full_time=True,
+        zip_code=zip_code,
+        extra_info=extra_info,
+        activities=activities,
+        user_id=current_user.id)
+    
+    new_listing = db_service.create_listing(listing)
+    
+    if type(new_listing) != str:
+        return redirect(url_for('listing_details', listing_id=new_listing.id))
+    else:
+        logger.warn('Listing creation failed for user {0}: {1}'.format(current_user.id, new_listing))
+        return redirect(url_for('error', error='Listing creation failed: {0}'.format(new_listing)))
+      
 
 # might be okay to have listing id in the url
 @app.route('/listings/<int:listing_id>')
@@ -193,6 +252,7 @@ def accepted_listings():
 @app.route('/listings/<int:listing_id>/delete')
 @login_required
 def listing_delete(listing_id):
+    db_service.delete_listing(listing_id)
     return redirect(url_for('home'))
 
 # implemented once update funcitonality added

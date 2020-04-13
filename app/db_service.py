@@ -410,7 +410,7 @@ def create_listing(listing):
     try:
         db.session.add(listing) 
         db.session.commit()
-        return ''
+        return listing
     except Exception as e:
         db.session.rollback()
         return "Error: " + str(e)

@@ -17,7 +17,8 @@
             
             <h3>What Does Your Pet Require?</h3>
             <div class="listing-form-container">
-                <form class="listing-form">
+                <form class="listing-form" action="{{ url_for('listing_create') }}" 
+                    method="post" id="listing_form">
                     <table class="listing-form-table">
                         <tr>
                             <td>
@@ -37,7 +38,7 @@
                                 </label>
                             </td>
                             <td>
-                                <input type="text" placeholder="MM/DD/YYYY" id="start_date"> 
+                                <input type="text" placeholder="MM/DD/YYYY" name="start_date" id="start_date"> 
                             </td>
                             <td class="secondary-label">
                                 <label for="start_time">
@@ -45,7 +46,7 @@
                                 </label>
                             </td>
                             <td>
-                                <input type="text" placeholder="HH:MM" id="start_time">
+                                <input type="text" placeholder="HH:MM" name="start_time" id="start_time">
                             </td>
                         </tr>
                         
@@ -56,7 +57,7 @@
                                 </label>
                             </td>
                             <td>
-                                <input type="text" placeholder="MM/DD/YYYY" id="end_date"> 
+                                <input type="text" placeholder="MM/DD/YYYY" name="end_date" id="end_date"> 
                             </td>
                             <td class="secondary-label">
                                 <label for="end_time">
@@ -64,7 +65,7 @@
                                 </label>
                             </td>
                             <td>
-                                <input type="text" placeholder="HH:MM" id="end_time">
+                                <input type="text" placeholder="HH:MM" name="end_time" id="end_time">
                             </td>
                         </tr>
 
@@ -123,7 +124,8 @@
                             <td class="align-top" colspan="3">
                                 <textarea type="text" id="extra_info" 
                                     placeholder="(optional) Tell us more about your pet!"
-                                    rows="4"></textarea>
+                                    rows="4" name="extra_info"
+                                    form="listing_form"></textarea>
                             </td>
                             <td class="submit-cell">
                                 <input class="form-button" type="submit" value="submit">

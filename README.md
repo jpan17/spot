@@ -54,3 +54,7 @@ To test, in [.flaskenv](.flaskenv), make sure to set SPOT_MODE to 'test'. For ex
 - Listing Deletion
 - Accepting Listings (for sitters)
 - List of Listings, not by user (which can be related to accepting listings)
+
+### WIP
+- Full-time feature in listing creation
+- AM/PM dropdown when creating new listings

@@ -553,8 +553,12 @@ body {
     background: none;
 }
 
-.listing-table td:not(:last-child) {
-    border-right: 1.1979vw solid transparent;
+.listing-table td:first-child {
+    border-right: 0.59895vw solid transparent;
+}
+
+.listing-table td:last-child {
+    border-left: 0.59895vw solid transparent;
 }
 
 .listing-table tr:not(:last-child) td {
