@@ -3,8 +3,8 @@
     <head>
         <title>{{ title }}</title>
         {% include 'components/links.html' %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/listing_new.css') }}">
-        <script src="{{ url_for('static', filename='js/listing_new.js') }}"></script>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/listing_form.css') }}">
+        <script src="{{ url_for('static', filename='js/listing_form.js') }}"></script>
     </head>
     <body>
         {% include 'components/header.html' %}
@@ -19,7 +19,12 @@
             <h3>What Does Your Pet Require?</h3>
             <p class="error-color small-text" id="validate_error"></p>
             <div class="listing-form-container">
-                <form class="listing-form" action="{{ url_for('listing_create') }}" 
+                <form class="listing-form" 
+                    {% if listing: %}
+                    action="{{ url_for('listing_update_endpoint', listing_id=listing.id) }}" 
+                    {% else: %}
+                    action="{{ url_for('listing_new_endpoint') }}"
+                    {% endif %}
                     method="post" id="listing_form">
                     <table class="listing-form-table">
                         <tr>
@@ -29,7 +34,12 @@
                                 </label>
                             </td>
                             <td colspan="2">
+                                {% if listing: %}
+                                <input type="text" id="pet_name" name="pet_name"
+                                    value="{{ listing.pet_name }}">
+                                {% else: %}
                                 <input type="text" id="pet_name" name="pet_name">
+                                {% endif %}
                             </td>
                         </tr>
 
@@ -40,7 +50,12 @@
                                 </label>
                             </td>
                             <td>
+                                {% if listing: %}
+                                <input type="text" placeholder="MM/DD/YYYY" name="start_date" id="start_date"
+                                    value="{{ listing.start_time.strftime('%m/%d/%Y') }}"> 
+                                {% else: %}
                                 <input type="text" placeholder="MM/DD/YYYY" name="start_date" id="start_date"> 
+                                {% endif %}
                             </td>
                             <td class="secondary-label">
                                 <label for="start_time">
@@ -48,7 +63,12 @@
                                 </label>
                             </td>
                             <td>
+                                {% if listing: %}
+                                <input type="text" placeholder="HH:MM" name="start_time" id="start_time"
+                                    value="{{ listing.start_time.strftime('%H:%M') }}">
+                                {% else: %}
                                 <input type="text" placeholder="HH:MM" name="start_time" id="start_time">
+                                {% endif %}
                             </td>
                         </tr>
                         
@@ -59,7 +79,12 @@
                                 </label>
                             </td>
                             <td>
+                                {% if listing: %}
+                                <input type="text" placeholder="MM/DD/YYYY" name="end_date" id="end_date"
+                                    value="{{ listing.end_time.strftime('%m/%d/%Y') }}"> 
+                                {% else: %}
                                 <input type="text" placeholder="MM/DD/YYYY" name="end_date" id="end_date"> 
+                                {% endif %}
                             </td>
                             <td class="secondary-label">
                                 <label for="end_time">
@@ -67,7 +92,12 @@
                                 </label>
                             </td>
                             <td>
+                                {% if listing: %}
+                                <input type="text" placeholder="HH:MM" name="end_time" id="end_time"
+                                    value="{{ listing.end_time.strftime('%H:%M') }}">
+                                {% else: %}
                                 <input type="text" placeholder="HH:MM" name="end_time" id="end_time">
+                                {% endif %}
                             </td>
                         </tr>
 
@@ -81,7 +111,10 @@
                                 {% for pet_type in pet_types: %}
                                     <label class="radio" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
                                         <input type="radio" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
-                                            name="pet_type" value="{{ pet_type }}"> 
+                                            name="pet_type" value="{{ pet_type }}"
+                                            {% if listing: %} {% if listing.pet_type == pet_type: %}
+                                                checked
+                                            {% endif %} {% endif %}> 
                                         <span class="checked"></span>
                                         {{ pet_type }}
                                     </label>
@@ -99,7 +132,10 @@
                                 {% for activity in activities: %}
                                     <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
                                         <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
-                                            name="activity_{{ activity.lower().replace(' ', '_') }}" value="true"> 
+                                            name="activity_{{ activity.lower().replace(' ', '_') }}" value="true"
+                                            {% if listing: %} {% if activity in listing.activities: %}
+                                                checked
+                                            {% endif %} {% endif %}> 
                                         <span class="checked"></span>
                                         {{ activity }}
                                     </label>
@@ -114,7 +150,12 @@
                                 </label>
                             </td>
                             <td>
+                                {% if listing: %}
+                                <input type="text" id="zip_code" name="zip_code"
+                                    value="{{ listing.zip_code }}">
+                                {% else: %}
                                 <input type="text" id="zip_code" name="zip_code">
+                                {% endif %}
                             </td>
                         </tr>
                         <tr>
@@ -127,7 +168,8 @@
                                 <textarea type="text" id="extra_info" 
                                     placeholder="(optional) Tell us more about your pet!"
                                     rows="4" name="extra_info"
-                                    form="listing_form"></textarea>
+                                    form="listing_form">{% if listing: %}{{ listing.extra_info }}{% endif %}</textarea>
+                                <!-- The previous line is all in one line because extra space shows up in textarea -->
                             </td>
                             <td class="submit-cell">
                                 <input class="form-button" type="submit" value="submit">

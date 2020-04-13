@@ -135,7 +135,7 @@ def register_user():
 @app.route('/listings/new')
 @login_required
 def listing_new():
-    html = render_template('users/owners/listing_new.html',
+    html = render_template('users/owners/listing_form.html',
         title='New Listing | Spot',
         pet_types=enums.pet_types,
         activities=enums.activities,
@@ -146,7 +146,7 @@ def listing_new():
 
 @app.route('/listings/new', methods=['POST'])
 @login_required
-def listing_create():
+def listing_new_endpoint():
     
     if not current_user.is_owner:
         return redirect(url_for('error', error='User must be owner to create a listing'))
@@ -197,6 +197,7 @@ def listing_create():
         new_listing = db_service.create_listing(listing)
         
         if type(new_listing) != str:
+            logger.info('Listing created for user {0} with id {1}'.format(current_user.id, new_listing.id))
             return redirect(url_for('listing_details', listing_id=new_listing.id))
         else:
             logger.warn('Listing creation failed for user {0}: {1}'.format(current_user.id, new_listing))
@@ -265,7 +266,88 @@ def listing_delete(listing_id):
 @app.route('/listings/<int:listing_id>/update')
 @login_required
 def listing_update(listing_id):
-    return redirect(url_for('home'))
+    listing = db_service.get_listing_by_id(listing_id)
+    if listing is None:
+        logger.warn('User {0} attempted to access update form for non-existent listing {1}'.format(current_user.id, listing_id))
+        return redirect(url_for('error', error='Listing not found.'))
+    if listing.user_id != current_user.id:
+        logger.warn('User {0} attempted to access update form for other user\'s listing {1}'.format(current_user.id, listing_id))
+        return redirect(url_for('error', error='Listing is owned by a different user.'))
+
+    html = render_template('users/owners/listing_form.html',
+        title='New Listing | Spot',
+        pet_types=enums.pet_types,
+        activities=enums.activities,
+        user = current_user,
+        listing = listing)
+    
+    response = make_response(html)
+    return response
+
+@app.route('/listings/<int:listing_id>/update', methods=['POST'])
+@login_required
+def listing_update_endpoint(listing_id):
+    listing = db_service.get_listing_by_id(listing_id)
+    if listing is None:
+        logger.warn('User {0} attempted to update non-existent listing {1}'.format(current_user.id, listing_id))
+        return redirect(url_for('error', error='Listing not found.'))
+    if listing.user_id != current_user.id:
+        logger.warn('User {0} attempted to update other user\'s listing {1}'.format(current_user.id, listing_id))
+        return redirect(url_for('error', error='Listing is owned by a different user.'))
+
+    activities = []
+    for activity in enums.activities:
+        if request.form.get('activity_{0}'.format(activity.lower().
+                                                  replace(' ', '_'))) == 'true':
+            activities.append(activity)
+    
+    pet_name = request.form.get('pet_name')
+    # split and construct start_date
+    start_date = request.form.get('start_date')
+    start_time = request.form.get('start_time')
+    start_date_array = start_date.split('/')
+    start_time_array = start_time.split(':')
+    
+    start = datetime(int(start_date_array[2]), int(start_date_array[0]),
+                              int(start_date_array[1]), int(start_time_array[0]),
+                              int(start_time_array[1]))    
+    
+    # split and construct end_date
+    end_date = request.form.get('end_date')
+    end_time = request.form.get('end_time')
+    end_date_array = end_date.split('/')
+    end_time_array = end_time.split(':')
+    
+    end = datetime(int(end_date_array[2]), int(end_date_array[0]),
+                              int(end_date_array[1]), int(end_time_array[0]),
+                              int(end_time_array[1]))
+    
+    pet_type = request.form.get('pet_type')
+    zip_code = request.form.get('zip_code')
+    extra_info = request.form.get('extra_info')
+
+    try:
+        new_listing = db_service.update_listing(listing_id,
+            pet_name=pet_name,
+            pet_type=pet_type,
+            start_time=start,
+            end_time=end,
+            full_time=True,
+            zip_code=zip_code,
+            extra_info=extra_info,
+            activities=activities)
+        
+        if type(new_listing) != str:
+            logger.info('Listing updated for user {0} with id {1}'.format(current_user.id, new_listing.id))
+            return redirect(url_for('listing_details', listing_id=new_listing.id))
+        else:
+            logger.warn('Listing update failed for user {0}: {1}'.format(current_user.id, new_listing))
+            return redirect(url_for('error', error='Listing update failed: {0}'.format(new_listing)))
+    
+    except Exception as e:
+        logger.warn('Listing update failed for user {0}: {1}'.format(current_user.id, str(e)))
+        return redirect(url_for('error', error='Listing update failed: {0}'.format(str(e))))
+
 
 # Accept or unaccept listing with id listing_id 
 @app.route('/listings/<int:listing_id>/accept')
@@ -274,15 +356,15 @@ def listing_accept(listing_id):
     logger.trace('Attempting user {0} acceptance of listing {1}'.format(current_user.id, listing_id))
 
     if not current_user.is_sitter:
-        logger.debug('User {0} failed to accept listing {1}: not a sitter'.format(current_user.id, listing_id))
+        logger.warn('User {0} failed to accept listing {1}: not a sitter'.format(current_user.id, listing_id))
         return redirect(url_for('error', error='You must be a sitter to accept a listing.'))
 
     errorMsg = db_service.accept_listing(current_user.id, listing_id)
     if errorMsg != '':
-        logger.debug('User {0} failed to accept listing {1}: {2}'.format(current_user.id, listing_id, errorMsg))
+        logger.warn('User {0} failed to accept listing {1}: {2}'.format(current_user.id, listing_id, errorMsg))
         return redirect(url_for('error', error='Could not accept listing: {0}'.format(errorMsg)))
 
-    logger.debug('User {0} accepted listing {1} successfully'.format(current_user.id, listing_id))
+    logger.info('User {0} accepted listing {1} successfully'.format(current_user.id, listing_id))
     return redirect(url_for('listing_details', listing_id = listing_id))
 
 @app.route('/error')

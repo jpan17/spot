@@ -527,10 +527,10 @@ def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, en
 
     
         db.session.commit()
-        return ''
+        return listing
     except Exception as e:
         db.session.rollback()
-        return "Error: " + str(e)
+        return str(e)
     
 def delete_listing(listing_id):
     try:
