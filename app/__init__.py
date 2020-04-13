@@ -6,7 +6,7 @@ from flask_login import LoginManager
 import os
 
 # Is testing mode activated? (Use test routes.py if yes)
-spot_mode = os.environ.get('SPOT_MODE')
+spot_mode = os.environ.get('SPOT_MODE').lower()
 template_folder = '../templates/'
 static_folder = '../static/'
 if spot_mode == 'test':
@@ -25,9 +25,10 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # Initialize flask-login for user authentication/session management
-app.secret_key = os.urandom(24)
-login_manager = LoginManager()
-login_manager.init_app(app)
+if spot_mode != 'test' and spot_mode != 'prototype':
+    app.secret_key = os.urandom(24)
+    login_manager = LoginManager()
+    login_manager.init_app(app)
 
 from app import models
 

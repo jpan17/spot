@@ -1,5 +1,5 @@
 from app import app
-from app import db_service
+from prototype import db_service
 from flask import make_response, render_template, request
 from flask import url_for, redirect
 from app.models import User, Listing
@@ -88,7 +88,7 @@ def register_user():
 def owner_home(id):
     user = db_service.get_user_by_id(id)
     first_name = user.full_name.split()[0]
-    listings = db_service.get_user_listings(user,id)
+    listings = user.listings
     html = render_template('users/owner_home.html',
                            title=first_name+" | Spot",
                            id=id,
@@ -114,7 +114,7 @@ def sitter_home(id):
 def accepted_listings(id):
     user = db_service.get_user_by_id(id)
     first_name = user.full_name.split()[0]
-    accepted_listings=db_service.get_user_listings(user, True)
+    accepted_listings= user.accepted_listings
     html = render_template('listings/accepted_listings.html',
                            title="Accepted Listings | Spot",
                            id=id,
