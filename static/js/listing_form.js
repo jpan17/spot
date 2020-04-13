@@ -22,6 +22,7 @@ function validateForm() {
     var hasPetType = $("input[name='pet_type']:checked").length > 0;
     var hasActivity = $("input[type='checkbox']:checked").length > 0;
     var zipCode = $("#zip_code").val();
+    var extraInfo = $("#extra_info").val();
     var errorMsg = "";
 
     if(petName.length == 0 || petName.length > 64) {
@@ -42,6 +43,8 @@ function validateForm() {
         errorMsg = "Please select at least one activity."
     }else if(!isValidZipCode(zipCode)) {
         errorMsg = "Please enter a valid zip code (either ##### or #####-####)."
+    }else if(extraInfo.length > 1000) {
+        errorMsg = "Description is " + extraInfo.length + " characters long (max: 1000)."
     }
     
     return errorMsg;
