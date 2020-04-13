@@ -31,9 +31,11 @@ function validateForm() {
     }else if(!isValidTime(startTime)) {
         errorMsg = "Start Time must be of the format HH:MM with HH from 0-23 and MM from 0-59."
     }else if(!isValidDate(endDate)) {
-        errorMsg = "End Date must be of the format MM/DD/YYYY with valid month, date, and 4-digit year."
+        errorMsg = "End Date must be of the format MM/DD/YYYY with valid month, date, and 4-digit year (2000 - 3000)."
     }else if(!isValidTime(endTime)) {
         errorMsg = "End Time must be of the format HH:MM with HH from 0-23 and MM from 0-59."
+    }else if(datetimePrecedesErrorStr(startDate, startTime, endDate, endTime).length > 0) {
+        errorMsg = "Start Date/Time must be before End Date/Time (" + datetimePrecedesErrorStr(startDate, startTime, endDate, endTime) + ")."
     }else if(!hasPetType) {
         errorMsg = "Please select a pet type."
     }else if(!hasActivity) {
@@ -41,7 +43,7 @@ function validateForm() {
     }else if(!isValidZipCode(zipCode)) {
         errorMsg = "Please enter a valid zip code (either ##### or #####-####)."
     }
-
+    
     return errorMsg;
 }
 
@@ -81,7 +83,7 @@ function isValidDate(str) {
         return false;
     if(d < 1 || d > daysInMonth(m - 1, y))
         return false;
-    if(y < 2020 || y > 3000)
+    if(y < 2000 || y > 3000)
         return false;
 
     return true;
@@ -97,4 +99,36 @@ function daysInMonth(m, y) {
         default :
             return 31;
     }
+}
+
+// Checks whether the combination of startDate and startTime comes before endDate and endTime
+// Format for dates is MM/DD/YYYY and times are HH:MM
+// Returns empty string if valid, returns applicable message otherwise
+function datetimePrecedesErrorStr(startDate, startTime, endDate, endTime) {
+    var startDateVals = startDate.split("/");
+    var startTimeVals = startTime.split(":");
+    var endDateVals = endDate.split("/");
+    var endTimeVals = endTime.split(":");
+
+    var month1 = parseInt(startDateVals[0]);
+    var day1 = parseInt(startDateVals[1]);
+    var year1 = parseInt(startDateVals[2]);
+    var hour1 = parseInt(startTimeVals[0]);
+    var minute1 = parseInt(startTimeVals[1]);
+    var month2 = parseInt(endDateVals[0]);
+    var day2 = parseInt(endDateVals[1]);
+    var year2 = parseInt(endDateVals[2]);
+    var hour2 = parseInt(endTimeVals[0]);
+    var minute2 = parseInt(endTimeVals[1]);
+
+    if(year1 > year2) return "Start year is after End year";
+    if(year2 > year1) return "";
+    if(month1 > month2) return "Start month is after End month";
+    if(month2 > month1) return "";
+    if(day1 > day2) return "Start day is after End day";
+    if(day2 > day1) return "";
+    if(hour1 > hour2) return "Start hour is after End hour";
+    if(hour2 > hour1) return "";
+    if(minute1 >= minute2) return "Start time equals End time";
+    return "";
 }
