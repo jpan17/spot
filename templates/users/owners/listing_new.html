@@ -4,6 +4,7 @@
         <title>{{ title }}</title>
         {% include 'components/links.html' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/listing_new.css') }}">
+        <script src="{{ url_for('static', filename='js/listing_new.js') }}"></script>
     </head>
     <body>
         {% include 'components/header.html' %}
@@ -16,6 +17,7 @@
             </h4>
             
             <h3>What Does Your Pet Require?</h3>
+            <p class="error-color small-text" id="validate_error"></p>
             <div class="listing-form-container">
                 <form class="listing-form" action="{{ url_for('listing_create') }}" 
                     method="post" id="listing_form">

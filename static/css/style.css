@@ -207,6 +207,14 @@ a.regular-text {
     text-decoration: inherit;
 }
 
+.error-color {
+    color: #B60000;
+}
+
+.small-text {
+    font-size: 1rem;
+}
+
 .clickable {
     cursor: pointer;
 }

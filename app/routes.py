@@ -192,15 +192,19 @@ def listing_create():
         extra_info=extra_info,
         activities=activities,
         user_id=current_user.id)
+
+    try:
+        new_listing = db_service.create_listing(listing)
+        
+        if type(new_listing) != str:
+            return redirect(url_for('listing_details', listing_id=new_listing.id))
+        else:
+            logger.warn('Listing creation failed for user {0}: {1}'.format(current_user.id, new_listing))
+            return redirect(url_for('error', error='Listing creation failed: {0}'.format(new_listing)))
     
-    new_listing = db_service.create_listing(listing)
-    
-    if type(new_listing) != str:
-        return redirect(url_for('listing_details', listing_id=new_listing.id))
-    else:
-        logger.warn('Listing creation failed for user {0}: {1}'.format(current_user.id, new_listing))
-        return redirect(url_for('error', error='Listing creation failed: {0}'.format(new_listing)))
-      
+    except Exception as e:
+        logger.warn('Listing creation failed for user {0}: {1}'.format(current_user.id, str(e)))
+        return redirect(url_for('error', error='Listing creation failed: {0}'.format(str(e))))
 
 # might be okay to have listing id in the url
 @app.route('/listings/<int:listing_id>')
