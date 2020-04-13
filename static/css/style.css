@@ -11,7 +11,7 @@
     color: #FFFFFF;
 }
 
-.big-button {
+.form-button {
     padding-left: 38px;
     padding-right: 38px;
     height: 72px;
@@ -30,13 +30,13 @@
     font-weight: normal;
 }
 
-.big-blue-button {
+.big-button {
     padding: 12px 22px;
     height: 60px;
 
     display: inline-block;
 
-    background: #84CEEB;
+    background: #A72BE1;
     border-radius: 10px;
     border: none;
     box-sizing: border-box;
@@ -48,6 +48,15 @@
     font-family: 'Varela Round';
     font-style: normal;
     font-weight: normal;
+}
+
+.big-button.light-blue {
+    background: #84CEEB;
+}
+
+/* Same as default, but can be helpful for default color changes if necessary */
+.big-button.purple {
+    background: #A72BE1;
 }
 
 input[type=text], input[type=email], input[type=password], input[type=tel], textarea {
@@ -308,6 +317,7 @@ body {
     align-items: center;
     justify-content: flex-start;
     flex-grow: 1;
+    z-index: 0;
 }
 
 /* Used in most content-holding pages */
@@ -319,6 +329,11 @@ body {
     flex-flow: column;
     align-items: flex-start;
     justify-content: flex-start;
+}
+
+/* Aligns top for horizontal container, left for vertical */
+.content-container.align-top {
+    align-items: flex-start;
 }
 
 /* ================= HEADER STYLES ============== */

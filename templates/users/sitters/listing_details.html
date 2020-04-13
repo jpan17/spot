@@ -9,13 +9,13 @@
         {% include 'components/header.html' %}
         {% include 'components/background.html' %}
 
-        <div class="content-container standard vertical">
-            <h4>
-                <a href="{{ url_for('home') }}"
-                    class="regular-text">&lt; return home</a>
-            </h4>
-            <br>
-            <div class="listing-details-container">
+        <div class="content-container standard align-start">
+            <div class="listing-details-container vertical">    
+                <h4>
+                    <a href="{{ url_for('home') }}"
+                        class="regular-text">&lt; return home</a>
+                </h4>
+                <br>
                 <div class="details">
                     <div class="header">
                         <!-- Figure out how to lock icons to same line and ideally only have margin if on same line as the pet name -->
@@ -42,15 +42,24 @@
                         </span>
                     </div>
                 </div>
-                <div class="small-portrait">
-                    <div class="background">
-                        <img class="{{ listing.pet_type.lower() }}"
-                            src="{{ url_for('static', filename='img/portrait/{0}.png'.format(listing.pet_type.lower())) }}">
-                    </div>
-                    <div class="pet-type {{ listing.pet_type.lower() }}">{{
-                        listing.pet_type.upper()      
-                    }}</div>
+            </div>
+            <div class="big-portrait">
+                <div class="background">
+                    <img class="{{ listing.pet_type.lower() }}"
+                        src="{{ url_for('static', filename='img/portrait/{0}.png'.format(listing.pet_type.lower())) }}">
                 </div>
+                <div class="pet-type {{ listing.pet_type.lower() }}">{{
+                    listing.pet_type.upper()      
+                }}</div>
+                {% if user in listing.sitters: %}
+                <a class="big-button purple" href="{{ url_for('listing_accept', listing_id = listing.id) }}">
+                    accepted
+                </a>
+                {% else %}
+                <a class="big-button light-blue" href="{{ url_for('listing_accept', listing_id = listing.id) }}">
+                    accept
+                </a> 
+                {% endif %}
             </div>
         </div>
 

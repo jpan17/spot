@@ -201,6 +201,24 @@ def listing_delete(listing_id):
 def listing_update(listing_id):
     return redirect(url_for('home'))
 
+# Accept or unaccept listing with id listing_id 
+@app.route('/listings/<int:listing_id>/accept')
+@login_required
+def listing_accept(listing_id):
+    logger.trace('Attempting user {0} acceptance of listing {1}'.format(current_user.id, listing_id))
+
+    if not current_user.is_sitter:
+        logger.debug('User {0} failed to accept listing {1}: not a sitter'.format(current_user.id, listing_id))
+        return redirect(url_for('error', error='You must be a sitter to accept a listing.'))
+
+    errorMsg = db_service.accept_listing(current_user.id, listing_id)
+    if errorMsg != '':
+        logger.debug('User {0} failed to accept listing {1}: {2}'.format(current_user.id, listing_id, errorMsg))
+        return redirect(url_for('error', error='Could not accept listing: {0}'.format(errorMsg)))
+
+    logger.debug('User {0} accepted listing {1} successfully'.format(current_user.id, listing_id))
+    return redirect(url_for('listing_details', listing_id = listing_id))
+
 @app.route('/error')
 def error():
     error = request.args.get('error') or ''

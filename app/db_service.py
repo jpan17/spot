@@ -547,11 +547,19 @@ def delete_listing(listing_id):
 def delete_user(user_id):
     pass
 
+# Adds or removes a listing from a user's accepted listings
 def accept_listing(user_id, listing_id):
     try:
         listing = Listing.query.filter_by(id = listing_id).first()
         user = User.query.filter_by(id = user_id).first()
-        user.accepted_listings.append(listing)
+        if not user.is_sitter:
+            raise Exception('User must be sitter to accept listings.')
+        
+        if listing in user.accepted_listings:
+            user.accepted_listings.remove(listing)
+        else:
+            user.accepted_listings.append(listing)
+        
         db.session.commit()
         return ''
     except Exception as e:
