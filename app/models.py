@@ -30,7 +30,7 @@ class User(UserMixin, db.Model):
     full_name = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(128), index=True, unique=True, nullable=False)
     phone_number = db.Column(db.String(32), unique=True, nullable=False) # String to account for extensions
-    password_hash = db.Column(db.String(32), nullable=False)
+    password_hash = db.Column(db.String(1000), nullable=False)
 
     # Define the one-to-many relationship of Users (specifically owners) to Listings - note that the field name is owner, not user
     # lazy=True -> when loading user, only load listings if needed
