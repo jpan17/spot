@@ -542,7 +542,7 @@ def delete_listing(listing_id):
         return ''
     except Exception as e:
         db.session.rollback()
-        return e
+        return str(e)
 
 def delete_user(user_id):
     pass
@@ -554,7 +554,7 @@ def accept_listing(user_id, listing_id):
         user = User.query.filter_by(id = user_id).first()
         if not user.is_sitter:
             raise Exception('User must be sitter to accept listings.')
-        
+
         if listing in user.accepted_listings:
             user.accepted_listings.remove(listing)
         else:

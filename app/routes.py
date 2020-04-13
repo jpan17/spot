@@ -256,7 +256,9 @@ def accepted_listings():
 @app.route('/listings/<int:listing_id>/delete')
 @login_required
 def listing_delete(listing_id):
-    db_service.delete_listing(listing_id)
+    result = db_service.delete_listing(listing_id)
+    if result != '':
+        return redirect(url_for('error', error='Listing deletion failed: {0}'.format(result)))
     return redirect(url_for('home'))
 
 # implemented once update funcitonality added
