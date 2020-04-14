@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        {% include 'components/links.html' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    </head>
+    <body>
+        {% include 'components/header.html' %}
+
+        <h3>Request care for your pet:</h3>
+        <form action="/newlisting/{{ id }}">
+            <input type="submit" value="+ add listing">
+        </form>
+        <hr>
+
+        <h3>Current listings:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Pet Name</th>
+                    <th>Pet Type</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Full Time? </th>
+                    <th>Zip Code</th>
+                    <th>Activities</th>
+                    <th>Description</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(listings_len): %}
+                <tr>
+                    <td> {{ listings[i].pet_name }} </td>
+                    <td> {{ listings[i].pet_type }} </td>
+                    <td> {{ listings[i].start_time }} </td>
+                    <td> {{ listings[i].end_time }} </td>
+                    <td> {{ listings[i].full_time }} </td>
+                    <td> {{ listings[i].zip_code }} </td>
+                    <td> {{ listings[i].activities }} </td>
+                    <td> {{ listings[i].extra_info }} </td>
+                    <td><a href="/owner/{{ id }}/update/{{ listings[i].id }}">Update</a> |
+                        <a href="/owner/{{ id }}/delete/{{ listings[i].id }}">Delete</a> |
+                        <a href="/owner/{{ id }}/owner_listing/{{ listings[i].id }}"> View</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% include 'components/background.html' %}
+        {% include 'components/footer.html' %}
+    </body>
+</html>

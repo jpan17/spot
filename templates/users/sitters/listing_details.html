@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        {% include 'components/links.html' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/listing_details.css') }}">
+    </head>
+    <body>
+        {% include 'components/header.html' %}
+        {% include 'components/background.html' %}
+
+        <div class="content-container standard align-start">
+            <div class="listing-details-container vertical">    
+                <h4>
+                    <a href="{{ url_for('home') }}"
+                        class="regular-text">&lt; return home</a>
+                </h4>
+                <br>
+                <div class="details">
+                    <div class="header">
+                        <!-- Figure out how to lock icons to same line and ideally only have margin if on same line as the pet name -->
+                        <span class="name">
+                            {{ listing.pet_name }}
+                        </span>
+                    </div>
+                    <span class="horizontal-line"></span>
+                    <div class="body">
+                        <span class="no-wrap">
+                            <strong>START:</strong> {{ listing.start_time_repr() }}
+                        </span>
+                        <span class="no-wrap">
+                            <strong>END:</strong> {{ listing.end_time_repr() }}
+                        </span>
+                        <span class="no-wrap">
+                            <strong>ZIP CODE:</strong> {{ listing.zip_code }}
+                        </span>
+                        <span>
+                            <strong>ACTIVITIES:</strong> {{ ', '.join(listing.activities) }}
+                        </span>
+                        <span>
+                            <strong>DESCRIPTION:</strong> {{ listing.extra_info }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="big-portrait">
+                <div class="background">
+                    <img class="{{ listing.pet_type.lower() }}"
+                        src="{{ url_for('static', filename='img/portrait/{0}.png'.format(listing.pet_type.lower())) }}">
+                </div>
+                <div class="pet-type {{ listing.pet_type.lower() }}">{{
+                    listing.pet_type.upper()      
+                }}</div>
+                {% if user in listing.sitters: %}
+                <a class="big-button purple" href="{{ url_for('listing_accept', listing_id = listing.id) }}">
+                    accepted
+                </a>
+                {% else %}
+                <a class="big-button light-blue" href="{{ url_for('listing_accept', listing_id = listing.id) }}">
+                    accept
+                </a> 
+                {% endif %}
+            </div>
+        </div>
+
+        {% include 'components/footer.html' %}
+    </body>
+</html>

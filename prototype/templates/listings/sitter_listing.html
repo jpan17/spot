@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+ <html>
+    <head>
+      <title> {{pet_name}}'s Listing Page</title>
+    </head>
+    <body>
+        {% include 'components/header.html' %}
+        <div>
+            <h3> <a href="{{ url_for('owner_home', id=id) }}"> < return home </a> </h3>
+        </div>
+            <br> <br> <br> <br> 
+        <div style = "display: flex; flex-direction: row; justify-content: space-around">
+                <table>
+                <tr>
+                    <td style="max-width:300px;   word-wrap: break-word;" align = "center"> <b> {{pet_name}} </b> </td>
+                </tr>
+                <tr> </tr>
+                <tr>
+                    <td style="max-width:300px;   word-wrap: break-word;"> <b> DAY(S) </b> {{days}} </td>
+                </tr>
+                <tr>
+                    <td style="max-width:300px;   word-wrap: break-word;"> <b> TIME: </b> {{time}}</td>
+                </tr> 
+                <tr>
+                    <td style="max-width:300px;   word-wrap: break-word;"> <b> LOCATION: </b> {{zip_code}}</td>
+                </tr> 
+                <tr>
+                    <td style="max-width:300px;   word-wrap: break-word;"> <b> ACTIVITY: </b> {% for activity in activities %} {{activity}}, {%endfor%} </td>
+                </tr> 
+                <tr>
+                    <td style="max-width:300px;   word-wrap: break-word;"> <b> DESCRIPTION: </b> {{description}} </td>
+                </tr>   
+                </table>
+                
+                <div style = "display: flex; flex-direction: column; align-content: center"> 
+                    <img src = "../../static/img/{{pet_type}}.png" style = "background-color: #add8e6; padding: 4" height = "250" width = "250" >
+                    <p style = "color: #b19cd9;" align = "center"> <font size = "5"> {{pet_type}} </font> </p>
+                    <p style = "background-color: #b19cd9;" align = "center"> <font size = "5" >ACCEPT/ACCEPTED </font> </p> 
+                </div>
+        </div>
+    </body>
+
+   
+   
+</html>

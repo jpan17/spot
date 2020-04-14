@@ -3,5 +3,5 @@
 
 import enum
 
-pet_types = ('Dog', 'Cat', 'Rodent', 'Fish', 'Bird', 'Reptile', 'Other')
-activities = ('Feeding', 'Walking', 'Playing', 'Grooming', 'Bathing', 'Other')
+pet_types = ('Dog', 'Cat', 'Rodent', 'Fish', 'Bird', 'Reptile', 'Amphibian', 'Other')
+activities = ('Feeding', 'Walking', 'Playing', 'Cleaning', 'Other')

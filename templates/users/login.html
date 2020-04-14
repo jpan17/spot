@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        {% include 'components/links.html' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    </head>
+    <body>
+        {% include 'components/header.html' %}
+        {% include 'components/background.html' %}
+
+        <div class="content-container">
+            <div class="login-img-container">
+                <img class="login-img" src="{{ url_for('static', filename='img/dog_cat_color.png') }}">
+            </div>
+            <div class="login-container">
+                <div class="login-heading spot-font">
+                    LOGIN
+                </div>
+                <!-- TODO MAKE THIS FORM ACTUALLY POST SOMEWHERE -->
+                <form class="login-form" action='/login' method="post">
+                    <div class="emailpass spot-font spot-heading">
+                        email
+                    </div>
+                    <input type="email" name="email" class="emailpass-input" required>
+                    <div class="emailpass spot-font spot-heading">
+                        password
+                    </div>
+                    <input type="password" name="password" class="emailpass-input" required>
+                    
+                    <div class="no-account spot-font spot-heading">
+                        no account?
+                        <a href="{{ url_for('register_form') }}">sign up</a>
+                    </div>
+
+                    <input class="submit-button spot-font spot-heading" type="submit" value="log in">
+                    
+                </form>
+            </div>
+        </div>
+
+        {% include 'components/footer.html' %}
+    </body>
+</html>

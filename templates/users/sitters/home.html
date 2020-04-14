@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        {% include 'components/links.html' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    </head>
+    <body>
+        {% include 'components/header.html' %}
+        {% include 'components/background.html' %}
+
+        <div class="content-container standard vertical">
+            <h3>Explore listings:</h3>
+            <div class="listing-form-container">
+                <form class="listing-form">
+
+                    <input type="text" placeholder="Enter your zip code" id="zip_code" name="zip_code">
+
+                    <table class="listing-form-table">
+
+                        <tr>
+                            <td>
+                                <label>
+                                    Pet Type:
+                                </label>
+                            </td>
+                            <td colspan="1000">
+                                {% for pet_type in pet_types: %}
+                                    <label class="checkbox" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
+                                        <input type="checkbox" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
+                                        name="pet_type_{{ pet_type.lower().replace(' ', '_') }}" value="true""> 
+                                        <span class="checked"></span>
+                                        {{ pet_type }}
+                                    </label>
+                                {% endfor %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>
+                                    Activities:
+                                </label>
+                            </td>
+                            <td colspan="1000">
+                                {% for activity in activities: %}
+                                    <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
+                                        <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
+                                            name="activity_{{ activity.lower().replace(' ', '_') }}" value="true"> 
+                                        <span class="checked"></span>
+                                        {{ activity }}
+                                    </label>
+                                {% endfor %}
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
+        </div>
+        <br><br>
+        <h3>Results:</h3>
+        {% with listings = listings, overlay = False %}
+            {% include 'components/listing_table.html' %}
+        {% endwith %}
+
+        {% include 'components/footer.html' %}
+    </body>
+</html>

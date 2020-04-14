@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        {% include 'components/links.html' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    </head>
+    <body>
+        {% include 'components/header.html' %}
+        {% include 'components/background.html' %}
+
+        <div class="content-container standard vertical">
+            <h3>Request care for your pet:</h3>
+            <a href="{{ url_for('listing_new') }}" class="big-button light-blue">
+                + add listing
+            </a>
+            <br><br>
+            <h3>Current listings:</h3>
+            {% with listings = listings, overlay = True %}
+                {% include 'components/listing_table.html' %}
+            {% endwith %}
+        </div>
+
+        {% include 'components/footer.html' %}
+    </body>
+</html>

@@ -1,0 +1,102 @@
+.login-img-container {
+    display: block;
+    flex-grow: 1;
+}
+
+.login-img {
+    display: block;
+    margin: 0 auto;
+    height: 38rem;
+    width: 40rem;
+}
+
+/* Styles for login (landing)-specific divs, imgs, etc */
+.login-container {
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    margin: 5vh 3.6458vw 5vh auto;
+    padding: 1em 1.3em;
+
+    font-size: 2rem; /* Defines font size of "username" and "password" headers */
+    background: #C1C8E4;
+}
+
+/* Login Heading at top of login-container */
+.login-heading {
+    position: relative;
+
+    cursor: default;
+
+    /* Center horizontally using auto (can't use percentage for top margin b/c percent is based on *width* of parent */
+    margin: 0 auto;
+
+    font-size: 2.7em; /* Font-size gets set based on PARENT's font-size, then ALL other uses of em here are based on THIS element's font-size*/
+    line-height: 1.2083em;
+    text-align: center;
+
+    color: #A72BE1;
+}
+
+.login-form {
+    position: relative;
+    width: 100%;
+    /* Remaining height of login-container (login-container height - login-heading height) */
+    height: calc(100% - 2.89992em - 4.3333vh);
+
+}
+
+/* Center horizontally and center text within all elements */
+.login-form * {
+    margin: 4% auto 4% auto;
+    text-align: center;
+}
+
+.login-form > :first-child {
+    margin-top: 2%;
+}
+
+.login-form .emailpass {
+    width: 100%;
+    height: 1.2em;
+
+    font-size: 1em;
+    line-height: 1.2em;
+}
+
+.login-form .emailpass-input {
+    box-sizing: border-box; /* Include border, padding, and margin in width/height */
+    display: block;
+    width: 18em;
+
+    font-size: 0.65625em;
+    line-height: 2em;
+
+    border: 5px solid #FFFFFF;
+}
+
+.login-form .emailpass-input:focus {
+    border: 5px solid #A72BE1;
+}
+
+.login-form .no-account {
+    width: 100%;
+    height: 1.2em;
+
+    font-size: 0.75em;
+    line-height: 1.2em;
+}
+
+.login-form .submit-button {
+    display: block;
+    padding: 0.2917em 1.4583em;
+    margin-top: 6%;
+
+    font-size: 1.2em;
+    
+    background: #A72BE1;
+    border-radius: 10px;
+    border: none;
+}

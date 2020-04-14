@@ -1,0 +1,38 @@
+<div class="header-placeholder">
+    <!-- This is for relative positioning, so nothing can go at the top of the *page*  -->
+</div>
+<div class="header-bar">
+    <!-- Left side -->
+    <div class="header-logo-name-container">
+        <a href="{{ url_for('home') }}">
+            <img class="header-logo" src="{{ url_for('static', filename='img/logo.png') }}" alt="logo.png">
+            <div class="header-name spot-font spot-heading">Spot</div>
+        </a>
+    </div>
+    <!-- Right side -->
+    <div class="header-user-links-container">
+        {% if user: %}
+        <div class="header-profile-container">
+            <div class="header-sign-out spot-font spot-heading">
+                <a class="regular-text" href="{{ url_for('logout') }}"> sign out </a>
+            </div>
+            {% if user.is_sitter: %}
+            <div class="header-accepted-listings spot-font spot-heading">
+                <a class="regular-text" href="{{ url_for('accepted_listings') }}">accepted listings</a>
+            </div>
+            {% endif %}
+            <div class="header-greetings spot-heading spot-font">
+                Hi, {{ user.full_name.split(' ')[0] }}!
+            </div>
+            <img class="header-profile-img" src="{{ url_for('static', filename='img/icon/user.png') }}" alt="user.png">
+        </div>
+        {% else: %}
+        <div class="header-login spot-font spot-heading">
+            <a class="regular-text" href="{{ url_for('login_form') }}">login</a>
+        </div>
+        <div class="header-signup spot-font spot-heading">
+            <a class="regular-text" href="{{ url_for('register_form') }}">sign up</a>
+        </div>
+        {% endif %}
+    </div>
+</div>

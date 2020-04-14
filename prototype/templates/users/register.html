@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        {% include 'components/links.html' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    </head>
+    <body>
+        {% include 'components/background.html' %}
+        {% include 'components/header.html' %}
+
+        <div class="register-container">
+            <h2 class="welcome">Welcome to Spot!</h2>
+            <h6 class="subtitle">new here? fill out this form to create an account</h6>
+            <!-- TODO MAKE THIS FORM ACTUALLY POST SOMEWHERE -->
+            <form class="register-form" action="/register" method="post">
+                <table class="register-table">
+                    <tr>
+                        <td>
+                            <label for="full_name">Name:</label>
+                        </td>
+                        <td>
+                            <input type="text" name="full_name" id="full_name" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="email">Email:</label>
+                        </td>
+                        <td>
+                            <input type="email" name="email" id="email" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="phone_number">Phone Number:</label>
+                        </td>
+                        <td>
+                            <input type="tel" id="phone_number" name="phone_number" 
+                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>I am a:</label>
+                        </td>
+                        <td>
+                            <label for="is_owner" class="radio">
+                                <input type="radio" name="user_type" id="is_owner" value="owner">
+                                <span class="checked"></span>
+                                Pet Owner
+                            </label>
+                            <label for="is_sitter" class="radio is-sitter">
+                                <input type="radio" name="user_type" id="is_sitter" value="sitter">
+                                <span class="checked"></span>
+                                Pet Sitter
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="password">Password:</label>
+                        </td>
+                        <td>
+                            <input type="password" id="password" name="password" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="confirm_password">Confirm Password:</label>
+                        </td>
+                        <td>
+                            <input type="password" id="confirm_password" name="confirm_password" required>
+                        </td>
+                    </tr>
+                </table>
+                <input class="submit-button big-button" type="submit" value="register">
+            </form>
+        </div>
+
+        {% include 'components/footer.html' %}
+    </body>
+</html>

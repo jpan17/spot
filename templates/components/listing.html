@@ -1,0 +1,38 @@
+<div class="listing-container clickable"
+onclick="redirect('{{ url_for('listing_details', listing_id=listing.id) }}')">
+    <div class="portrait">
+        <div class="background">
+            <img class="{{ listing.pet_type.lower() }}"
+                src="{{ url_for('static', filename='img/portrait/{0}-blue.png'.format(listing.pet_type.lower())) }}"
+                alt="{{ '{0} silhouette'.format(listing.pet_type.lower()) }}">
+        </div>
+        <div class="pet-type {{ listing.pet_type.lower() }}">{{ listing.pet_type.upper() }}</div>
+    </div>
+    <div class="description">
+        <div class="title">
+            {{ listing.pet_name }}
+        </div>
+        <div class="info">
+            <strong>START:</strong> {{ listing.start_time_repr() }}
+            <br>
+            <strong>END:</strong> {{ listing.end_time_repr() }}
+            <br>
+            <strong>ZIP CODE:</strong> {{ listing.zip_code }}
+            <br>
+            <strong>ACTIVITIES:</strong>
+            <span class="activities">
+                {{ ', '.join(listing.activities) }}
+            </span>
+        </div>
+    </div>
+    {% if overlay: %}
+    <div class="listing-overlay">
+        <a class="nested-link" href="{{ url_for('listing_delete', listing_id=listing.id) }}">
+            <img src="{{ url_for('static', filename='img/icon/trash.png') }}">
+        </a>
+        <a class="nested-link" href="{{ url_for('listing_update', listing_id=listing.id)}}">
+            <img src="{{ url_for('static', filename='img/icon/edit.png') }}">
+        </a>
+    </div>
+    {% endif %}
+</div>

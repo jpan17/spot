@@ -1,0 +1,90 @@
+/* Styles for login (landing)-specific divs, imgs, etc */
+.login-container {
+    position: absolute;
+    width: min(61.8889vh, 46.3542vw);
+    height: 75.2222vh;
+    right: 3.6458vw;
+    top: 17vh;
+
+    /* font-size is at a ratio to width */
+    font-size: min(4.4444vh, 3.3288vw); /* Defines font size of "username" and "password" headers */
+    background: #C1C8E4;
+}
+
+/* Login Heading at top of login-container */
+.login-heading {
+    position: relative;
+    width: 3.2396em;
+    height: 1.2083em;
+
+    cursor: default;
+
+    /* Center horizontally using auto (can't use percentage for top margin b/c percent is based on *width* of parent */
+    margin: 4.3333vh auto 0 auto;
+
+    font-size: 2.4em; /* Font-size gets set based on PARENT's font-size, then ALL other uses of em here are based on THIS element's font-size*/
+    line-height: 1.2083em;
+    text-align: center;
+
+    color: #A72BE1;
+}
+
+.login-form {
+    position: relative;
+    width: 100%;
+    /* Remaining height of login-container (login-container height - login-heading height) */
+    height: calc(100% - 2.89992em - 4.3333vh);
+
+}
+
+/* Center horizontally and center text within all elements */
+.login-form * {
+    /* Could maybe also use 0.275em instead of 2.1073%? I'm not sure how it interacts with different font-sizes in child elements, so I played it safe */
+    /* margin: 2.1073% auto 2.1073% auto;  */
+    margin: 2.8% auto 2.8% auto;
+    text-align: center;
+}
+
+.login-form .emailpass {
+    width: 100%;
+    height: 1.2em;
+
+    line-height: 1.2em;
+}
+
+.login-form .emailpass-input {
+    box-sizing: border-box; /* Include border, padding, and margin in width/height */
+    display: block;
+    width: 80%;
+    height: calc(2.4381em + 10px);
+
+    font-size: 0.65625em;
+
+    border: 5px solid #FFFFFF;
+}
+
+.login-form .emailpass-input:focus {
+    border: 5px solid #A72BE1;
+}
+
+.login-form .no-account {
+    width: 100%;
+    height: 1.2em;
+
+    font-size: 0.75em;
+    line-height: 1.2em;
+}
+
+.login-form .submit-button {
+    display: block;
+    width: 47.7558%;
+    height: 16.4751%;
+    /* margin: 3.4483% auto 9.1954% auto; */
+    margin: 4.5% auto 9.1954% auto;
+
+    font-size: 1.2em;
+    
+    background: #A72BE1;
+    border-radius: 10px;
+    border: none;
+}

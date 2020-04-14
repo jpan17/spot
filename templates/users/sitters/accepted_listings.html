@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        {% include 'components/links.html' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/accepted_listing.css') }}">
+    </head>
+    <body>
+        {% include 'components/header.html' %}
+        {% include 'components/background.html' %}
+
+        <div class="content-container standard vertical">
+            <h4>
+                <a href="{{ url_for('home') }}"
+                    class="regular-text">&lt; return home</a>
+            </h4>
+            
+            <br>
+            <h3>Accepted listings:</h3>
+            <br>
+            {% with listings = accepted_listings, overlay = False %}
+                {% include 'components/listing_table.html' %}
+            {% endwith %}
+        </div>
+
+        {% include 'components/footer.html' %}
+    </body>
+</html>

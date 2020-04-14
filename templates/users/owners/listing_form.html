@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        {% include 'components/links.html' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/listing_form.css') }}">
+        <script src="{{ url_for('static', filename='js/listing_form.js') }}"></script>
+    </head>
+    <body>
+        {% include 'components/header.html' %}
+        {% include 'components/background.html' %}
+
+        <div class="content-container standard vertical">
+            <h4>
+                <a href="{{ url_for('home') }}"
+                    class="regular-text">&lt; return home</a>
+            </h4>
+            
+            <h3>What Does Your Pet Require?</h3>
+            <p class="error-color small-text" id="validate_error"></p>
+            <div class="listing-form-container">
+                <form class="listing-form" 
+                    {% if listing: %}
+                    action="{{ url_for('listing_update_endpoint', listing_id=listing.id) }}" 
+                    {% else: %}
+                    action="{{ url_for('listing_new_endpoint') }}"
+                    {% endif %}
+                    method="post" id="listing_form">
+                    <table class="listing-form-table">
+                        <tr>
+                            <td>
+                                <label for="pet_name">
+                                    Name of Pet:
+                                </label>
+                            </td>
+                            <td colspan="2">
+                                {% if listing: %}
+                                <input type="text" id="pet_name" name="pet_name"
+                                    value="{{ listing.pet_name }}">
+                                {% else: %}
+                                <input type="text" id="pet_name" name="pet_name">
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label for="start_date">
+                                    Start Date:
+                                </label>
+                            </td>
+                            <td>
+                                {% if listing: %}
+                                <input type="text" placeholder="MM/DD/YYYY" name="start_date" id="start_date"
+                                    value="{{ listing.start_time.strftime('%m/%d/%Y') }}"> 
+                                {% else: %}
+                                <input type="text" placeholder="MM/DD/YYYY" name="start_date" id="start_date"> 
+                                {% endif %}
+                            </td>
+                            <td class="secondary-label">
+                                <label for="start_time">
+                                    Start Time:
+                                </label>
+                            </td>
+                            <td>
+                                {% if listing: %}
+                                <input type="text" placeholder="HH:MM" name="start_time" id="start_time"
+                                    value="{{ listing.start_time.strftime('%H:%M') }}">
+                                {% else: %}
+                                <input type="text" placeholder="HH:MM" name="start_time" id="start_time">
+                                {% endif %}
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                <label for="end_date">
+                                    End Date:
+                                </label>
+                            </td>
+                            <td>
+                                {% if listing: %}
+                                <input type="text" placeholder="MM/DD/YYYY" name="end_date" id="end_date"
+                                    value="{{ listing.end_time.strftime('%m/%d/%Y') }}"> 
+                                {% else: %}
+                                <input type="text" placeholder="MM/DD/YYYY" name="end_date" id="end_date"> 
+                                {% endif %}
+                            </td>
+                            <td class="secondary-label">
+                                <label for="end_time">
+                                    End Time:
+                                </label>
+                            </td>
+                            <td>
+                                {% if listing: %}
+                                <input type="text" placeholder="HH:MM" name="end_time" id="end_time"
+                                    value="{{ listing.end_time.strftime('%H:%M') }}">
+                                {% else: %}
+                                <input type="text" placeholder="HH:MM" name="end_time" id="end_time">
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>
+                                    Pet Type:
+                                </label>
+                            </td>
+                            <td colspan="1000">
+                                {% for pet_type in pet_types: %}
+                                    <label class="radio" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
+                                        <input type="radio" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
+                                            name="pet_type" value="{{ pet_type }}"
+                                            {% if listing: %} {% if listing.pet_type == pet_type: %}
+                                                checked
+                                            {% endif %} {% endif %}> 
+                                        <span class="checked"></span>
+                                        {{ pet_type }}
+                                    </label>
+                                {% endfor %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label>
+                                    Activities:
+                                </label>
+                            </td>
+                            <td colspan="1000">
+                                {% for activity in activities: %}
+                                    <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
+                                        <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
+                                            name="activity_{{ activity.lower().replace(' ', '_') }}" value="true"
+                                            {% if listing: %} {% if activity in listing.activities: %}
+                                                checked
+                                            {% endif %} {% endif %}> 
+                                        <span class="checked"></span>
+                                        {{ activity }}
+                                    </label>
+                                {% endfor %}
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <label for="zip_code">
+                                    Zip Code:
+                                </label>
+                            </td>
+                            <td>
+                                {% if listing: %}
+                                <input type="text" id="zip_code" name="zip_code"
+                                    value="{{ listing.zip_code }}">
+                                {% else: %}
+                                <input type="text" id="zip_code" name="zip_code">
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align-top">
+                                <label for="extra_info">
+                                    Description:
+                                </label>
+                            </td>
+                            <td class="align-top" colspan="3">
+                                <textarea type="text" id="extra_info" 
+                                    placeholder="(optional) Tell us more about your pet!"
+                                    rows="4" name="extra_info"
+                                    form="listing_form">{% if listing: %}{{ listing.extra_info }}{% endif %}</textarea>
+                                <!-- The previous line is all in one line because extra space shows up in textarea -->
+                            </td>
+                            <td class="submit-cell">
+                                <input class="form-button" type="submit" value="submit">
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+
+        {% include 'components/footer.html' %}
+    </body>
+</html>

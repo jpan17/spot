@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        {% include 'components/links.html' %}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    </head>
+    <body>
+        {% include 'components/header.html' %}
+
+        <p>Explore our listings:</p>
+        <form method="get">
+            <input type="text" value="Enter a zip code">
+        </form>
+        <hr>
+
+        <h3>Results:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Pet Name</th>
+                    <th>Pet Type</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Full Time? </th>
+                    <th>Zip Code</th>
+                    <th>Activities</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(listings_len): %}
+                <tr>
+                    <td> {{ listings[i].pet_name }} </td>
+                    <td> {{ listings[i].pet_type }} </td>
+                    <td> {{ listings[i].start_time }} </td>
+                    <td> {{ listings[i].end_time }} </td>
+                    <td> {{ listings[i].full_time }} </td>
+                    <td> {{ listings[i].zip_code }} </td>
+                    <td> {{ listings[i].activities }} </td>
+                    <td><a href="/sitter/{{ id }}/sitter_listing/{{ listings[i].id }}">View</a> |
+                        <a href="/sitter/{{ id }}/accept/{{ listings[i].id }}">Accept</a>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3><a href="{{ url_for('accepted_listings', id=id) }}">Accepted Listings</a></h3>
+
+        {% include 'components/background.html' %}
+        {% include 'components/footer.html' %}
+    </body>
+</html>
