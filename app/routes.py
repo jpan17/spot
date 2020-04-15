@@ -49,7 +49,7 @@ def home():
 
     return redirect(url_for('error', error='User is neither owner nor sitter. Please create a new user instead.'))
 
-# apparently necessary, crashes program if removed. Just following what flask says lol. 
+# apparently necessary, crashes program if removed. Just following what flask says.
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -416,4 +416,10 @@ def error():
         userStr = 'anonymous user'
 
     logger.warn('Error page reached/accessed by', userStr, 'with error:', error)
-    return redirect(url_for('home'))
+    
+    html = render_template('error.html',
+                            title="Error | Spot",
+                            error = error,
+                            user = current_user)
+    response = make_response(html)
+    return response
