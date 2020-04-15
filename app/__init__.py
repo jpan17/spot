@@ -26,7 +26,6 @@ migrate = Migrate(app, db)
 
 # Initialize flask-login for user authentication/session management
 if spot_mode != 'test' and spot_mode != 'prototype':
-    app.secret_key = os.urandom(24)
     login_manager = LoginManager()
     login_manager.init_app(app)
 

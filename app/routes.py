@@ -15,12 +15,8 @@ login_manager.login_view = 'login_form'
 
 # determines which home page to route to based on current_user (login, sitter_home, owner_home)
 @app.route('/', methods=['GET'])
+@login_required
 def home():
-    
-    user_id = current_user.get_id()
-
-    if user_id is None: 
-        return redirect(url_for('login_form'))
 
     # current_user is now known to be a User object
     logger.trace('Home accessed with user', current_user.id)
