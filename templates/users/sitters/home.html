@@ -4,7 +4,7 @@
         <title>{{ title }}</title>
         {% include 'components/links.html' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-        <script src="{{ url_for('static', filename='js/filter.js') }}"></script>
+        <script src="js/filter.js"></script>
     </head>
     <body>
         {% include 'components/header.html' %}
@@ -15,16 +15,16 @@
             <table>
                 <tr>
                     <td>
-                        <h5>Explore our listings:</h5>
+                        <h5>Explore our listings:  </h5>
                     </td>
                     <td>
-                        <input type="text" class="filter" placeholder="search by zip code" 
+                        <input type="text" class="filter" placeholder="Search by zip code" 
                         id="zip_code" name="zip_code">            
                     </td>
                 </tr>
             </table>
 
-        <div class="listing-form-container">     
+        <div class="listing-form-container dropdown-container">     
             <dl class="dropdown"> 
   
                 <dt>

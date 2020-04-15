@@ -21,6 +21,7 @@ $(document).bind('click', function(e) {
   if (!$clicked.parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
 });
 
+// wait gimme sec
 $('.multiSelect input[type="checkbox"]').on('click', function() {
 
   var title = $(this).closest('.multiSelect').find('input[type="checkbox"]').val(),
