@@ -4,7 +4,6 @@
         <title>{{ title }}</title>
         {% include 'components/links.html' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-        <script src="{{ url_for('static', filename='js/filter.js') }}"></script>
     </head>
     <body>
         {% include 'components/header.html' %}
@@ -18,15 +17,51 @@
                         <h5>Explore our listings:</h5>
                     </td>
                     <td>
-                        <input type="text" class="filter" placeholder="Search by zip code" 
-                        id="zip_code" name="zip_code">            
+                        <input type="text" placeholder="Search by zipcode" id="zip_code" 
+                        name="zip_code">
                     </td>
                 </tr>
             </table>
+            <div class="listing-form-container">
+                    <table class="listing-form-table">
+                        <tr>
+                            <td>
+                                <label>
+                                    Filter By Pet Type:
+                                </label>
+                            </td>
+                            <td colspan="1000">
+                                {% for pet_type in pet_types: %}
+                                    <label class="checkbox" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
+                                        <input type="checkbox" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
+                                        name="pet_type_{{ pet_type.lower().replace(' ', '_') }}" value="true""> 
+                                        <span class="checked"></span>
+                                        {{ pet_type }}
+                                    </label>
+                                {% endfor %}
+                            </td>
+                        </tr>
 
-        <div class="listing-form-container dropdown-container">     
-            
-        </form>
+                        <tr>
+                            <td>
+                                <label>
+                                    Filter By Activities:
+                                </label>
+                            </td>
+                            <td colspan="1000">
+                                {% for activity in activities: %}
+                                    <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
+                                        <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
+                                            name="activity_{{ activity.lower().replace(' ', '_') }}" value="true"> 
+                                        <span class="checked"></span>
+                                        {{ activity }}
+                                    </label>
+                                {% endfor %}
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>
         </div>
         <br><br>
         <h3>Results:</h3>
