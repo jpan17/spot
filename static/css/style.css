@@ -74,6 +74,21 @@ input[type=text], input[type=email], input[type=password], input[type=tel], text
     border: 3px solid #C1C8E4;
 }
 
+input[type=text].filter {
+    padding-left: 0.6em;
+    text-align: right;
+    font-family: 'Varela Round';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 2.5em;
+    line-height: 3em;
+
+    background: rgb(147, 18, 18);
+    color: #000000;
+
+    border: 3px solid #C1C8E4;
+}
+
 textarea:not(input) {
     padding-top: 0.15em;
     padding-bottom: 0.15em;
@@ -288,6 +303,20 @@ h4 {
     margin: 0;
 
     color: #858585;
+}
+
+h5 {
+    font-family: 'Varela Round';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 32px;
+    line-height: 36px;
+    text-align: center;
+    white-space: nowrap;
+
+    margin: 0;
+
+    color: #A72BE1;
 }
 
 h6 {
