@@ -4,7 +4,7 @@
         <title>{{ title }}</title>
         {% include 'components/links.html' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-        <script src="js/filter.js"></script>
+        <script src="{{ url_for('static', filename='js/filter.js') }}"></script>
     </head>
     <body>
         {% include 'components/header.html' %}
@@ -15,7 +15,7 @@
             <table>
                 <tr>
                     <td>
-                        <h5>Explore our listings:  </h5>
+                        <h5>Explore our listings:</h5>
                     </td>
                     <td>
                         <input type="text" class="filter" placeholder="Search by zip code" 
@@ -25,37 +25,7 @@
             </table>
 
         <div class="listing-form-container dropdown-container">     
-            <dl class="dropdown"> 
-  
-                <dt>
-                <a href="#">
-                  <span class="hida">Pet Type(s)</span>    
-                  <p class="multiSel"></p>  
-                </a>
-                </dt>
-              
-                <dd>
-                    <div class="multiSelect">
-                        <ul>
-                            <li>
-                                <input type="checkbox" value="dog" />Dog</li>
-                            <li>
-                                <input type="checkbox" value="cat" />Cat</li>
-                            <li>
-                                <input type="checkbox" value="rodent" />Rodent</li>
-                            <li>
-                                <input type="checkbox" value="fish" />Fish</li>
-                            <li>
-                                <input type="checkbox" value="reptile" />Reptile</li>
-                            <li>
-                                <input type="checkbox" value="amphibian" />Amphibian</li>
-                            <li>
-                                <input type="checkbox" value="other" />Other</li>
-                        </ul>
-                    </div>
-                </dd>
-              <button class="big-button">Filter</button>
-            </dl>   
+            
         </form>
         </div>
         <br><br>
