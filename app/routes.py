@@ -36,14 +36,15 @@ def home():
         return response
 
     if current_user.is_sitter:
+        
         filtered_activities = []
         for activity in enums.activities:
-            if request.form.get('activity_{activity}'.format(activity.lower().replace(' ', '_'))) == 'true':
+            if request.form.get('activity_{0}'.format(activity.lower().replace(' ', '_'))) == 'true':
                 filtered_activities.append(activity)
     
         filtered_pet_types = []
         for pet_type in enums.pet_types:
-            if request.form.get('pet_type_{pet_type}'.format(activity.lower().replace(' ', '_'))) == 'true':
+            if request.form.get('pet_type_{0}'.format(pet_type.lower().replace(' ', '_'))) == 'true':
                 filtered_pet_types.append(pet_type)
         
         if len(filtered_activities) == 0:
