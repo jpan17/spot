@@ -14,7 +14,7 @@ logger = Logger()
 login_manager.login_view = 'login_form'
 
 # determines which home page to route to based on current_user (login, sitter_home, owner_home)
-@app.route('/')
+@app.route('/', methods=['GET'])
 def home():
     
     user_id = current_user.get_id()
@@ -36,7 +36,34 @@ def home():
         return response
 
     if current_user.is_sitter:
-        all_listings = db_service.all_listings()
+        filtered_activities = []
+        for activity in enums.activities:
+            if request.form.get('activity_{activity}'.format(activity.lower().replace(' ', '_'))) == 'true':
+                filtered_activities.append(activity)
+    
+        filtered_pet_types = []
+        for pet_type in enums.pet_types:
+            if request.form.get('pet_type_{pet_type}'.format(activity.lower().replace(' ', '_'))) == 'true':
+                filtered_pet_types.append(pet_type)
+        
+        if len(filtered_activities) == 0:
+            filtered_activities = None
+            
+        if len(filtered_pet_types) == 0:
+            filtered_pet_types = None
+            
+        zip_code=request.args.get('zip_code')
+        
+        if zip_code == '':
+            zip_code = None
+            
+        print(filtered_activities)
+        print(filtered_pet_types)
+        
+        print(zip_code)
+    
+        all_listings = db_service.all_listings(pet_types=filtered_pet_types, activities=filtered_activities, zip_code=zip_code)
+        
         html = render_template('users/sitters/home.html',
                             title="Home | Spot",
                             listings=all_listings,
@@ -44,6 +71,7 @@ def home():
                             pet_types=enums.pet_types,
                             activities=enums.activities,
                             user = current_user)
+        
         response = make_response(html)
         return response
 

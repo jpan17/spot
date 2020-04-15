@@ -12,7 +12,7 @@ import enums
 from werkzeug.security import generate_password_hash as generate_hash, check_password_hash as check_hash
 
 
-# TODO: Add specific validation such as empty strings, valid format for phone number, email, etc into functions!
+# TODO: add specific validation such as empty strings, valid format for phone number, email, etc into functions!
 def generate_password_hash(password):
     """Create hashed password."""
     return generate_hash(password, method='sha256')
