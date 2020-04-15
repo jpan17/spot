@@ -4,6 +4,7 @@
         <title>{{ title }}</title>
         {% include 'components/links.html' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+        <script src="{{ url_for('static', filename='js/filter.js') }}"></script>
     </head>
     <body>
         {% include 'components/header.html' %}
@@ -23,46 +24,39 @@
                 </tr>
             </table>
 
-            <div class="listing-form-container">
-                    <table class="listing-form-table">
-                        <tr>
-                            <td>
-                                <label>
-                                    Pet Type:
-                                </label>
-                            </td>
-                            <td colspan="1000">
-                                {% for pet_type in pet_types: %}
-                                    <label class="checkbox" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
-                                        <input type="checkbox" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
-                                        name="pet_type_{{ pet_type.lower().replace(' ', '_') }}" value="true""> 
-                                        <span class="checked"></span>
-                                        {{ pet_type }}
-                                    </label>
-                                {% endfor %}
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <label>
-                                    Activities:
-                                </label>
-                            </td>
-                            <td colspan="1000">
-                                {% for activity in activities: %}
-                                    <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
-                                        <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
-                                            name="activity_{{ activity.lower().replace(' ', '_') }}" value="true"> 
-                                        <span class="checked"></span>
-                                        {{ activity }}
-                                    </label>
-                                {% endfor %}
-                            </td>
-                        </tr>
-
-                    </table>
-                </form>
+        <div class="listing-form-container">     
+            <dl class="dropdown"> 
+  
+                <dt>
+                <a href="#">
+                  <span class="hida">Pet Type(s)</span>    
+                  <p class="multiSel"></p>  
+                </a>
+                </dt>
+              
+                <dd>
+                    <div class="multiSelect">
+                        <ul>
+                            <li>
+                                <input type="checkbox" value="dog" />Dog</li>
+                            <li>
+                                <input type="checkbox" value="cat" />Cat</li>
+                            <li>
+                                <input type="checkbox" value="rodent" />Rodent</li>
+                            <li>
+                                <input type="checkbox" value="fish" />Fish</li>
+                            <li>
+                                <input type="checkbox" value="reptile" />Reptile</li>
+                            <li>
+                                <input type="checkbox" value="amphibian" />Amphibian</li>
+                            <li>
+                                <input type="checkbox" value="other" />Other</li>
+                        </ul>
+                    </div>
+                </dd>
+              <button class="big-button">Filter</button>
+            </dl>   
+        </form>
         </div>
         <br><br>
         <h3>Results:</h3>
