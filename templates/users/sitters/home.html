@@ -14,8 +14,13 @@
             <div class="filter-container">
                 <h5 class="inline-header">Explore our listings:</h5>
                 <form class="filter-form" method="get">   
+                        {% if zip_code %}
+                        <input type="text" placeholder="Search by zipcode" id="zip_code" 
+                        name="zip_code" class="filter" value="{{ zip_code }}">
+                        {% else %}
                         <input type="text" placeholder="Search by zipcode" id="zip_code" 
                         name="zip_code" class="filter">
+                        {% endif %}
                         <input class="medium-button purple clickable" type="submit" value="Search">
                     <br>
                     <!-- List of filters Below -->
