@@ -1,6 +1,4 @@
-window.onload = function() {
-    this.setup();
-};
+$(document).ready(setup);
 
 function setup() {
     $("#listing_form").submit(function(e) {

@@ -30,7 +30,9 @@
                             {% for pet_type in pet_types: %}
                             <label class="checkbox" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
                                 <input type="checkbox" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
-                                name="pet_type_{{ pet_type.lower().replace(' ', '_') }}" value="true""> 
+                                name="pet_type_{{ pet_type.lower().replace(' ', '_') }}" value="true" {%if filtered_pet_types %}{% if pet_type in filtered_pet_types: %}
+                                checked
+                            {% endif %}{% endif %}> 
                                 <span class="checked"></span>
                                 {{ pet_type }}
                             </label><br>
@@ -50,7 +52,9 @@
                             {% for activity in activities: %}
                             <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
                                 <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
-                                    name="activity_{{ activity.lower().replace(' ', '_') }}" value="true">
+                                    name="activity_{{ activity.lower().replace(' ', '_') }}" value="true" {%if filtered_activities %}{% if activity in filtered_activities: %}
+                                    checked
+                                {% endif %}{% endif %}>
                                 <span class="checked"></span>
                                 {{ activity }}
                             </label><br>

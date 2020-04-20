@@ -66,6 +66,8 @@ def home():
                             pet_types_len=len(enums.pet_types),
                             activities=enums.activities,
                             activities_len=len(enums.activities),
+                            filtered_activities=filtered_activities,
+                            filtered_pet_types=filtered_pet_types,
                             user = current_user)
         
         response = make_response(html)

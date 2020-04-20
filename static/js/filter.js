@@ -1,3 +1,10 @@
+$(document).ready(setup);
+
+function setup() {
+    update_activities_button();
+    update_pet_types_button();
+}
+
 // Uncheck all pet_types
 function clear_pet_types() {
     $('#pet_type_filter_button [id^="pet_type_"]:checked').prop("checked", false);
@@ -7,7 +14,11 @@ function clear_pet_types() {
 // Register click on pet_types_dropdown (including each of the checkboxes)
 function pet_types_dropdown_click(event) {
     event.stopPropagation();
-    // Add class if and only if any checked pet_types
+    update_pet_types_button();
+}   
+
+// Add class if and only if any checked pet_types
+function update_pet_types_button() {
     if($('#pet_type_filter_button [id^="pet_type_"]:checked').length === 0) {
         $('#pet_type_filter_button').removeClass('has-filters');
     }else {
@@ -24,7 +35,11 @@ function clear_activities() {
 // Register click on activities dropdown (including each of the checkboxes)
 function activities_dropdown_click(event) {
     event.stopPropagation();
-    // Are any of the activities checked?
+    update_activities_button();
+}
+
+// Add class if and only if any checked activities
+function update_activities_button() {
     if($('#activities_filter_button [id^="activity_"]:checked').length === 0) {
         $('#activities_filter_button').removeClass('has-filters');
     }else {
