@@ -2,22 +2,72 @@ h3 {
     margin-top: 0px;
 }
 
-.listing-form-container.dropdown-container {
-    position: relative;
+.filter-container {
+    font-size: 1.5rem;
+    display: flex;
+    flex-flow: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    vertical-align: middle;
+    
 }
 
 input[type=text].filter {
-    padding-left: 0.6em;
-    text-align: left;
+    width: 15em;
+    margin-bottom: 0.7em;
+}
+
+.filter-container .filter-form {
+    margin-left: 0.35em;
+}
+
+.filter-button {
+    position: relative;
+    padding: 9px 16.5px;
+    margin-right: 8px;
+    height: 45px; /* Bad modularity, but make sure this is equal to the top attribute of .filter-button .dropdown*/
+
+    display: inline-block;
+
+    background: #EEEEEE;
+    border-radius: 7.5px;
+    border: 2px solid #A72BE1;
+    box-sizing: border-box;
+
+    font-size: 22.5px;
+    line-height: 27px;
+    text-align: center;
+    color: #A72BE1;
     font-family: 'Varela Round';
     font-style: normal;
     font-weight: normal;
-    font-size: 1.5em;
-    line-height: 2em;
-
-    background:#FFFFFF;
-    color: #000000;
-
-    border: 3px solid #C1C8E4;
 }
 
+.filter-button.has-filters {
+    background: #A72BE1;
+    color: #FFFFFF;
+}
+
+.filter-button .dropdown {
+    display: none;
+    position: absolute;
+    top: 45px;
+    left: 0;
+    right: 0;
+    width: inherit;
+    padding: inherit;
+    border-radius: inherit;
+    z-index: 1;
+
+    text-align: left;
+    background-color: lightgray;
+    cursor: default;
+}
+
+.filter-button:hover .dropdown {
+    display: inherit;
+}
+
+.filter-button .dropdown:hover {
+    display: inherit;
+}

@@ -4,72 +4,92 @@
         <title>{{ title }}</title>
         {% include 'components/links.html' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+        <script src="{{ url_for('static', filename='js/filter.js') }}"></script>
     </head>
     <body>
         {% include 'components/header.html' %}
         {% include 'components/background.html' %}
 
         <div class="content-container standard vertical">
-            <form class="listing-form" method="get">
-            <table>
-                <tr>
-                    <td>
-                        <h5>Explore our listings:</h5>
-                    </td>
-                    <td>
+            <div class="filter-container">
+                <h5 class="inline-header">Explore our listings:</h5>
+                <form class="filter-form" method="get">   
                         <input type="text" placeholder="Search by zipcode" id="zip_code" 
-                        name="zip_code">
-                    </td>
-                </tr>
-            </table>
-            <br>
-            <div class="listing-form-container">
-                    <table class="listing-form-table">
-                        <tr>
-                            <td>
-                                <label>
-                                    Filter By Pet Type:
-                                </label>
-                            </td>
-                            <td colspan="1000">
-                                {% for pet_type in pet_types: %}
-                                    <label class="checkbox" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
-                                        <input type="checkbox" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
-                                        name="pet_type_{{ pet_type.lower().replace(' ', '_') }}" value="true""> 
-                                        <span class="checked"></span>
-                                        {{ pet_type }}
-                                    </label>
-                                {% endfor %}
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <label>
-                                    Filter By Activities:
-                                </label>
-                            </td>
-                            <td colspan="1000">
-                                {% for activity in activities: %}
-                                    <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
-                                        <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
-                                            name="activity_{{ activity.lower().replace(' ', '_') }}" value="true">
-                                        <span class="checked"></span>
-                                        {{ activity }}
-                                    </label>
-                                {% endfor %}
-                            </td>
-                        </tr>
-
-                    </table>
-                    <input type="submit" value="submit">
+                        name="zip_code" class="filter">
+                        <input class="medium-button purple" type="submit" value="Search">
+                    <br>
+                    <!-- List of filters Below -->
+                    <!-- Button and parent of dropdown menu -->
+                    <div class="clickable filter-button" 
+                        id="pet_type_filter_button"
+                        onclick="clear_pet_types({% for i in range(pet_types_len) 
+                            %}{{
+                                '\'' + pet_types[i].lower().replace(' ', '_') + '\''
+                            }}{% if i != pet_types_len - 1
+                            %}, {% endif 
+                            %}{% endfor %})"
+                        >X&nbsp;&nbsp;Type of Animal
+                        <!-- Dropdown menu itself -->
+                        <div class="dropdown" onclick="pet_types_dropdown_click(event, {% for i in range(pet_types_len) 
+                            %}{{
+                                '\'' + pet_types[i].lower().replace(' ', '_') + '\''
+                            }}{% if i != pet_types_len - 1
+                            %}, {% endif 
+                            %}{% endfor %})">
+                            <!-- Contents of dropdown menu -->
+                            {% for pet_type in pet_types: %}
+                            <label class="checkbox" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
+                                <input type="checkbox" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
+                                name="pet_type_{{ pet_type.lower().replace(' ', '_') }}" value="true""> 
+                                <span class="checked"></span>
+                                {{ pet_type }}
+                            </label><br>
+                            {% endfor %}
+                            <!-- End of contents of dropdown menu -->
+                        </div>
+                        <!-- End of button and parent of dropdown menu -->
+                    </div>
+                    <!-- Button and parent of dropdown menu -->
+                    <div class="clickable filter-button" 
+                        id="activities_filter_button"
+                        onclick="clear_activities({% for i in range(activities_len) 
+                            %}{{
+                                '\'' + activities[i].lower().replace(' ', '_') + '\''
+                            }}{% if i != activities_len - 1
+                            %}, {% endif 
+                            %}{% endfor %})"
+                        >X&nbsp;&nbsp;Activities
+                        <!-- Dropdown menu itself -->
+                        <div class="dropdown" onclick="activities_dropdown_click(event, {% for i in range(activities_len) 
+                            %}{{
+                                '\'' + activities[i].lower().replace(' ', '_') + '\''
+                            }}{% if i != activities_len - 1
+                            %}, {% endif 
+                            %}{% endfor %})">
+                            <!-- Dropdown menu contents -->
+                            {% for activity in activities: %}
+                            <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
+                                <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
+                                    name="activity_{{ activity.lower().replace(' ', '_') }}" value="true">
+                                <span class="checked"></span>
+                                {{ activity }}
+                            </label><br>
+                            {% endfor %}
+                            <!-- End of dropdown menu contents-->
+                        </div>
+                        <!-- End of button and parent of dropdown menu -->
+                    </div>
+                        
                 </form>
-        </div>
-        <br><br>
+            </div>
+
+        <br>
         <h3>Results:</h3>
         {% with listings = listings, overlay = False %}
             {% include 'components/listing_table.html' %}
         {% endwith %}
+
+        </div>
 
         {% include 'components/footer.html' %}
     </body>

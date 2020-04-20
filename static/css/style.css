@@ -50,12 +50,52 @@
     font-weight: normal;
 }
 
-.big-button.light-blue {
+.medium-button {
+    padding: 9px 16.5px;
+    height: 45px;
+
+    display: inline-block;
+
+    background: #A72BE1;
+    border-radius: 7.5px;
+    border: none;
+    box-sizing: border-box;
+
+    font-size: 22.5px;
+    line-height: 27px;
+    text-align: center;
+    color: #FFFFFF;
+    font-family: 'Varela Round';
+    font-style: normal;
+    font-weight: normal;
+}
+
+.small-button {
+    padding: 6px 11px;
+    height: 30px;
+
+    display: inline-block;
+
+    background: #A72BE1;
+    border-radius: 5px;
+    border: none;
+    box-sizing: border-box;
+
+    font-size: 15px;
+    line-height: 18px;
+    text-align: center;
+    color: #FFFFFF;
+    font-family: 'Varela Round';
+    font-style: normal;
+    font-weight: normal;
+}
+
+.big-button.light-blue, .medium-button.light-blue, .small-button.light-blue {
     background: #84CEEB;
 }
 
 /* Same as default, but can be helpful for default color changes if necessary */
-.big-button.purple {
+.big-button.purple, .medium-button.purple, .small-button.light-blue {
     background: #A72BE1;
 }
 
@@ -247,6 +287,10 @@ span.horizontal-line {
 
 .no-wrap {
     white-space: nowrap;
+}
+
+h1.inline-header, h2.inline-header, h3.inline-header, h4.inline-header, h5.inline-header, h6.inline-header {
+    display: inline-block;
 }
 
 h2 {
