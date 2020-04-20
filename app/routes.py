@@ -53,11 +53,8 @@ def home():
         
         if zip_code == '':
             zip_code = None
-            
-        print(filtered_activities)
-        print(filtered_pet_types)
-        
-        print(zip_code)
+
+        logger.debug('Query with activities', filtered_activities, ', pet_types', filtered_pet_types, ', and zip code', zip_code, 'made by user', current_user.id)
     
         all_listings = db_service.all_listings(pet_types=filtered_pet_types, activities=filtered_activities, zip_code=zip_code)
         
