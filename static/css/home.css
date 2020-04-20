@@ -2,6 +2,12 @@ h3 {
     margin-top: 0px;
 }
 
+h5.explore {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 0.2em;
+}
+
 .filter-container {
     font-size: 1.5rem;
     display: flex;
@@ -13,7 +19,6 @@ h3 {
 
 input[type=text].filter {
     width: 15em;
-    margin-bottom: 0.7em;
 }
 
 .filter-container .filter-form {
@@ -25,6 +30,7 @@ input[type=text].filter {
     padding: 9px 16.5px;
     margin-right: 8px;
     margin-bottom: 0px;
+    margin-top: 0.25em;
     height: 45px; /* Bad modularity, but make sure this is equal to the top attribute of .filter-button .dropdown*/
 
     display: inline-block;

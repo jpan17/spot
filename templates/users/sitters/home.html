@@ -12,63 +12,77 @@
 
         <div class="content-container standard vertical">
             <div class="filter-container">
-                <h5 class="inline-header">Explore our listings:</h5>
-                <form class="filter-form" method="get">   
-                        {% if zip_code %}
-                        <input type="text" placeholder="Search by zipcode" id="zip_code" 
-                        name="zip_code" class="filter" value="{{ zip_code }}">
-                        {% else %}
-                        <input type="text" placeholder="Search by zipcode" id="zip_code" 
-                        name="zip_code" class="filter">
-                        {% endif %}
-                        <input class="medium-button purple clickable" type="submit" value="Search">
-                    <br>
-                    <!-- List of filters Below -->
-                    <!-- Button and parent of dropdown menu -->
-                    <div class="clickable filter-button" 
-                        id="pet_type_filter_button"
-                        onclick="clear_pet_types()"
-                        >X&nbsp;&nbsp;Type of Animal
-                        <!-- Dropdown menu itself -->
-                        <div class="dropdown" onclick="pet_types_dropdown_click(event)">
-                            <!-- Contents of dropdown menu -->
-                            {% for pet_type in pet_types: %}
-                            <label class="checkbox" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
-                                <input type="checkbox" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
-                                name="pet_type_{{ pet_type.lower().replace(' ', '_') }}" value="true" {%if filtered_pet_types %}{% if pet_type in filtered_pet_types: %}
-                                checked
-                            {% endif %}{% endif %}> 
-                                <span class="checked"></span>
-                                {{ pet_type }}
-                            </label><br>
-                            {% endfor %}
-                            <!-- End of contents of dropdown menu -->
-                        </div>
-                        <!-- End of button and parent of dropdown menu -->
-                    </div>
-                    <!-- Button and parent of dropdown menu -->
-                    <div class="clickable filter-button" 
-                        id="activities_filter_button"
-                        onclick="clear_activities()"
-                        >X&nbsp;&nbsp;Activities
-                        <!-- Dropdown menu itself -->
-                        <div class="dropdown" onclick="activities_dropdown_click(event)">
-                            <!-- Dropdown menu contents -->
-                            {% for activity in activities: %}
-                            <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
-                                <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
-                                    name="activity_{{ activity.lower().replace(' ', '_') }}" value="true" {%if filtered_activities %}{% if activity in filtered_activities: %}
-                                    checked
-                                {% endif %}{% endif %}>
-                                <span class="checked"></span>
-                                {{ activity }}
-                            </label><br>
-                            {% endfor %}
-                            <!-- End of dropdown menu contents-->
-                        </div>
-                        <!-- End of button and parent of dropdown menu -->
-                    </div>
-                    <div class="clear-filters-link clickable" onclick="clear_all_filters()">X&nbsp;&nbsp;Clear Filters</div>
+                <form class="filter-form" method="get">  
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h5 class="inline-header explore">Explore our listings:</h5>
+                                </td>
+                                <td>
+                                    {% if zip_code %}
+                                    <input type="text" placeholder="Search by zipcode" id="zip_code" 
+                                    name="zip_code" class="filter" value="{{ zip_code }}">
+                                    {% else %}
+                                    <input type="text" placeholder="Search by zipcode" id="zip_code" 
+                                    name="zip_code" class="filter">
+                                    {% endif %}
+                                    <input class="medium-button purple clickable" type="submit" value="Search">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <!-- List of filters Below -->
+                                    <!-- Button and parent of dropdown menu -->
+                                    <div class="clickable filter-button" 
+                                    id="pet_type_filter_button"
+                                    onclick="clear_pet_types()"
+                                    >X&nbsp;&nbsp;Type of Animal
+                                    <!-- Dropdown menu itself -->
+                                    <div class="dropdown" onclick="pet_types_dropdown_click(event)">
+                                        <!-- Contents of dropdown menu -->
+                                        {% for pet_type in pet_types: %}
+                                        <label class="checkbox" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
+                                            <input type="checkbox" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
+                                            name="pet_type_{{ pet_type.lower().replace(' ', '_') }}" value="true" {%if filtered_pet_types %}{% if pet_type in filtered_pet_types: %}
+                                            checked
+                                        {% endif %}{% endif %}> 
+                                            <span class="checked"></span>
+                                            {{ pet_type }}
+                                        </label><br>
+                                        {% endfor %}
+                                        <!-- End of contents of dropdown menu -->
+                                    </div>
+                                    <!-- End of button and parent of dropdown menu -->
+                                </div>
+                                <!-- Button and parent of dropdown menu -->
+                                <div class="clickable filter-button" 
+                                    id="activities_filter_button"
+                                    onclick="clear_activities()"
+                                    >X&nbsp;&nbsp;Activities
+                                    <!-- Dropdown menu itself -->
+                                    <div class="dropdown" onclick="activities_dropdown_click(event)">
+                                        <!-- Dropdown menu contents -->
+                                        {% for activity in activities: %}
+                                        <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
+                                            <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
+                                                name="activity_{{ activity.lower().replace(' ', '_') }}" value="true" {%if filtered_activities %}{% if activity in filtered_activities: %}
+                                                checked
+                                            {% endif %}{% endif %}>
+                                            <span class="checked"></span>
+                                            {{ activity }}
+                                        </label><br>
+                                        {% endfor %}
+                                        <!-- End of dropdown menu contents-->
+                                    </div>
+                                    <!-- End of button and parent of dropdown menu -->
+                                </div>
+                                <div class="clear-filters-link clickable" onclick="clear_all_filters()">X&nbsp;&nbsp;Clear Filters</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table> 
                 </form>
             </div>
 
