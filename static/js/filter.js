@@ -5,6 +5,10 @@ function setup() {
     update_pet_types_button();
 }
 
+function clear_zip_code() {
+    $('#zip_code').val('')
+}
+
 // Uncheck all pet_types
 function clear_pet_types() {
     $('#pet_type_filter_button [id^="pet_type_"]:checked').prop("checked", false);
@@ -51,4 +55,5 @@ function update_activities_button() {
 function clear_all_filters() {
     clear_pet_types();
     clear_activities();
+    clear_zip_code();
 }
