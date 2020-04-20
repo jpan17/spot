@@ -9,7 +9,6 @@ h3 {
     align-items: flex-start;
     justify-content: flex-start;
     vertical-align: middle;
-    
 }
 
 input[type=text].filter {
@@ -25,6 +24,7 @@ input[type=text].filter {
     position: relative;
     padding: 9px 16.5px;
     margin-right: 8px;
+    margin-bottom: 0px;
     height: 45px; /* Bad modularity, but make sure this is equal to the top attribute of .filter-button .dropdown*/
 
     display: inline-block;
@@ -51,16 +51,16 @@ input[type=text].filter {
 .filter-button .dropdown {
     display: none;
     position: absolute;
-    top: 45px;
+    top: 44px;
     left: 0;
     right: 0;
-    width: inherit;
     padding: inherit;
+    margin-top: 0;
     border-radius: inherit;
     z-index: 1;
 
     text-align: left;
-    background-color: lightgray;
+    background-color: #E4E4E4;
     cursor: default;
 }
 
