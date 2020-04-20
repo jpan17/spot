@@ -21,10 +21,6 @@ input[type=text].filter {
     width: 15em;
 }
 
-.filter-container .filter-form {
-    margin-left: 0.35em;
-}
-
 .filter-button {
     position: relative;
     padding: 9px 16.5px;
