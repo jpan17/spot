@@ -71,3 +71,7 @@ input[type=text].filter {
 .filter-button .dropdown:hover {
     display: inherit;
 }
+
+.clear-filters-link {
+    display: inline-block;
+}
