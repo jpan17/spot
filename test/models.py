@@ -17,9 +17,9 @@ from flask_login import UserMixin
 # (not sure why it would be necessary)
 accepted_listings = db.Table('accepted_listings',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('listing_id', db.Integer, db.ForeignKey('listing.id'))
+    db.Column('listing_id', db.Integer, db.ForeignKey('listing.id')),
+   extend_existing= True
 )
-
 # Generic user data object - can represent either an owner or sitter, 
 # or both depending on the values of is_owner and is_sitter
 class User(UserMixin, db.Model):
@@ -31,7 +31,6 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(128), index=True, unique=True, nullable=False)
     phone_number = db.Column(db.String(32), unique=True, nullable=False) # String to account for extensions
     password_hash = db.Column(db.String(1000), nullable=False)
-    confirmed=db.Column(db.Boolean(), default=False, nullable=False)
 
     # Define the one-to-many relationship of Users (specifically owners) to Listings - note that the field name is owner, not user
     # lazy=True -> when loading user, only load listings if needed

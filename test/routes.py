@@ -1,5 +1,5 @@
 from app import app, db
-from app.models import User, Listing
+from test.models import User, Listing
 from flask import render_template, make_response
 from flask import request, redirect
 from flask import url_for

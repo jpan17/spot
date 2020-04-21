@@ -3,9 +3,11 @@ from app import db_service
 from app.logger import Logger
 from flask import Flask
 from flask import make_response, render_template, request, session
-from flask import url_for, redirect
+from flask import url_for, redirect, flash
 from flask_login import UserMixin, login_required, current_user, login_user, logout_user
 from app.models import User, Listing
+from app.token import generate_confirmation_token, confirm_token
+from app.email import send_email
 import enums
 import os
 from datetime import datetime
@@ -107,11 +109,16 @@ def login():
         return redirect(url_for('login_form', error='Email or password is incorrect.'))
 
     passwordMatch = db_service.check_password_hash(user, password)
+    is_confirmed = user.confirmed
     
     if passwordMatch:
-        login_user(user)
-        logger.debug('Logged in user with email', email)
-        return redirect(url_for('home'))
+        if is_confirmed:
+            login_user(user)
+            logger.debug('Logged in user with email', email)
+            return redirect(url_for('home'))
+        else:
+            logger.debug('User with email', email, 'attempted login prior to email confirmation')
+            return redirect(url_for('login_form', error='Please confirm your email.'))
 
     logger.debug('Failed login using email', email)
     return redirect(url_for('login_form', error='Email or password is incorrect.'))
@@ -157,6 +164,7 @@ def register_user():
     user.is_owner = is_owner
     user.is_sitter = is_sitter
     user.password_hash = db_service.generate_password_hash(password)
+    user.confirmed = False
     
     try:
         logger.debug('Attempting to persist user:', user)
@@ -166,11 +174,33 @@ def register_user():
             return redirect(url_for('register_form', error='Email or phone number already exists.'))
         else:
             logger.info('Created a new user with id', new_user.id)
-    
+            token = generate_confirmation_token(user.email)
+            confirm_url = url_for('confirm_email', token=token, _external=True)
+            html = render_template('users/activate.html', confirm_url=confirm_url)
+            subject = "Confirm your email to create your Spot account"
+            send_email(user.email, subject, html)
+            
         return redirect(url_for('login_form'))
     except Exception as e:
         logger.warn('Error occurred creating user:', str(e))
         return redirect(url_for('register_form', error=str(e)))
+    
+@app.route('/confirm/<token>')
+def confirm_email(token):
+    try:
+        email = confirm_token(token)
+    except:
+        flash('The confirmation link is invalid or has expired.', 'danger')
+    user = User.query.filter_by(email=email).first_or_404()
+    
+    if user.confirmed:
+        flash('Account already confirmed. Please login.', 'success')
+    else:
+        db_service.confirm_user(user)
+        flash('You have confirmed your account. Thanks!', 'success')
+        
+    return redirect(url_for('login_form'))
+    
 
 # haven't touched yet, but idt needs cookies. 
 @app.route('/listings/new')
