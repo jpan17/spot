@@ -32,7 +32,10 @@ if spot_mode != 'test' and spot_mode != 'prototype':
     login_manager = LoginManager()
     login_manager.init_app(app)
 
-from app import models
+if spot_mode == 'test' or spot_mode == 'prototype':
+    from test import models
+else:    
+    from app import models
 
 # Import routes from test if testing, otherwise from app
 if spot_mode == 'test':

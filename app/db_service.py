@@ -444,7 +444,7 @@ def create_user(user):
     """
 
     # Raises an exception if user is not valid
-    _check_user_validity(user)
+    _check_user_validity(user, True)
     
     try:
         db.session.add(user)
@@ -457,7 +457,7 @@ def create_user(user):
 def confirm_user(user):
     
     # Raises an exception if user is not valid
-    _check_user_validity(user)
+    _check_user_validity(user, False)
     
     try:
         user.confirmed = True
@@ -642,11 +642,11 @@ def _check_listing_validity(listing, check_id = True):
 
 # Raises the appropriate exception for invalid user or does nothing if user is valid
 # Does NOT check for duplicate email or phone #
-def _check_user_validity(user):
+def _check_user_validity(user, check_user_id):
     if type(user) != User:
         raise TypeError('user parameter must be a User object')
     
-    if user.id != None:
+    if user.id != None and check_user_id:
         raise ValueError('user parameter id should be None')
     
     if type(user.is_owner) != bool:
