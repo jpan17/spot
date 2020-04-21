@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_mail import Mail
 from spot_config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -19,6 +20,8 @@ if spot_mode == 'prototype':
 # Start app with config
 app = Flask(__name__, template_folder=template_folder, static_url_path='/static', static_folder=static_folder)
 app.config.from_object(Config)
+
+mail = Mail(app)
 
 # Initialize SQLAlchemy and Migrate for database management
 db = SQLAlchemy(app)

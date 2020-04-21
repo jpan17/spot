@@ -9,7 +9,7 @@ from app.models import User, Listing
 import enums
 import os
 from datetime import datetime
-from token import generate_confirmation_token, confirm_token
+from app.token import generate_confirmation_token, confirm_token
 
 logger = Logger()
 login_manager.login_view = 'login_form'
