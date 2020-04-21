@@ -453,6 +453,19 @@ def create_user(user):
     except Exception as e:
         db.session.rollback()
         return "Error: " + str(e)
+    
+def confirm_user(user):
+    
+    # Raises an exception if user is not valid
+    _check_user_validity(user)
+    
+    try:
+        user.confirmed = True
+        db.session.commit()
+        return user
+    except Exception as e:
+        db.session.rollback()
+        return "Error: " + str(e)
 
 def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, end_time=None,
                    full_time=None, zip_code=None, extra_info=None, activities=None):
