@@ -22,7 +22,7 @@ var ListingFormValidator = {
         var extraInfo = $("#extra_info").val();
         var errorMsg = "";
 
-        if(petName.length == 0 || petName.length > 64) {
+        if(petName.length === 0 || petName.length > 64) {
             errorMsg = "Pet name must be between 1 and 64 characters long."
         }else if(!ListingFormValidator.isValidDate(startDate)) {
             errorMsg = "Start Date must be of the format MM/DD/YYYY with valid month, date, and 4-digit year."

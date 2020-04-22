@@ -11,6 +11,10 @@
     color: #FFFFFF;
 }
 
+.center-text {
+    text-align: center;
+}
+
 .form-button {
     padding-left: 38px;
     padding-right: 38px;
@@ -291,6 +295,10 @@ span.horizontal-line {
 
 .no-margin-top {
     margin-top: 0;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0;
 }
 
 h1.inline-header, h2.inline-header, h3.inline-header, h4.inline-header, h5.inline-header, h6.inline-header {
