@@ -1,3 +1,5 @@
-function redirect(url) {
-    window.location.href = url;
+var Spot = {
+    redirect: function(url) {
+        window.location.href = url;
+    }
 }

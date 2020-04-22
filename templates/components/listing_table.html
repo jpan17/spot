@@ -2,7 +2,7 @@
     {% for i in range((listings|length + 1) // 2) %}
     <tr>
         {% with listing = listings[2 * i] %}
-        <td onclick="redirect('{{ url_for('listing_details', listing_id=listing.id) }}')"
+        <td onclick="Spot.redirect('{{ url_for('listing_details', listing_id=listing.id) }}')"
             class="clickable">
             {% with overlay = False %}
                 {% include 'components/listing.html' %}
@@ -22,7 +22,7 @@
         {% with listing = listings[2 * i + 1] %}  
         <td class="{% if not listing %} transparent {% else %} clickable {% endif %}"
             {% if listing %}
-            onclick="redirect('{{ url_for('listing_details', listing_id=listing.id) }}')"
+            onclick="Spot.redirect('{{ url_for('listing_details', listing_id=listing.id) }}')"
             {% endif %}>
             {% if listing %}
             

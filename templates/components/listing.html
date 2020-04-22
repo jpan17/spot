@@ -1,5 +1,5 @@
 <div class="listing-container clickable"
-onclick="redirect('{{ url_for('listing_details', listing_id=listing.id) }}')">
+onclick="Spot.redirect('{{ url_for('listing_details', listing_id=listing.id) }}')">
     <div class="portrait">
         <div class="background">
             {% if listing.pet_image_url %}

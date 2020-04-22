@@ -37,10 +37,10 @@
                                     <!-- Button and parent of dropdown menu -->
                                     <div class="clickable filter-button" 
                                     id="pet_type_filter_button"
-                                    onclick="clear_pet_types()"
+                                    onclick="SpotFilters.clear_pet_types()"
                                     >X&nbsp;&nbsp;Type of Animal
                                     <!-- Dropdown menu itself -->
-                                    <div class="dropdown" onclick="pet_types_dropdown_click(event)">
+                                    <div class="dropdown" onclick="SpotFilters.pet_types_dropdown_click(event)">
                                         <!-- Contents of dropdown menu -->
                                         {% for pet_type in pet_types: %}
                                         <label class="checkbox" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
@@ -59,10 +59,10 @@
                                 <!-- Button and parent of dropdown menu -->
                                 <div class="clickable filter-button" 
                                     id="activities_filter_button"
-                                    onclick="clear_activities()"
+                                    onclick="SpotFilters.clear_activities()"
                                     >X&nbsp;&nbsp;Activities
                                     <!-- Dropdown menu itself -->
-                                    <div class="dropdown" onclick="activities_dropdown_click(event)">
+                                    <div class="dropdown" onclick="SpotFilters.activities_dropdown_click(event)">
                                         <!-- Dropdown menu contents -->
                                         {% for activity in activities: %}
                                         <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
@@ -78,7 +78,7 @@
                                     </div>
                                     <!-- End of button and parent of dropdown menu -->
                                 </div>
-                                <div class="clear-filters-link clickable" onclick="clear_all_filters()">X&nbsp;&nbsp;Clear Filters</div>
+                                <div class="clear-filters-link clickable" onclick="SpotFilters.clear_all_filters()">X&nbsp;&nbsp;Clear Filters</div>
                                 </td>
                             </tr>
                         </tbody>
