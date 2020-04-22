@@ -468,7 +468,7 @@ def confirm_user(user):
         return "Error: " + str(e)
 
 def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, end_time=None,
-                   full_time=None, zip_code=None, extra_info=None, activities=None):
+                   full_time=None, zip_code=None, pet_image_url=None, extra_info=None, activities=None):
     """
     Updates a Listing with ID *listing_id* in the database, or raises an Exception if no such listing exists
     or any parameter is invalid (see below).
@@ -531,6 +531,8 @@ def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, en
             listing.full_time = full_time
         if zip_code != None:
             listing.zip_code = zip_code
+        if pet_image_url != None:
+            listing.pet_image_url = pet_image_url
         if extra_info != None:
             listing.extra_info = extra_info
         if activities != None:
@@ -621,6 +623,9 @@ def _check_listing_validity(listing, check_id = True):
     
     if type(listing.zip_code) != str:
         raise TypeError('listing parameter zip_code must be of type str')
+    
+    if type(listing.pet_image_url) != str and listing.pet_image_url != None:
+        raise TypeError('listing parameter pet_image_url must be of type str or None')
     
     if type(listing.extra_info) != str and listing.extra_info != None:
         raise TypeError('listing parameter extra_info must be of type str or None')
