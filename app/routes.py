@@ -118,7 +118,15 @@ def login():
 
     passwordMatch = db_service.check_password_hash(user, password)
     is_confirmed = user.confirmed
+
     
+    if not is_confirmed:
+        html = render_template('unconfirmedLogin.html',
+                            title="Error | Spot",
+                            user = user)
+        response = make_response(html)
+        return response
+
     if passwordMatch:
         if is_confirmed:
             login_user(user)
@@ -192,7 +200,20 @@ def register_user():
     except Exception as e:
         logger.warn('Error occurred creating user:', str(e))
         return redirect(url_for('register_form', error=str(e)))
-    
+
+@app.route('/resendConfirmation/<user_id>')
+def resend_confirmation(user_id):
+    # logger.info('Created a new user with id', new_user.id)
+
+    user_id = user_id
+    user = db_service.get_user_by_id(user_id)
+    token = generate_confirmation_token(user.email)
+    confirm_url = url_for('confirm_email', token=token, _external=True)
+    html = render_template('users/activate.html', confirm_url=confirm_url)
+    subject = "Confirm your email to create your Spot account"
+    send_email(user.email, subject, html)
+    return redirect(url_for('login_form'))
+
 @app.route('/confirm/<token>')
 def confirm_email(token):
     try:
