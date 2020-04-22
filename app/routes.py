@@ -212,15 +212,21 @@ def resend_confirmation(user_id):
     logger.trace('Resend confirmation email about to be attempted for user with id', user_id)
     user = db_service.get_user_by_id(user_id)
     if user is not None:
-        logger.debug('Resending confirmation email to user', user_id)
-        token = generate_confirmation_token(user.email)
-        confirm_url = url_for('confirm_email', token=token, _external=True)
-        html = render_template('users/activate.html', confirm_url=confirm_url)
-        subject = "Confirm your email to create your Spot account"
-        send_email(user.email, subject, html)
+        logger.trace('Attempting to resend confirmation email to user', user_id)
+        try:
+            token = generate_confirmation_token(user.email)
+            confirm_url = url_for('confirm_email', token=token, _external=True)
+            html = render_template('users/activate.html', confirm_url=confirm_url)
+            subject = "Confirm your email to create your Spot account"
+            send_email(user.email, subject, html)
+            logger.debug('Resent confirmation email to user', user_id)
+        except Exception as e:
+            logger.warn('Failed to resend confirmation email to user {0}: {1}'.format(user_id, str(e)))
+            return redirect(url_for('error', error='Failed to resend confirmation email: {0}'.format(str(e))))
     else:
-        logger.warn('Attempted to resend confirmation email to non-existent user with id', user_id)
-    
+        logger.info('Attempted to resend confirmation email to non-existent user with id', user_id)
+        return redirect(url_for('error', error='Failed to resend confirmation email: user does not exist with id {0}'.format(user_id)))
+
     return redirect(url_for('login_form'))
 
 @app.route('/confirm/<token>')
@@ -260,7 +266,7 @@ def listing_new():
 def listing_new_endpoint():
     logger.trace('User', current_user.id, 'attempting to create new listing with form values', str(request.form))
     if not current_user.is_owner:
-        logger.warn('Non-owner {0} attempted to create a listing'.format(current_user.id))
+        logger.info('Non-owner {0} attempted to create a listing'.format(current_user.id))
         return redirect(url_for('error', error='User must be owner to create a listing'))
     
     activities = []
@@ -416,10 +422,10 @@ def listing_update(listing_id):
 
     listing = db_service.get_listing_by_id(listing_id)
     if listing is None:
-        logger.warn('User {0} attempted to access update form for non-existent listing {1}'.format(current_user.id, listing_id))
+        logger.info('User {0} attempted to access update form for non-existent listing {1}'.format(current_user.id, listing_id))
         return redirect(url_for('error', error='Listing not found.'))
     if listing.user_id != current_user.id:
-        logger.warn('User {0} attempted to access update form for other user\'s listing {1}'.format(current_user.id, listing_id))
+        logger.info('User {0} attempted to access update form for other user\'s listing {1}'.format(current_user.id, listing_id))
         return redirect(url_for('error', error='Listing is owned by a different user.'))
 
     html = render_template('users/owners/listing_form.html',
@@ -439,10 +445,10 @@ def listing_update_endpoint(listing_id):
 
     listing = db_service.get_listing_by_id(listing_id)
     if listing is None:
-        logger.warn('User {0} attempted to update non-existent listing {1}'.format(current_user.id, listing_id))
+        logger.INFO('User {0} attempted to update non-existent listing {1}'.format(current_user.id, listing_id))
         return redirect(url_for('error', error='Listing not found.'))
     if listing.user_id != current_user.id:
-        logger.warn('User {0} attempted to update other user\'s listing {1}'.format(current_user.id, listing_id))
+        logger.info('User {0} attempted to update other user\'s listing {1}'.format(current_user.id, listing_id))
         return redirect(url_for('error', error='Listing is owned by a different user.'))
 
     activities = []
@@ -506,7 +512,7 @@ def listing_accept(listing_id):
     logger.trace('Attempting user {0} acceptance of listing {1}'.format(current_user.id, listing_id))
 
     if not current_user.is_sitter:
-        logger.warn('User {0} failed to accept listing {1}: not a sitter'.format(current_user.id, listing_id))
+        logger.info('User {0} failed to accept listing {1}: not a sitter'.format(current_user.id, listing_id))
         return redirect(url_for('error', error='You must be a sitter to accept a listing.'))
 
     errorMsg = db_service.accept_listing(current_user.id, listing_id)
@@ -525,7 +531,7 @@ def error():
     else:
         userStr = 'anonymous user'
 
-    logger.warn('Error page reached/accessed by', userStr, 'with error:', error)
+    logger.info('Error page reached/accessed by', userStr, 'with error:', error)
     
     html = render_template('users/error.html',
                             title="Error | Spot",
