@@ -27,6 +27,8 @@ var RegisterFormValidator = {
             errorMsg = "Phone number must be of the form XXX-XXX-XXXX and X's must consist only of numbers";
         }else if(!isOwnerChecked && !isSitterChecked) {
             errorMsg = "Owner type must be selected";
+        }else if(password.length <= 7) {
+            errorMsg = "Password must be at least 8 characters long"
         }else if(password != confirmPassword) {
             errorMsg = "Passwords must match";
         }

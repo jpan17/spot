@@ -4,6 +4,7 @@
         <title>{{ title }}</title>
         {% include 'components/links.html' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+        <script src="{{ url_for('static', filename='js/login_form.js') }}"></script>
     </head>
     <body>
         {% include 'components/header.html' %}
@@ -17,16 +18,16 @@
                 <div class="login-heading spot-font">
                     LOGIN
                 </div>
-                <!-- TODO MAKE THIS FORM ACTUALLY POST SOMEWHERE -->
+                <p class="error-color small-text" id="validate_error"></p>
                 <form class="login-form" action='/login' method="post">
                     <div class="emailpass spot-font spot-heading">
                         email
                     </div>
-                    <input type="email" name="email" class="emailpass-input" required>
+                    <input type="email" id="email" name="email" class="emailpass-input" required>
                     <div class="emailpass spot-font spot-heading">
                         password
                     </div>
-                    <input type="password" name="password" class="emailpass-input" required>
+                    <input type="password" id="password" name="password" class="emailpass-input" required>
                     
                     <div class="no-account spot-font spot-heading">
                         no account?
