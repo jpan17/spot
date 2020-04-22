@@ -7,8 +7,6 @@ class Config(object):
     
     UPLOAD_FOLDER = os.environ.get('SPOT_UPLOAD_FOLDER')
 
-    UPLOAD_FOLDER = os.environ.get('SPOT_UPLOAD_FOLDER')
-
     SECRET_KEY = os.environ.get('SPOT_SECRET_KEY')
     SECURITY_PASSWORD_SALT = os.environ.get('SPOT_SECURITY_PASSWORD_SALT')
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')

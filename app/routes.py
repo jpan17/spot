@@ -119,14 +119,6 @@ def login():
     passwordMatch = db_service.check_password_hash(user, password)
     is_confirmed = user.confirmed
 
-    
-    if not is_confirmed:
-        html = render_template('unconfirmedLogin.html',
-                            title="Error | Spot",
-                            user = user)
-        response = make_response(html)
-        return response
-
     if passwordMatch:
         if is_confirmed:
             login_user(user)
@@ -134,7 +126,7 @@ def login():
             return redirect(url_for('home'))
         else:
             logger.debug('User with email', email, 'attempted login prior to email confirmation')
-            return redirect(url_for('login_form', error='Please confirm your email.'))
+            return redirect(url_for('resend_confirmation_landing', user_id=user.id))
 
     logger.debug('Failed login using email', email)
     return redirect(url_for('login_form', error='Email or password is incorrect.'))
@@ -190,28 +182,45 @@ def register_user():
             return redirect(url_for('register_form', error='Email or phone number already exists.'))
         else:
             logger.info('Created a new user with id', new_user.id)
-            token = generate_confirmation_token(user.email)
+            token = generate_confirmation_token(new_user.email)
             confirm_url = url_for('confirm_email', token=token, _external=True)
             html = render_template('users/activate.html', confirm_url=confirm_url)
             subject = "Confirm your email to create your Spot account"
-            send_email(user.email, subject, html)
+            send_email(new_user.email, subject, html)
             
         return redirect(url_for('login_form'))
     except Exception as e:
         logger.warn('Error occurred creating user:', str(e))
         return redirect(url_for('register_form', error=str(e)))
 
-@app.route('/resendConfirmation/<user_id>')
-def resend_confirmation(user_id):
-    # logger.info('Created a new user with id', new_user.id)
+@app.route('/resend-confirmation')
+def resend_confirmation_landing():
+    user_id = request.args.get('user_id') or ''
+    logger.trace('Resend confirmation landing page accessed with user id', user_id)
 
-    user_id = user_id
+    if user_id == '':
+        return redirect(url_for('login_form'))
+
+    html = render_template('users/unconfirmed_login.html',
+                            title="Error | Spot",
+                            user_id=user_id)
+    response = make_response(html)
+    return response
+
+@app.route('/resend-confirmation/<user_id>')
+def resend_confirmation(user_id):
+    logger.trace('Resend confirmation email about to be attempted for user with id', user_id)
     user = db_service.get_user_by_id(user_id)
-    token = generate_confirmation_token(user.email)
-    confirm_url = url_for('confirm_email', token=token, _external=True)
-    html = render_template('users/activate.html', confirm_url=confirm_url)
-    subject = "Confirm your email to create your Spot account"
-    send_email(user.email, subject, html)
+    if user is not None:
+        logger.debug('Resending confirmation email to user', user_id)
+        token = generate_confirmation_token(user.email)
+        confirm_url = url_for('confirm_email', token=token, _external=True)
+        html = render_template('users/activate.html', confirm_url=confirm_url)
+        subject = "Confirm your email to create your Spot account"
+        send_email(user.email, subject, html)
+    else:
+        logger.warn('Attempted to resend confirmation email to non-existent user with id', user_id)
+    
     return redirect(url_for('login_form'))
 
 @app.route('/confirm/<token>')
