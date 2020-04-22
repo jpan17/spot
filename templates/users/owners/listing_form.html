@@ -25,7 +25,8 @@
                     {% else: %}
                     action="{{ url_for('listing_new_endpoint') }}"
                     {% endif %}
-                    method="post" id="listing_form">
+                    method="post" id="listing_form"
+                    enctype="multipart/form-data">
                     <table class="listing-form-table">
                         <tr>
                             <td>
@@ -157,6 +158,9 @@
                                 <input type="text" id="zip_code" name="zip_code">
                                 {% endif %}
                             </td>
+                            <td colspan="1000">
+                                <input type="file" id="pet_image" name="pet_image">
+                            </td>
                         </tr>
                         <tr>
                             <td class="align-top">
@@ -182,4 +186,4 @@
 
         {% include 'components/footer.html' %}
     </body>
-</html>
+</html> 

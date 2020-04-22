@@ -8,6 +8,8 @@ from flask_login import UserMixin, login_required, current_user, login_user, log
 from app.models import User, Listing
 from app.token import generate_confirmation_token, confirm_token
 from app.email import send_email
+from werkzeug.utils import secure_filename
+from werkzeug.security import pbkdf2_hex
 import enums
 import os
 from datetime import datetime
@@ -255,6 +257,17 @@ def listing_new_endpoint():
     pet_type = request.form.get('pet_type')
     zip_code = request.form.get('zip_code')
     extra_info = request.form.get('extra_info')
+    
+    pet_image_file = None
+    pet_image_url = None
+    
+    if 'pet_image' in request.files:
+        pet_image_file = request.files['pet_image']
+        if pet_image_file.filename != '':
+            parts_of_filename = secure_filename(pet_image_file.filename).split('.')
+            filename = '.'.join([pbkdf2_hex('.'.join(parts_of_filename[:-1]), app.config['SECURITY_PASSWORD_SALT']), parts_of_filename[len(parts_of_filename) - 1]])
+            pet_image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            pet_image_url = url_for('static', filename=)
     
     listing = Listing(
         pet_name=pet_name,
