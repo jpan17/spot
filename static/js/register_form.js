@@ -21,16 +21,20 @@ var RegisterFormValidator = {
 
         if(fullName.length === 0 || fullName.length > 64) {
             errorMsg = "Name must be between 1 and 64 characters long.";
+        }else if(email.length > 128) {
+            errorMsg = "Email must be less than 128 characters long.";
         }else if(!RegisterFormValidator.isValidEmail(email)) {
-            errorMsg = "Email must be of the form something@example.com";
+            errorMsg = "Email must be a valid email address (e.g. something@example.com)";
         }else if(!RegisterFormValidator.isValidPhoneNumber(phoneNum)) {
-            errorMsg = "Phone number must be of the form XXX-XXX-XXXX and X's must consist only of numbers";
+            errorMsg = "Phone number must be of the form XXX-XXX-XXXX or XXXXXXXXXX (10 digits)";
         }else if(!isOwnerChecked && !isSitterChecked) {
-            errorMsg = "Owner type must be selected";
+            errorMsg = "Please select a user type (owner or sitter).";
         }else if(password.length <= 7) {
             errorMsg = "Password must be at least 8 characters long"
+        }else if(!password.match(/[a-z]/) || !password.match(/[A-Z]/) || !password.match(/[0-9]/)){
+            errorMsg = "Password must contain a lowercase and uppercase letter, and a number."
         }else if(password != confirmPassword) {
-            errorMsg = "Passwords must match";
+            errorMsg = "Passwords must match.";
         }
         
         return errorMsg;
@@ -42,8 +46,9 @@ var RegisterFormValidator = {
     },
 
     isValidPhoneNumber: function(phone_num) {
-        if(!phone_num.match(/^[0-9]{3}(-[0-9]{3})(-[0-9]{4})?$/))
-            return false;
+        if(!phone_num.match(/^[0-9]{10}$/))
+            if(!phone_num.match(/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/))
+                return false;
         return true;
     }
 }

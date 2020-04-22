@@ -13,14 +13,13 @@
         <div class="register-container">
             <h2 class="welcome">Welcome to Spot!</h2>
             <h6 class="subtitle">new here? fill out this form to create an account</h6>
-            <p style="text-align:center" class="error-color small-text" id="validate_error"></p>
             <form class="register-form" id="register-form" action="/register" method="post">
                 <table class="register-table">
                     <tr>
                         <td></td>
                         <td>
                             <p class="error-color small-text no-margin-top no-margin-bottom" 
-                                id="validate_error"></p>
+                                id="validate_error">{{ errorMsg }}</p>
                         </td>
                     </tr>
                     <tr>

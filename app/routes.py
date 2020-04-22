@@ -144,8 +144,11 @@ def logout():
 def register_form():
     logger.trace('Register form accessed')
     
+    errorMsg = request.args.get('error') or ''
+
     html = render_template('users/register.html',
-        title='Register | Spot')
+        title='Register | Spot',
+        errorMsg=errorMsg)
     response = make_response(html)
     return response
 
