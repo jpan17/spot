@@ -62,7 +62,7 @@ class Listing(db.Model):
     full_time = db.Column(db.Boolean(), default=True, nullable=False)
     zip_code = db.Column(db.String(10), nullable=False)
     pet_image_url = db.Column(db.Text())
-    extra_info = db.Column(db.String(1000))
+    extra_info = db.Column(db.String(1000)) 
 
     # Array of Activities, using ARRAY type which is supported ONLY by Postgres
     activities = db.Column(ARRAY(db.String(64), dimensions=1), nullable=False)

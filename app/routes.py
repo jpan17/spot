@@ -273,7 +273,7 @@ def listing_new_endpoint():
             parts_of_filename = secure_filename(pet_image_file.filename).split('.')
             filename = '.'.join([pbkdf2_hex('.'.join(parts_of_filename[:-1]), app.config['SECURITY_PASSWORD_SALT']), parts_of_filename[len(parts_of_filename) - 1]])
             pet_image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            pet_image_url = url_for('static', filename=os.path.join('/'.join(app.config['UPLOAD_FOLDER'].split('/')[1:]), filename), external= True)
+            pet_image_url = url_for('static', filename=os.path.join('/'.join(app.config['UPLOAD_FOLDER'].split('/')[1:]), filename), _external= True)
 
     
     listing = Listing(
@@ -283,22 +283,25 @@ def listing_new_endpoint():
         end_time=end,
         full_time=True,
         zip_code=zip_code,
+        pet_image_url=pet_image_url,
         extra_info=extra_info,
         activities=activities,
         user_id=current_user.id)
 
     try:
-        logger.debug('Attempting to persist listing with fields: (pet_name={0},pet_type={1},start_time={2},end_time={3},full_time={4},zip_code={5},extra_info={6},activities={7},user_id={8})'.format(
+        logger.debug('Attempting to persist listing with fields: (pet_name={0},pet_type={1},start_time={2},end_time={3},full_time={4},zip_code={5},pet_image_url={6},extra_info={7},activities={8},user_id={9})'.format(
             pet_name,
             pet_type,
             start.isoformat(),
             end.isoformat(),
             True,
             zip_code,
+            pet_image_url,
             extra_info,
             activities,
             current_user.id
         ))
+        
         new_listing = db_service.create_listing(listing)
         
         if type(new_listing) != str:
@@ -321,7 +324,7 @@ def listing_details(listing_id):
     listing = db_service.get_listing_by_id(listing_id)
     if listing == None:
         return redirect(url_for('error', error='Listing not found.'))
-
+    
     if current_user.is_owner:
         if listing.user_id == current_user.id:
             html = render_template('users/owners/listing_details.html',
