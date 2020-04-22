@@ -3,15 +3,18 @@
     <head>
         <title>{{ title }}</title>
         {% include 'components/links.html' %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     </head>
     <body>
         {% include 'components/header.html' %}
         {% include 'components/background.html' %}
 
         <div class="content-container standard vertical">
-            <h3>Error: {{error}} </h3>
-            <h3><a href = > Click here </a> to return home</h3>
+            <h4>
+                    <a href="{{ url_for('home') }}"
+                        class="regular-text">&lt; return home</a>
+            </h4>
+            <br>
+            <h3 class="no-margin-top"> Error: {{error}}  </h3>
         </div>
         {% include 'components/footer.html' %}
     </body>

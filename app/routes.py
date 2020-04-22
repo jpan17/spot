@@ -497,7 +497,7 @@ def error():
 
     logger.warn('Error page reached/accessed by', userStr, 'with error:', error)
     
-    html = render_template('error.html',
+    html = render_template('users/error.html',
                             title="Error | Spot",
                             error = error,
                             user = current_user)

@@ -289,6 +289,10 @@ span.horizontal-line {
     white-space: nowrap;
 }
 
+.no-margin-top {
+    margin-top: 0;
+}
+
 h1.inline-header, h2.inline-header, h3.inline-header, h4.inline-header, h5.inline-header, h6.inline-header {
     display: inline-block;
 }

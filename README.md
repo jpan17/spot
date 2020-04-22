@@ -1,16 +1,40 @@
 # SPOT
-A web application to help pet owners find pet enthusiasts to watch over their animals. This branch is a very early demonstration of the database management system we plan on using (Flask), and the Flask code is intended to be reusable for later versions of the project.
+A web application to help pet owners find pet enthusiasts to watch over their animals.
 
 ## Information for Setup and Configuration
-- [config.py](config.py) contains a reference to os.environ.get('DATABASE_URL') and os.environ.get('SPOT_SECRET_KEY'), but I have gitignore-d the .env file I store that in (as it contains my password and secret key).
+### Deploying to Heroku
+- [spot_config.py](spot_config.py) references several security-related and other configuration environment variables, but .flaskenv and .env are ignored in Heroku's environment. Instead, use their configurations variables feature to set _all_ of the required environment variables (see [Staging locally](#staging-locally) for descriptions of environment variables).
+    - For example:
+    ```
+    heroku config:set SPOT_MODE=production
+    ```
+- Note that a [manage.py](#), [wsgi.py](#), and [Procfile](#) will be required in order to deploy on Heroku. See [this link](https://www.geeksforgeeks.org/deploy-python-flask-app-on-heroku/) and [this link](https://medium.com/the-andela-way/deploying-a-python-flask-app-to-heroku-41250bda27d0) for a couple of tutorials for general deployment, and [this link](https://devcenter.heroku.com/articles/heroku-postgresql#provisioning-heroku-postgres) for setting up Postgres on Heroku (not sure what we used previously, but the tutorials should cover most of the required aspects of deployment)
+    - Upon deployment, one must upgrade the database. Most likely, the command to do so should be:
+    ```
+    heroku run upgrade
+    ```
+    - See [Staging locally](#staging-locally) for doing this for our current method of introducing significant changes to database schema.
+
+### Staging Locally
+- [spot_config.py](spot_config.py) contains a reference to several security-related environment variables, but I have gitignore-d the .env file I store that in (as it contains my password and other passwords/secret keys).
     - An example .env file would contain a line with exactly these contents: 
     ``` DATABASE_URL = 'postgresql://postgres:my_password@localhost:5432/spot_dev' 
-    SPOT_SECRET_KEY = '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8' ```
+    SPOT_SECRET_KEY = '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8' 
+    SPOT_SECURITY_PASSWORD_SALT = 'this is a salt'
+    
+    APP_MAIL_USERNAME='princeton.spot.team'
+    APP_MAIL_PASSWORD='this_is_a_password'
+    ```
     - General format for DATABASE_URL: "DATABASE_URL = 'dialect+driver://username:password@host:port/database'"
     - SPOT_SECRET_KEY can be generated with os.urandom(24)
+        - To generate a new one, 'python gen_key.py > temp.txt' will save a keystring to a new file called temp.txt
+    - SPOT_SECURITY_PASSWORD_SALT can be any string
+    - APP_MAIL_USERNAME is the gmail username (everything before the @gmail.com)
+    - APP_MAIL_PASSWORD is the corresponding password for the account.
 - Before running the application, but after creating your Postgres database, run the following command to structure the database correctly:
     - ``` flask db upgrade ```
     - Also, run this anytime the database structure changes (the migration scripts are in [migrations](migrations)).
+        - Note: For significant changes, it will be easiest to clear the database, which can be done by running the app with SPOT_MODE set to 'test' and clicking "Clear Database" on the homepage, then changing SPOT_MODE back.
 - To run the application:
     - Navigate to the highest level directory ([app](app), [config.py](config.py), etc. should be in that directory), and run the command:
         - ``` flask run ```
@@ -18,7 +42,7 @@ A web application to help pet owners find pet enthusiasts to watch over their an
 
 ## Developer Information
 - The [.flaskenv](.flaskenv) contains the environment variable FLASK_ENV set to 'development', enabling all development features.
-- When creating HTML pages, make sure [background.html](templates/background.html) is included *before* [header.html](templates/header.html), because the spots are intended to be covered by the header bar, not the other way around.
+- When creating HTML pages, make sure to include [background.html](templates/background.html), [header.html](templates/header.html), [links.html](templates/links.html), and [footer.html](templates/footer.html) (see any of the html templates in [templates/users/](templates/users/) for an example).
 
 ## Required Packages (see [requirements.txt](requirements.txt) for versions)
 - pip install flask (to run web app)
@@ -28,7 +52,7 @@ A web application to help pet owners find pet enthusiasts to watch over their an
 - pip install flask-login (for user authentication)
 - pip install psycopg2 (for PostgreSQL)
 - pip install -U sphinx (for documentation)
-- pip install Flask-Mail
+- pip install flask-mail (for email sending)
 - PostgreSQL for DBMS
 
 ## Testing Information
