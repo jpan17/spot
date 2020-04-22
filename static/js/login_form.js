@@ -12,20 +12,23 @@ var LoginFormValidator = {
     validateForm: function() {
         var email = $("#email").val();
         var password = $("#password").val();
+        var errorMsg = "";
 
         if(!LoginFormValidator.isValidEmail(email)) {
-            errorMsg = "Email must be of the form something@example.com";
-        }else if(password.length==0) {
-            errorMsg = "User must input password";
+            errorMsg = "Email must be valid (e.g. something@example.com).";
+        }else if(password.length === 0) {
+            errorMsg = "Please input a password";
         }
         
         return errorMsg;
     },
 
     isValidEmail: function(email) {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
-    },
+        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(email.match(re))
+            return true;
+        return false;
+    }
 }
 
 $(document).ready(LoginFormValidator.setup);

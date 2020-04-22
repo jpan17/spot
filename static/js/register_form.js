@@ -24,13 +24,13 @@ var RegisterFormValidator = {
         }else if(email.length > 128) {
             errorMsg = "Email must be less than 128 characters long.";
         }else if(!RegisterFormValidator.isValidEmail(email)) {
-            errorMsg = "Email must be a valid email address (e.g. something@example.com)";
+            errorMsg = "Email must be valid (e.g. something@example.com).";
         }else if(!RegisterFormValidator.isValidPhoneNumber(phoneNum)) {
-            errorMsg = "Phone number must be of the form XXX-XXX-XXXX or XXXXXXXXXX (10 digits)";
+            errorMsg = "Phone number must be of the form ###-###-#### or ##########.";
         }else if(!isOwnerChecked && !isSitterChecked) {
             errorMsg = "Please select a user type (owner or sitter).";
         }else if(password.length <= 7) {
-            errorMsg = "Password must be at least 8 characters long"
+            errorMsg = "Password must be at least 8 characters long."
         }else if(!password.match(/[a-z]/) || !password.match(/[A-Z]/) || !password.match(/[0-9]/)){
             errorMsg = "Password must contain a lowercase and uppercase letter, and a number."
         }else if(password != confirmPassword) {
@@ -41,8 +41,10 @@ var RegisterFormValidator = {
     },
 
     isValidEmail: function(email) {
-        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
+        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(email.match(re))
+            return true;
+        return false;
     },
 
     isValidPhoneNumber: function(phone_num) {

@@ -96,8 +96,11 @@ def load_user(user_id):
 def login_form():
     logger.trace('Login form accessed')
 
+    errorMsg = request.args.get('error') or ''
+
     html = render_template('users/login.html',
-        title='Login | Spot')
+        title='Login | Spot',
+        errorMsg=errorMsg)
     response = make_response(html)
     return response   
 

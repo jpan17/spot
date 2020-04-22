@@ -18,8 +18,9 @@
                 <div class="login-heading spot-font">
                     LOGIN
                 </div>
-                <p class="error-color small-text" id="validate_error"></p>
-                <form class="login-form" action='/login' method="post">
+                <p class="error-color small-text no-margin-bottom no-margin-top" 
+                    id="validate_error">{{ errorMsg }}</p>
+                <form class="login-form" id="login-form" action='/login' method="post">
                     <div class="emailpass spot-font spot-heading">
                         email
                     </div>
