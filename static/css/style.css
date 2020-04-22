@@ -679,6 +679,14 @@ body {
     height: 6.23077em;
 }
 
+.listing-container .portrait .background img[class$="-image"] {
+    margin-left: -4.48075em;
+    margin-top: -4.48075em;
+    width: 8.9615em;
+    height: 8.9615em;
+    border-radius: 50%;
+}
+
 .listing-container .portrait .background img.dog {
     margin-top: -3.15em;
     margin-left: -3.15em;
