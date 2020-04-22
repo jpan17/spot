@@ -1,6 +1,6 @@
 var RegisterFormValidator = {
     setup: function() {
-        $("#register-form").submit(function(e) {
+        $("#login-form").submit(function(e) {
             var errorMsg = RegisterFormValidator.validateForm();
             if(errorMsg.length > 0) {
                 $("#validate_error").text(errorMsg);
