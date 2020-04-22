@@ -8,20 +8,13 @@ from flask_login import UserMixin, login_required, current_user, login_user, log
 from app.models import User, Listing
 from app.token import generate_confirmation_token, confirm_token
 from app.email import send_new_confirmation_token
-from werkzeug.utils import secure_filename
-from werkzeug.security import pbkdf2_hex
+from app.util import allowed_file, save_file
 import enums
 import os
 from datetime import datetime
 
 logger = Logger() 
 login_manager.login_view = 'login_form'
-
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # determines which home page to route to based on current_user (login, sitter_home, owner_home)
 @app.route('/', methods=['GET'])
@@ -303,12 +296,8 @@ def listing_new_endpoint():
     
     if 'pet_image' in request.files:
         pet_image_file = request.files['pet_image']
-        if pet_image_file.filename != '' and allowed_file(pet_image_file.filename):
-            parts_of_filename = secure_filename(pet_image_file.filename).split('.')
-            filename = '.'.join([pbkdf2_hex('.'.join(parts_of_filename[:-1]), app.config['SECURITY_PASSWORD_SALT']), parts_of_filename[len(parts_of_filename) - 1]])
-            pet_image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            pet_image_url = url_for('static', filename=os.path.join('/'.join(app.config['UPLOAD_FOLDER'].split('/')[1:]), filename), _external= True)
-
+        if allowed_file(pet_image_file.filename):
+            pet_image_url = save_file(pet_image_file)
     
     listing = Listing(
         pet_name=pet_name,
