@@ -18,8 +18,15 @@
             <div class="listing-details-container">
                 <div class="small-portrait">
                     <div class="background">
+                        {% if listing.pet_image_url: %}
+                        <img class="{{ listing.pet_type.lower() }}-image"
+                            src="{{ listing.pet_image_url }}"
+                            alt="{{ '{0} image'.format(listing.pet_type.lower()) }}">
+                        {% else %}
                         <img class="{{ listing.pet_type.lower() }}"
-                            src="{{ url_for('static', filename='img/portrait/{0}.png'.format(listing.pet_type.lower())) }}">
+                            src="{{ url_for('static', filename='img/portrait/{0}.png'.format(listing.pet_type.lower())) }}"
+                            alt="{{ '{0} silhouette'.format(listing.pet_type.lower()) }}">
+                        {% endif %}
                     </div>
                     <div class="pet-type {{ listing.pet_type.lower() }}">{{
                         listing.pet_type.upper()      
