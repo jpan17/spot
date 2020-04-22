@@ -14,8 +14,14 @@ import enums
 import os
 from datetime import datetime
 
-logger = Logger()
+logger = Logger() 
 login_manager.login_view = 'login_form'
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # determines which home page to route to based on current_user (login, sitter_home, owner_home)
 @app.route('/', methods=['GET'])
@@ -263,11 +269,12 @@ def listing_new_endpoint():
     
     if 'pet_image' in request.files:
         pet_image_file = request.files['pet_image']
-        if pet_image_file.filename != '':
+        if pet_image_file.filename != '' and allowed_file(pet_image_file.filename):
             parts_of_filename = secure_filename(pet_image_file.filename).split('.')
             filename = '.'.join([pbkdf2_hex('.'.join(parts_of_filename[:-1]), app.config['SECURITY_PASSWORD_SALT']), parts_of_filename[len(parts_of_filename) - 1]])
             pet_image_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            pet_image_url = url_for('static', filename=)
+            pet_image_url = url_for('static', filename=os.path.join('/'.join(app.config['UPLOAD_FOLDER'].split('/')[1:]), filename), external= True)
+
     
     listing = Listing(
         pet_name=pet_name,
