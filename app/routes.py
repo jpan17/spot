@@ -7,7 +7,7 @@ from flask import url_for, redirect, flash
 from flask_login import UserMixin, login_required, current_user, login_user, logout_user
 from app.models import User, Listing
 from app.token import generate_confirmation_token, confirm_token
-from app.email import send_email
+from app.email import send_new_confirmation_token
 from werkzeug.utils import secure_filename
 from werkzeug.security import pbkdf2_hex
 import enums
@@ -188,11 +188,7 @@ def register_user():
             return redirect(url_for('register_form', error='Email or phone number already exists.'))
         else:
             logger.info('Created a new user with id', new_user.id)
-            token = generate_confirmation_token(new_user.email)
-            confirm_url = url_for('confirm_email', token=token, _external=True)
-            html = render_template('users/activate.html', confirm_url=confirm_url)
-            subject = "Confirm your email to create your Spot account"
-            send_email(new_user.email, subject, html)
+            send_new_confirmation_token(new_user.email)
             
         return redirect(url_for('login_form'))
     except Exception as e:
@@ -220,11 +216,7 @@ def resend_confirmation(user_id):
     if user is not None:
         logger.trace('Attempting to resend confirmation email to user', user_id)
         try:
-            token = generate_confirmation_token(user.email)
-            confirm_url = url_for('confirm_email', token=token, _external=True)
-            html = render_template('users/activate.html', confirm_url=confirm_url)
-            subject = "Confirm your email to create your Spot account"
-            send_email(user.email, subject, html)
+            send_new_confirmation_token(user.email)
             logger.debug('Resent confirmation email to user', user_id)
         except Exception as e:
             logger.warn('Failed to resend confirmation email to user {0}: {1}'.format(user_id, str(e)))
