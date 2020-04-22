@@ -1,9 +1,16 @@
 var Spot = {
+    allowedExtensions: ['jpg', 'jpeg', 'png'],
+
     setup: function() {
         // Implement custom file inputs to display uploaded file
         $('.file-input input[type=file]').change(function() {
-            var file = $(this).prop('files')[0].name;
-            if(file.length > 20) file = file.substring(0, 17) + '...';
+            let file = $(this).prop('files')[0].name;
+            let fileParts = file.split('.');
+            let extension = fileParts[fileParts.length - 1].toLowerCase();
+            if(!Spot.allowedExtensions.includes(extension))
+                file = 'Invalid extension: ' + extension;
+            else if(file.length > 20) 
+                file = file.substring(0, 17) + '...';
             $(this).siblings('.file-name').text(file);
         })
     },

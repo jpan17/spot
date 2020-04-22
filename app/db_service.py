@@ -10,7 +10,7 @@ from app.models import User, Listing
 from datetime import datetime
 import enums
 from werkzeug.security import generate_password_hash as generate_hash, check_password_hash as check_hash
-
+import os
 
 # TODO: add specific validation such as empty strings, valid format for phone number, email, etc into functions!
 def generate_password_hash(password):
@@ -547,11 +547,19 @@ def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, en
         db.session.rollback()
         return str(e)
     
+# Deletes listing in database *and* deletes the file that it references
 def delete_listing(listing_id):
     try:
         listing_query = Listing.query.filter_by(id=listing_id)
         listing = listing_query.first()
         listing.sitters = []
+
+        # Delete old image if there was one
+        if listing.pet_image_url:
+            old_image_path = os.path.join(app.config['UPLOAD_FOLDER'], os.path.basename(listing.pet_image_url))
+            if os.path.exists(old_image_path):
+                os.remove(old_image_path)
+
         listing_query.delete()
         db.session.commit()
         return ''

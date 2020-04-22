@@ -32,6 +32,8 @@ def allowed_file(filename):
     True
     >>> allowed_file('not_an_image.pdf')
     False
+    >>> allowed_file('')
+    False
     """
     
     if type(filename) != str:
