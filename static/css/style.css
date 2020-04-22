@@ -256,6 +256,10 @@ a.regular-text {
     color: #B60000;
 }
 
+.required-color {
+    color: red;
+}
+
 .small-text {
     font-size: 1rem;
 }

@@ -31,7 +31,7 @@
                         <tr>
                             <td>
                                 <label for="pet_name">
-                                    Name of Pet:
+                                    Name of Pet<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td colspan="2">
@@ -47,7 +47,7 @@
                         <tr>
                             <td>
                                 <label for="start_date">
-                                    Start Date:
+                                    Start Date<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td>
@@ -60,7 +60,7 @@
                             </td>
                             <td class="secondary-label">
                                 <label for="start_time">
-                                    Start Time:
+                                    Start Time<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td>
@@ -76,7 +76,7 @@
                         <tr>
                             <td>
                                 <label for="end_date">
-                                    End Date:
+                                    End Date<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td>
@@ -89,7 +89,7 @@
                             </td>
                             <td class="secondary-label">
                                 <label for="end_time">
-                                    End Time:
+                                    End Time<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td>
@@ -105,7 +105,7 @@
                         <tr>
                             <td>
                                 <label>
-                                    Pet Type:
+                                    Pet Type<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td colspan="1000">
@@ -126,7 +126,7 @@
                         <tr>
                             <td>
                                 <label>
-                                    Activities:
+                                    Activities<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td colspan="1000">
@@ -147,7 +147,7 @@
                         <tr>
                             <td>
                                 <label for="zip_code">
-                                    Zip Code:
+                                    Zip Code<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td>
@@ -158,7 +158,10 @@
                                 <input type="text" id="zip_code" name="zip_code">
                                 {% endif %}
                             </td>
-                            <td colspan="1000">
+                            <td class="secondary-label">
+                                <label for="pet_image">Pet Image:</label>
+                            </td>
+                            <td>
                                 <input type="file" id="pet_image" name="pet_image">
                             </td>
                         </tr>
