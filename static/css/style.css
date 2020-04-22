@@ -230,6 +230,17 @@ label.checkbox input[type=checkbox]:checked + *.checked {
     border-width: 0px;
 }
 
+.file-input input[type=file] {
+    display: none;
+}
+
+.file-input .file-name {
+    margin-left: 0.2em;
+
+    content: "";
+    font-size: 1rem;
+}
+
 label {
     font-family: 'Varela Round';
     font-style: normal;

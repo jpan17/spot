@@ -162,7 +162,15 @@
                                 <label for="pet_image">Pet Image:</label>
                             </td>
                             <td>
-                                <input type="file" id="pet_image" name="pet_image">
+                                <span class="file-input">
+                                    <label for="pet_image" class="medium-button purple clickable">Upload Image</label>
+                                    <input type="file" id="pet_image" name="pet_image" accept=".jpg, .jpeg, .png">
+                                    {% if listing: %}
+                                    <span class="file-name">(unchanged)</span>
+                                    {% else %}
+                                    <span class="file-name">No file chosen</span>
+                                    {% endif %}
+                                </span>
                             </td>
                         </tr>
                         <tr>
