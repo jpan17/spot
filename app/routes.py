@@ -527,25 +527,25 @@ def listing_accept(listing_id):
         return redirect(url_for('error', error='Could not accept listing: {0}'.format(errorMsg)))
 
     logger.info('User {0} accepted listing {1} successfully'.format(current_user.id, listing_id))
-    sitter_subject = "You accepted a Spot request!"
-    listing = db_service.get_listing_by_id(listing_id)
-    pet_name = listing.pet_name
-    sitter_html = render_template('users/sitters/accepted_email.html', 
-                                  sitter_name=current_user.full_name, 
-                                  pet_name=pet_name)
-    send_email(current_user.email, sitter_subject, sitter_html)
-    print("here")
-    owner_subject = current_user.full_name + " accepted your listing for " + pet_name + "!"
-    owner = db_service.get_user_by_id(listing.user_id)
-    owner_name = owner.full_name
-    owner_html = render_template('users/owners/accepted_email.html',
-                                 pet_name=pet_name,
-                                 sitter_email=current_user.email,
-                                 sitter_name=current_user.full_name,
-                                 owner_name=owner_name)
     
-    print(owner.email)
-    send_email(owner.email, owner_subject, owner_html)
+    if db_service.is_listing_accepted(current_user.id, listing_id):
+        sitter_subject = "You accepted a Spot request!"
+        listing = db_service.get_listing_by_id(listing_id)
+        pet_name = listing.pet_name
+        sitter_html = render_template('users/sitters/accepted_email.html', 
+                                    sitter_name=current_user.full_name, 
+                                    pet_name=pet_name)
+        send_email(current_user.email, sitter_subject, sitter_html)
+        owner_subject = current_user.full_name + " accepted your listing for " + pet_name + "!"
+        owner = db_service.get_user_by_id(listing.user_id)
+        owner_name = owner.full_name
+        owner_html = render_template('users/owners/accepted_email.html',
+                                    pet_name=pet_name,
+                                    sitter_email=current_user.email,
+                                    sitter_name=current_user.full_name,
+                                    owner_name=owner_name)
+        
+        send_email(owner.email, owner_subject, owner_html)
     return redirect(url_for('listing_details', listing_id = listing_id))
 
 @app.route('/error')
