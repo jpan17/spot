@@ -527,6 +527,9 @@ def listing_accept(listing_id):
         return redirect(url_for('error', error='Could not accept listing: {0}'.format(errorMsg)))
 
     logger.info('User {0} accepted listing {1} successfully'.format(current_user.id, listing_id))
+    subject = "You accepted a Spot request!"
+    html = render_template('users/sitters/accepted.html', sitter_name=current_user.name)
+    send_email(current_user.email, subject, html)
     return redirect(url_for('listing_details', listing_id = listing_id))
 
 @app.route('/error')
