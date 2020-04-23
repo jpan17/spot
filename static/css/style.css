@@ -688,6 +688,25 @@ body {
     background: #FFFFFF;
 }
 
+/* For images */
+.listing-container .portrait .background div[class$="-image"] {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 1em;
+
+    margin-left: -4.48075em;
+    margin-top: -4.48075em;
+    width: 8.9615em;
+    height: 8.9615em;
+    border-radius: 50%;
+
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* For silhouettes */
 .listing-container .portrait .background img {
     position: absolute;
     top: 50%;
@@ -700,14 +719,6 @@ body {
     margin-left: -3.1154em;
     width: 6.23077em;
     height: 6.23077em;
-}
-
-.listing-container .portrait .background img[class$="-image"] {
-    margin-left: -4.48075em;
-    margin-top: -4.48075em;
-    width: 8.9615em;
-    height: 8.9615em;
-    border-radius: 50%;
 }
 
 .listing-container .portrait .background img.dog {

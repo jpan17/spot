@@ -3,9 +3,8 @@ onclick="Spot.redirect('{{ url_for('listing_details', listing_id=listing.id) }}'
     <div class="portrait">
         <div class="background">
             {% if listing.pet_image_url %}
-            <img class="{{ listing.pet_type.lower() }}-image"
-                src="{{ listing.pet_image_url }}"
-                alt="{{ '{0} image'.format(listing.pet_type.lower()) }}">
+            <div class="{{ listing.pet_type.lower() }}-image"
+                style="background-image: url({{ listing.pet_image_url }})"></div>
             {% else %}
             <img class="{{ listing.pet_type.lower() }}"
                 src="{{ url_for('static', filename='img/portrait/{0}-blue.png'.format(listing.pet_type.lower())) }}"
