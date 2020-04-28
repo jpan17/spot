@@ -126,6 +126,21 @@ class Listing(db.Model):
     def end_time_repr(self):
         return '{dt.month}/{dt.day} {hour}:{minute_am_pm}'.format(dt=self.end_time, hour=((self.end_time.hour + 11) % 12 + 1), minute_am_pm=self.end_time.strftime('%M %p'))
 
+    def to_json_dict(self):
+        return {
+            "id": self.id,
+            "pet_name": self.pet_name,
+            "pet_type": self.pet_type,
+            "start_time": self.start_time_repr(),
+            "end_time": self.end_time_repr(),
+            "full_time": self.full_time,
+            "zip_code": self.zip_code,
+            "pet_image_url": self.pet_image_url,
+            "description": self.extra_info,
+            "user_id": self.user_id,
+            "activities": ', '.join(self.activities)
+        }
+
 # =======================================================================================================
 # =                            __repr__ functions (for use in debugging)                                =
 # =======================================================================================================
