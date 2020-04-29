@@ -4,6 +4,7 @@
         <title>{{ title }}</title>
         {% include 'components/links.html' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/listing_form.css') }}">
+        <script src="https://cdn.jsdelivr.net/npm/places.js@1.18.2"></script>
         <script src="{{ url_for('static', filename='js/listing_form.js') }}"></script>
     </head>
     <body>
@@ -25,12 +26,13 @@
                     {% else: %}
                     action="{{ url_for('listing_new_endpoint') }}"
                     {% endif %}
-                    method="post" id="listing_form">
+                    method="post" id="listing_form"
+                    enctype="multipart/form-data">
                     <table class="listing-form-table">
                         <tr>
                             <td>
                                 <label for="pet_name">
-                                    Name of Pet:
+                                    Name of Pet<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td colspan="2">
@@ -46,7 +48,7 @@
                         <tr>
                             <td>
                                 <label for="start_date">
-                                    Start Date:
+                                    Start Date<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td>
@@ -59,7 +61,7 @@
                             </td>
                             <td class="secondary-label">
                                 <label for="start_time">
-                                    Start Time:
+                                    Start Time<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td>
@@ -75,7 +77,7 @@
                         <tr>
                             <td>
                                 <label for="end_date">
-                                    End Date:
+                                    End Date<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td>
@@ -88,7 +90,7 @@
                             </td>
                             <td class="secondary-label">
                                 <label for="end_time">
-                                    End Time:
+                                    End Time<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td>
@@ -104,7 +106,7 @@
                         <tr>
                             <td>
                                 <label>
-                                    Pet Type:
+                                    Pet Type<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td colspan="1000">
@@ -125,7 +127,7 @@
                         <tr>
                             <td>
                                 <label>
-                                    Activities:
+                                    Activities<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td colspan="1000">
@@ -146,16 +148,46 @@
                         <tr>
                             <td>
                                 <label for="zip_code">
-                                    Zip Code:
+                                    Address<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td>
                                 {% if listing: %}
-                                <input type="text" id="zip_code" name="zip_code"
-                                    value="{{ listing.zip_code }}">
+                                <input type="search" class="address_input ready-to-submit" id="address_input" name="address_input"
+                                value="{{ listing.address_str }}"
+                                autocomplete="off"
+                                autocorrect="off"
+                                autocapitalize="none"
+                                spellcheck="false">
+                                <input type="hidden" id="zip_code" name="zip_code" value="{{ listing.zip_code }}">
+                                <input type="hidden" id="lat" name="lat" value="{{ listing.lat }}">
+                                <input type="hidden" id="lng" name="lng" value="{{ listing.lng }}">
+                                <input type="hidden" id="address_id" name="address_id" value="{{ listing.address_id }}">
                                 {% else: %}
-                                <input type="text" id="zip_code" name="zip_code">
+                                <input type="search" class="address_input" id="address_input" name="address_input"
+                                autocomplete="off"
+                                autocorrect="off"
+                                autocapitalize="none"
+                                spellcheck="false">
+                                <input type="hidden" id="zip_code" name="zip_code">
+                                <input type="hidden" id="lat" name="lat">
+                                <input type="hidden" id="lng" name="lng">
+                                <input type="hidden" id="address_id" name="address_id">
                                 {% endif %}
+                            </td>
+                            <td class="secondary-label">
+                                <label for="pet_image">Pet Image:</label>
+                            </td>
+                            <td>
+                                <span class="file-input">
+                                    <label for="pet_image" class="medium-button purple clickable">Upload Image</label>
+                                    <input type="file" id="pet_image" name="pet_image" accept=".jpg, .jpeg, .png">
+                                    {% if listing: %}
+                                    <span class="file-name">(unchanged)</span>
+                                    {% else %}
+                                    <span class="file-name">No file chosen</span>
+                                    {% endif %}
+                                </span>
                             </td>
                         </tr>
                         <tr>
@@ -182,4 +214,4 @@
 
         {% include 'components/footer.html' %}
     </body>
-</html>
+</html> 

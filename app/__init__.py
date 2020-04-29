@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_mail import Mail
 from spot_config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -20,17 +21,21 @@ if spot_mode == 'prototype':
 app = Flask(__name__, template_folder=template_folder, static_url_path='/static', static_folder=static_folder)
 app.config.from_object(Config)
 
+mail = Mail(app)
+
 # Initialize SQLAlchemy and Migrate for database management
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # Initialize flask-login for user authentication/session management
 if spot_mode != 'test' and spot_mode != 'prototype':
-    app.secret_key = os.urandom(24)
     login_manager = LoginManager()
     login_manager.init_app(app)
 
-from app import models
+if spot_mode == 'test' or spot_mode == 'prototype':
+    from test import models
+else:    
+    from app import models
 
 # Import routes from test if testing, otherwise from app
 if spot_mode == 'test':

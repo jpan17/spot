@@ -4,6 +4,7 @@
         <title>{{ title }}</title>
         {% include 'components/links.html' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+        <script src="{{ url_for('static', filename='js/register_form.js') }}"></script>
     </head>
     <body>
         {% include 'components/header.html' %}
@@ -12,15 +13,21 @@
         <div class="register-container">
             <h2 class="welcome">Welcome to Spot!</h2>
             <h6 class="subtitle">new here? fill out this form to create an account</h6>
-            <!-- TODO MAKE THIS FORM ACTUALLY POST SOMEWHERE -->
-            <form class="register-form" action="/register" method="post">
+            <form class="register-form" id="register-form" action="/register" method="post">
                 <table class="register-table">
+                    <tr>
+                        <td></td>
+                        <td>
+                            <p class="error-color small-text no-margin-top no-margin-bottom" 
+                                id="validate_error">{{ errorMsg }}</p>
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             <label for="full_name">Name:</label>
                         </td>
                         <td>
-                            <input type="text" name="full_name" id="full_name" required>
+                            <input type="text" name="full_name" id="full_name">
                         </td>
                     </tr>
                     <tr>
@@ -28,7 +35,7 @@
                             <label for="email">Email:</label>
                         </td>
                         <td>
-                            <input type="email" name="email" id="email" required>
+                            <input type="email" name="email" id="email">
                         </td>
                     </tr>
                     <tr>
@@ -36,8 +43,7 @@
                             <label for="phone_number">Phone Number:</label>
                         </td>
                         <td>
-                            <input type="tel" id="phone_number" name="phone_number" 
-                            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+                            <input type="tel" id="phone_number" name="phone_number">
                         </td>
                     </tr>
                     <tr>
@@ -62,7 +68,7 @@
                             <label for="password">Password:</label>
                         </td>
                         <td>
-                            <input type="password" id="password" name="password" required>
+                            <input type="password" id="password" name="password">
                         </td>
                     </tr>
                     <tr>
@@ -70,7 +76,7 @@
                             <label for="confirm_password">Confirm Password:</label>
                         </td>
                         <td>
-                            <input type="password" id="confirm_password" name="confirm_password" required>
+                            <input type="password" id="confirm_password" name="confirm_password">
                         </td>
                     </tr>
                 </table>

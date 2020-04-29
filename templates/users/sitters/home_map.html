@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        {% include 'components/links.html' %}
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin=""/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/home_map.css') }}">
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+   crossorigin=""></script>
+        <script src="{{ url_for('static', filename='js/home_map.js') }}"></script>
+    </head>
+    <body>
+        {% include 'components/header.html' %}
+        {% include 'components/background.html' %}
+        <div class="overall-container">
+            <div class="top-container">
+                <h4>
+                    <a href="{{ url_for('home') }}"
+                        class="regular-text">&lt; return home</a>
+                </h4>
+                <div class="filler"></div>
+                <div class="filters">
+                    <h5>
+                        Filters:
+                    </h5>
+                    <form id="filter-form" method="get">
+                    <!-- List of filters Below -->
+                    <!-- Button and parent of dropdown menu -->
+                    <div class="clickable filter-button" 
+                    id="pet_type_filter_button"
+                    onclick="SpotMapFilters.clear_pet_types()"
+                    >X&nbsp;&nbsp;Type of Animal
+                    <!-- Dropdown menu itself -->
+                    <div class="dropdown" onclick="SpotMapFilters.pet_types_dropdown_click(event)">
+                        <!-- Contents of dropdown menu -->
+                        {% for pet_type in pet_types: %}
+                        <label class="checkbox" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
+                            <input type="checkbox" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
+                            name="pet_type_{{ pet_type.lower().replace(' ', '_') }}" value="true" {%if filtered_pet_types %}{% if pet_type in filtered_pet_types: %}
+                            checked
+                        {% endif %}{% endif %}> 
+                            <span class="checked"></span>
+                            {{ pet_type }}
+                        </label><br>
+                        {% endfor %}
+                        <!-- End of contents of dropdown menu -->
+                    </div>
+                    <!-- End of button and parent of dropdown menu -->
+                </div>
+                <!-- Button and parent of dropdown menu -->
+                <div class="clickable filter-button" 
+                    id="activities_filter_button"
+                    onclick="SpotMapFilters.clear_activities()"
+                    >X&nbsp;&nbsp;Activities
+                    <!-- Dropdown menu itself -->
+                    <div class="dropdown" onclick="SpotMapFilters.activities_dropdown_click(event)">
+                        <!-- Dropdown menu contents -->
+                        {% for activity in activities: %}
+                        <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
+                            <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
+                                name="activity_{{ activity.lower().replace(' ', '_') }}" value="true" {%if filtered_activities %}{% if activity in filtered_activities: %}
+                                checked
+                            {% endif %}{% endif %}>
+                            <span class="checked"></span>
+                            {{ activity }}
+                        </label><br>
+                        {% endfor %}
+                        <!-- End of dropdown menu contents-->
+                    </div>
+                    <!-- End of button and parent of dropdown menu -->
+                </div>
+                <input class="medium-button purple clickable" type="submit" value="Filter">
+                </form>
+                </div>
+            </div>
+            <div id="map-view"></div>
+        </div>
+
+        {% include 'components/footer.html' %}
+    </body>
+</html>

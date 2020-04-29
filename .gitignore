@@ -1,4 +1,7 @@
 __pycache__/
 .vscode/
 .env
+.DS_Store
 venv/
+static/img/uploads/*
+!static/img/uploads/.gitkeep

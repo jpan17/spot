@@ -1,10 +1,15 @@
 <div class="listing-container clickable"
-onclick="redirect('{{ url_for('listing_details', listing_id=listing.id) }}')">
+onclick="Spot.redirect('{{ url_for('listing_details', listing_id=listing.id) }}')">
     <div class="portrait">
         <div class="background">
+            {% if listing.pet_image_url %}
+            <div class="{{ listing.pet_type.lower() }}-image"
+                style="background-image: url({{ listing.pet_image_url }})"></div>
+            {% else %}
             <img class="{{ listing.pet_type.lower() }}"
                 src="{{ url_for('static', filename='img/portrait/{0}-blue.png'.format(listing.pet_type.lower())) }}"
                 alt="{{ '{0} silhouette'.format(listing.pet_type.lower()) }}">
+            {% endif %}
         </div>
         <div class="pet-type {{ listing.pet_type.lower() }}">{{ listing.pet_type.upper() }}</div>
     </div>

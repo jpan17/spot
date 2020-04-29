@@ -37,6 +37,25 @@
     background: #5680E9;
 }
 
+/* For images */
+.listing-details-container .small-portrait .background div[class$="-image"] {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 1em;
+
+    margin-left: -4.160715em;
+    margin-top: -4.160715em;
+    width: 8.32143em;
+    height: 8.32143em;
+    border-radius: 50%;
+
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* For silhouettes */
 .listing-details-container .small-portrait .background img {
     position: absolute;
     top: 50%;
@@ -213,6 +232,25 @@
     background: #5680E9;
 }
 
+/* For images */
+.content-container .big-portrait .background div[class$="-image"] {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 1em;
+
+    margin-left: -4.160715em;
+    margin-top: -4.160715em;
+    width: 8.32143em;
+    height: 8.32143em;
+    border-radius: 50%;
+
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* For silhouettes */
 .content-container .big-portrait .background img {
     position: absolute;
     top: 50%;

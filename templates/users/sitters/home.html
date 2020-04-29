@@ -4,64 +4,95 @@
         <title>{{ title }}</title>
         {% include 'components/links.html' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+        <script src="{{ url_for('static', filename='js/filter.js') }}"></script>
     </head>
     <body>
         {% include 'components/header.html' %}
         {% include 'components/background.html' %}
 
         <div class="content-container standard vertical">
-            <h3>Explore listings:</h3>
-            <div class="listing-form-container">
-                <form class="listing-form">
-
-                    <input type="text" placeholder="Enter your zip code" id="zip_code" name="zip_code">
-
-                    <table class="listing-form-table">
-
-                        <tr>
-                            <td>
-                                <label>
-                                    Pet Type:
-                                </label>
-                            </td>
-                            <td colspan="1000">
-                                {% for pet_type in pet_types: %}
-                                    <label class="checkbox" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
-                                        <input type="checkbox" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
-                                        name="pet_type_{{ pet_type.lower().replace(' ', '_') }}" value="true""> 
-                                        <span class="checked"></span>
-                                        {{ pet_type }}
-                                    </label>
-                                {% endfor %}
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <label>
-                                    Activities:
-                                </label>
-                            </td>
-                            <td colspan="1000">
-                                {% for activity in activities: %}
-                                    <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
-                                        <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
-                                            name="activity_{{ activity.lower().replace(' ', '_') }}" value="true"> 
-                                        <span class="checked"></span>
-                                        {{ activity }}
-                                    </label>
-                                {% endfor %}
-                            </td>
-                        </tr>
-
-                    </table>
+            <div class="filter-container">
+                <form class="filter-form" id="filter-form" method="get">  
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h5 class="inline-header explore">Explore our listings:</h5>
+                                </td>
+                                <td>
+                                    {% if zip_code %}
+                                    <input type="text" placeholder="Search by zipcode" id="zip_code" 
+                                    name="zip_code" class="filter" value="{{ zip_code }}">
+                                    {% else %}
+                                    <input type="text" placeholder="Search by zipcode" id="zip_code" 
+                                    name="zip_code" class="filter">
+                                    {% endif %}
+                                    <input class="medium-button purple clickable" type="submit" value="Search">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <!-- List of filters Below -->
+                                    <!-- Button and parent of dropdown menu -->
+                                    <div class="clickable filter-button" 
+                                    id="pet_type_filter_button"
+                                    onclick="SpotFilters.clear_pet_types()"
+                                    >X&nbsp;&nbsp;Type of Animal
+                                    <!-- Dropdown menu itself -->
+                                    <div class="dropdown" onclick="SpotFilters.pet_types_dropdown_click(event)">
+                                        <!-- Contents of dropdown menu -->
+                                        {% for pet_type in pet_types: %}
+                                        <label class="checkbox" for="pet_type_{{ pet_type.lower().replace(' ', '_') }}">
+                                            <input type="checkbox" id="pet_type_{{ pet_type.lower().replace(' ', '_') }}" 
+                                            name="pet_type_{{ pet_type.lower().replace(' ', '_') }}" value="true" {%if filtered_pet_types %}{% if pet_type in filtered_pet_types: %}
+                                            checked
+                                        {% endif %}{% endif %}> 
+                                            <span class="checked"></span>
+                                            {{ pet_type }}
+                                        </label><br>
+                                        {% endfor %}
+                                        <!-- End of contents of dropdown menu -->
+                                    </div>
+                                    <!-- End of button and parent of dropdown menu -->
+                                </div>
+                                <!-- Button and parent of dropdown menu -->
+                                <div class="clickable filter-button" 
+                                    id="activities_filter_button"
+                                    onclick="SpotFilters.clear_activities()"
+                                    >X&nbsp;&nbsp;Activities
+                                    <!-- Dropdown menu itself -->
+                                    <div class="dropdown" onclick="SpotFilters.activities_dropdown_click(event)">
+                                        <!-- Dropdown menu contents -->
+                                        {% for activity in activities: %}
+                                        <label class="checkbox" for="activity_{{ activity.lower().replace(' ', '_') }}">
+                                            <input type="checkbox" id="activity_{{ activity.lower().replace(' ', '_') }}" 
+                                                name="activity_{{ activity.lower().replace(' ', '_') }}" value="true" {%if filtered_activities %}{% if activity in filtered_activities: %}
+                                                checked
+                                            {% endif %}{% endif %}>
+                                            <span class="checked"></span>
+                                            {{ activity }}
+                                        </label><br>
+                                        {% endfor %}
+                                        <!-- End of dropdown menu contents-->
+                                    </div>
+                                    <!-- End of button and parent of dropdown menu -->
+                                </div>
+                                <div class="clear-filters-link clickable" onclick="SpotFilters.clear_all_filters()">X&nbsp;&nbsp;Clear Filters</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table> 
                 </form>
-        </div>
-        <br><br>
-        <h3>Results:</h3>
+            </div>
+
+        <br>
+        <h3>Results (<a href="{{ url_for('home_map') }}">map view</a>):</h3>
         {% with listings = listings, overlay = False %}
             {% include 'components/listing_table.html' %}
         {% endwith %}
+
+        </div>
 
         {% include 'components/footer.html' %}
     </body>

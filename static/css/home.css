@@ -1,3 +1,79 @@
 h3 {
     margin-top: 0px;
 }
+
+h5.explore {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 0.2em;
+}
+
+.filter-container {
+    font-size: 1.5rem;
+    display: flex;
+    flex-flow: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    vertical-align: middle;
+}
+
+input[type=text].filter {
+    width: 15em;
+}
+
+.filter-button {
+    position: relative;
+    padding: 9px 16.5px;
+    margin-right: 8px;
+    margin-bottom: 0px;
+    margin-top: 0.25em;
+    height: 45px; /* Bad modularity, but make sure this is equal to the top attribute of .filter-button .dropdown*/
+
+    display: inline-block;
+
+    background: #EEEEEE;
+    border-radius: 7.5px;
+    border: 2px solid #A72BE1;
+    box-sizing: border-box;
+
+    font-size: 22.5px;
+    line-height: 27px;
+    text-align: center;
+    color: #A72BE1;
+    font-family: 'Varela Round';
+    font-style: normal;
+    font-weight: normal;
+}
+
+.filter-button.has-filters {
+    background: #A72BE1;
+    color: #FFFFFF;
+}
+
+.filter-button .dropdown {
+    display: none;
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    padding: inherit;
+    margin-top: 0;
+    border-radius: inherit;
+    z-index: 1;
+
+    text-align: left;
+    background-color: #E4E4E4;
+    cursor: default;
+}
+
+.filter-button:hover .dropdown {
+    display: inherit;
+}
+
+.filter-button .dropdown:hover {
+    display: inherit;
+}
+
+.clear-filters-link {
+    display: inline-block;
+}

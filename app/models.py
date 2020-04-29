@@ -31,6 +31,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(128), index=True, unique=True, nullable=False)
     phone_number = db.Column(db.String(32), unique=True, nullable=False) # String to account for extensions
     password_hash = db.Column(db.String(1000), nullable=False)
+    confirmed=db.Column(db.Boolean(), default=False, nullable=False)
 
     # Define the one-to-many relationship of Users (specifically owners) to Listings - note that the field name is owner, not user
     # lazy=True -> when loading user, only load listings if needed
@@ -60,7 +61,12 @@ class Listing(db.Model):
     # Does the pet owner require the pet to be sat the full duration, or are they looking for just sometime in between?
     full_time = db.Column(db.Boolean(), default=True, nullable=False)
     zip_code = db.Column(db.String(10), nullable=False)
-    extra_info = db.Column(db.String(1000))
+    lat = db.Column(db.Numeric(), nullable=False)
+    lng = db.Column(db.Numeric(), nullable=False)
+    address_id = db.Column(db.String(64), nullable=False)
+    address_str = db.Column(db.Text(), nullable=False)
+    pet_image_url = db.Column(db.Text())
+    extra_info = db.Column(db.String(1000)) 
 
     # Array of Activities, using ARRAY type which is supported ONLY by Postgres
     activities = db.Column(ARRAY(db.String(64), dimensions=1), nullable=False)
@@ -123,6 +129,25 @@ class Listing(db.Model):
 
     def end_time_repr(self):
         return '{dt.month}/{dt.day} {hour}:{minute_am_pm}'.format(dt=self.end_time, hour=((self.end_time.hour + 11) % 12 + 1), minute_am_pm=self.end_time.strftime('%M %p'))
+
+    def to_json_dict(self):
+        return {
+            "id": self.id,
+            "pet_name": self.pet_name,
+            "pet_type": self.pet_type,
+            "start_time": self.start_time_repr(),
+            "end_time": self.end_time_repr(),
+            "full_time": self.full_time,
+            "zip_code": self.zip_code,
+            "lat": float(self.lat),
+            "lng": float(self.lng),
+            "address_id": self.address_id,
+            'address_str': self.address_str,
+            "pet_image_url": self.pet_image_url,
+            "description": self.extra_info,
+            "user_id": self.user_id,
+            "activities": ', '.join(self.activities)
+        }
 
 # =======================================================================================================
 # =                            __repr__ functions (for use in debugging)                                =

@@ -11,6 +11,14 @@
     color: #FFFFFF;
 }
 
+.center-text {
+    text-align: center;
+}
+
+em {
+    text-decoration: underline;
+}
+
 .form-button {
     padding-left: 38px;
     padding-right: 38px;
@@ -50,16 +58,56 @@
     font-weight: normal;
 }
 
-.big-button.light-blue {
+.medium-button {
+    padding: 9px 16.5px;
+    height: 45px;
+
+    display: inline-block;
+
+    background: #A72BE1;
+    border-radius: 7.5px;
+    border: none;
+    box-sizing: border-box;
+
+    font-size: 22.5px;
+    line-height: 27px;
+    text-align: center;
+    color: #FFFFFF;
+    font-family: 'Varela Round';
+    font-style: normal;
+    font-weight: normal;
+}
+
+.small-button {
+    padding: 6px 11px;
+    height: 30px;
+
+    display: inline-block;
+
+    background: #A72BE1;
+    border-radius: 5px;
+    border: none;
+    box-sizing: border-box;
+
+    font-size: 15px;
+    line-height: 18px;
+    text-align: center;
+    color: #FFFFFF;
+    font-family: 'Varela Round';
+    font-style: normal;
+    font-weight: normal;
+}
+
+.big-button.light-blue, .medium-button.light-blue, .small-button.light-blue {
     background: #84CEEB;
 }
 
 /* Same as default, but can be helpful for default color changes if necessary */
-.big-button.purple {
+.big-button.purple, .medium-button.purple, .small-button.light-blue {
     background: #A72BE1;
 }
 
-input[type=text], input[type=email], input[type=password], input[type=tel], textarea {
+input[type=text], input[type=email], input[type=password], input[type=tel], input[type=search], textarea {
     padding-left: 0.6em;
     text-align: left;
     font-family: 'Varela Round';
@@ -77,11 +125,12 @@ input[type=text], input[type=email], input[type=password], input[type=tel], text
 textarea:not(input) {
     padding-top: 0.15em;
     padding-bottom: 0.15em;
+    padding-right: 0.3em;
     line-height: 1.2em;
     resize: none;
 }
 
-input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=tel]:focus, textarea:focus {
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=tel]:focus, input[type=search]:focus, textarea:focus {
     border: 3px solid #A72BE1;
 }
 
@@ -185,6 +234,17 @@ label.checkbox input[type=checkbox]:checked + *.checked {
     border-width: 0px;
 }
 
+.file-input input[type=file] {
+    display: none;
+}
+
+.file-input .file-name {
+    margin-left: 0.2em;
+
+    content: "";
+    font-size: 1rem;
+}
+
 label {
     font-family: 'Varela Round';
     font-style: normal;
@@ -209,6 +269,10 @@ a.regular-text {
 
 .error-color {
     color: #B60000;
+}
+
+.required-color {
+    color: red;
 }
 
 .small-text {
@@ -246,6 +310,18 @@ span.horizontal-line {
 
 .no-wrap {
     white-space: nowrap;
+}
+
+.no-margin-top {
+    margin-top: 0;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0;
+}
+
+h1.inline-header, h2.inline-header, h3.inline-header, h4.inline-header, h5.inline-header, h6.inline-header {
+    display: inline-block;
 }
 
 h2 {
@@ -288,6 +364,20 @@ h4 {
     margin: 0;
 
     color: #858585;
+}
+
+h5 {
+    font-family: 'Varela Round';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 32px;
+    line-height: 36px;
+    text-align: center;
+    white-space: nowrap;
+
+    margin: 0;
+
+    color: #A72BE1;
 }
 
 h6 {
@@ -602,6 +692,25 @@ body {
     background: #FFFFFF;
 }
 
+/* For images */
+.listing-container .portrait .background div[class$="-image"] {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 1em;
+
+    margin-left: -4.48075em;
+    margin-top: -4.48075em;
+    width: 8.9615em;
+    height: 8.9615em;
+    border-radius: 50%;
+
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* For silhouettes */
 .listing-container .portrait .background img {
     position: absolute;
     top: 50%;

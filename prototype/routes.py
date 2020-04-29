@@ -2,7 +2,7 @@ from app import app
 from prototype import db_service
 from flask import make_response, render_template, request
 from flask import url_for, redirect
-from app.models import User, Listing
+from test.models import User, Listing
 import enums
 from datetime import datetime
 

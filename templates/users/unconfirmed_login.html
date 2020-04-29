@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ title }}</title>
+        {% include 'components/links.html' %}
+    </head>
+    <body>
+        {% include 'components/header.html' %}
+        {% include 'components/background.html' %}
+
+        <div class="content-container standard vertical" >
+            <h4>
+                    <a href="{{ url_for('login_form') }}"
+                        class="regular-text">&lt; return to login</a>
+            </h4>
+            <br>
+            <br>
+            <h3 class="no-margin-top"> Please confirm your email address before logging in. </h3>
+            <a class="big-button" 
+                href="{{ url_for('resend_confirmation', user_id = user_id)}}"> Re-send Verification </a>
+        </div>
+        {% include 'components/footer.html' %}
+    </body>
+</html>

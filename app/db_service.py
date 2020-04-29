@@ -10,9 +10,9 @@ from app.models import User, Listing
 from datetime import datetime
 import enums
 from werkzeug.security import generate_password_hash as generate_hash, check_password_hash as check_hash
+import os
 
-
-# TODO: Add specific validation such as empty strings, valid format for phone number, email, etc into functions!
+# TODO: add specific validation such as empty strings, valid format for phone number, email, etc into functions!
 def generate_password_hash(password):
     """Create hashed password."""
     return generate_hash(password, method='sha256')
@@ -444,7 +444,7 @@ def create_user(user):
     """
 
     # Raises an exception if user is not valid
-    _check_user_validity(user)
+    _check_user_validity(user, True)
     
     try:
         db.session.add(user)
@@ -453,9 +453,23 @@ def create_user(user):
     except Exception as e:
         db.session.rollback()
         return "Error: " + str(e)
+    
+def confirm_user(user):
+    
+    # Raises an exception if user is not valid
+    _check_user_validity(user, False)
+    
+    try:
+        user.confirmed = True
+        db.session.commit()
+        return user
+    except Exception as e:
+        db.session.rollback()
+        return "Error: " + str(e)
 
 def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, end_time=None,
-                   full_time=None, zip_code=None, extra_info=None, activities=None):
+                   full_time=None, zip_code=None, lat=None, lng=None, address_id=None, address_str=None,
+                   pet_image_url=None, extra_info=None, activities=None):
     """
     Updates a Listing with ID *listing_id* in the database, or raises an Exception if no such listing exists
     or any parameter is invalid (see below).
@@ -477,6 +491,14 @@ def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, en
         or None if *full_time* is not to be updated.
     zip_code : str or None, optional
         The updated zip code, or None if *zip_code* is not to be updated.
+    lat : float or None, optional
+        The updated latitude, or None if *lat* is not to be updated.
+    lng : float or None, optional
+        The updated longitude, or None if *lng* is not to be updated.
+    address_id: str or None, optional
+        The updated address_id (for Algolia), or None if *address_id* is not to be updated.
+    address_str: str or None, optional
+        The updated address_str (the raw string of address), or None if *address_str* is not to be updated.
     extra_info : str or None, optional
         The updated extra information, or None if *extra_info* is not to be updated.
     activities : list of str or None, optional
@@ -518,6 +540,16 @@ def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, en
             listing.full_time = full_time
         if zip_code != None:
             listing.zip_code = zip_code
+        if lat != None:
+            listing.lat = lat
+        if lng != None:
+            listing.lng = lng
+        if address_id != None:
+            listing.address_id = address_id
+        if address_str != None:
+            listing.address_str = address_str
+        if pet_image_url != None:
+            listing.pet_image_url = pet_image_url
         if extra_info != None:
             listing.extra_info = extra_info
         if activities != None:
@@ -532,11 +564,19 @@ def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, en
         db.session.rollback()
         return str(e)
     
+# Deletes listing in database *and* deletes the file that it references
 def delete_listing(listing_id):
     try:
         listing_query = Listing.query.filter_by(id=listing_id)
         listing = listing_query.first()
         listing.sitters = []
+
+        # Delete old image if there was one
+        if listing.pet_image_url:
+            old_image_path = os.path.join(app.config['UPLOAD_FOLDER'], os.path.basename(listing.pet_image_url))
+            if os.path.exists(old_image_path):
+                os.remove(old_image_path)
+
         listing_query.delete()
         db.session.commit()
         return ''
@@ -609,6 +649,27 @@ def _check_listing_validity(listing, check_id = True):
     if type(listing.zip_code) != str:
         raise TypeError('listing parameter zip_code must be of type str')
     
+    if type(listing.lat) != float:
+        raise TypeError('listing parameter lat must be of type float')
+    else:
+        if listing.lat < -90 or listing.lat > 90:
+            raise ValueError('listing parameter lat must be between -90 and 90')
+
+    if type(listing.lng) != float:
+        raise TypeError('listing parameter lng must be of type float')
+    else:
+        if listing.lng < -180 or listing.lng > 180:
+            raise ValueError('listing parameter lng must be between -180 and 180')
+
+    if type(listing.address_id) != str:
+        raise TypeError('listing parameter address_id must be of type str')
+
+    if type(listing.address_str) != str:
+        raise TypeError('listing parameter address_str must be of type str')
+
+    if type(listing.pet_image_url) != str and listing.pet_image_url != None:
+        raise TypeError('listing parameter pet_image_url must be of type str or None')
+    
     if type(listing.extra_info) != str and listing.extra_info != None:
         raise TypeError('listing parameter extra_info must be of type str or None')
     
@@ -629,11 +690,11 @@ def _check_listing_validity(listing, check_id = True):
 
 # Raises the appropriate exception for invalid user or does nothing if user is valid
 # Does NOT check for duplicate email or phone #
-def _check_user_validity(user):
+def _check_user_validity(user, check_user_id):
     if type(user) != User:
         raise TypeError('user parameter must be a User object')
     
-    if user.id != None:
+    if user.id != None and check_user_id:
         raise ValueError('user parameter id should be None')
     
     if type(user.is_owner) != bool:
