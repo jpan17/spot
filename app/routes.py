@@ -2,7 +2,7 @@ from app import app, login_manager
 from app import db_service
 from app.logger import Logger
 from flask import Flask
-from flask import make_response, render_template, request, session
+from flask import make_response, render_template, request, session, jsonify
 from flask import url_for, redirect, flash
 from flask_login import UserMixin, login_required, current_user, login_user, logout_user
 from app.models import User, Listing
@@ -117,7 +117,7 @@ def listings_html_endpoint():
     if zip_code == '':
         zip_code = None
 
-    logger.debug('Query with activities', filtered_activities, ', pet_types', filtered_pet_types, ', and zip code', zip_code, 'made by user', current_user.id)
+    logger.debug('HTML Query with activities', filtered_activities, ', pet_types', filtered_pet_types, ', and zip code', zip_code, 'made by user', current_user.id)
 
     all_listings = db_service.all_listings(pet_types=filtered_pet_types, activities=filtered_activities, zip_code=zip_code)
 
@@ -126,6 +126,37 @@ def listings_html_endpoint():
         overlay = False)
     response = make_response(html)
     return response
+
+# Return JSON for table of listings
+@app.route('/api/listings/json', methods=['GET'])
+@login_required
+def listings_json_endpoint():
+    filtered_activities = []
+    for activity in enums.activities:
+        if request.args.get('activity_{0}'.format(activity.lower().replace(' ', '_'))) == 'true':
+            filtered_activities.append(activity)
+
+    filtered_pet_types = []
+    for pet_type in enums.pet_types:
+        if request.args.get('pet_type_{0}'.format(pet_type.lower().replace(' ', '_'))) == 'true':
+            filtered_pet_types.append(pet_type)
+    
+    if len(filtered_activities) == 0:
+        filtered_activities = None
+        
+    if len(filtered_pet_types) == 0:
+        filtered_pet_types = None
+        
+    zip_code=request.args.get('zip_code')
+    
+    if zip_code == '':
+        zip_code = None
+
+    logger.debug('JSON Query with activities', filtered_activities, ', pet_types', filtered_pet_types, ', and zip code', zip_code, 'made by user', current_user.id)
+
+    all_listings = db_service.all_listings(pet_types=filtered_pet_types, activities=filtered_activities, zip_code=zip_code)
+
+    return jsonify([listing.to_json_dict() for listing in all_listings])
 
 # apparently necessary, crashes program if removed. Just following what flask says.
 @login_manager.user_loader
