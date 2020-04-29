@@ -48,7 +48,7 @@
 }
 
 /* For images */
-.leaflet-popup-content .flex-popup .background div[class$="-image"] {
+.leaflet-popup-content .flex-popup .background > * {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -59,7 +59,9 @@
     width: 7.32143em;
     height: 7.32143em;
     border-radius: 50%;
+}
 
+.leaflet-popup-content .flex-popup .background > div[class$="-image"] {
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
