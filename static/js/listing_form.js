@@ -38,6 +38,8 @@ var ListingFormValidator = {
             errorMsg = "End Time must be of the format HH:MM with HH from 0-23 and MM from 0-59."
         }else if(ListingFormValidator.datetimePrecedesErrorStr(startDate, startTime, endDate, endTime).length > 0) {
             errorMsg = "Start Date/Time must be before End Date/Time (" + ListingFormValidator.datetimePrecedesErrorStr(startDate, startTime, endDate, endTime) + ")."
+        } else if (ListingFormValidator.startPrecedesCurrent(startDate, startTime)) {
+            errorMsg = "Start Date/Time must be after current time."
         }else if(!hasPetType) {
             errorMsg = "Please select a pet type."
         }else if(!hasActivity) {
@@ -126,7 +128,39 @@ var ListingFormValidator = {
         if(hour2 > hour1) return "";
         if(minute1 >= minute2) return "Start time equals End time";
         return "";
+    },
+
+    startPrecedesCurrent: function(startDate, startTime) {
+        var current = new Date();
+        var startDateVals = startDate.split("/");
+        var startTimeVals = startTime.split(":");
+
+        var currentYear = current.getFullYear();
+        var currentMonth = current.getMonth() + 1;
+        var currentDay = current.getDate();
+        var currentHour = current.getHours();
+        var currentMin = current.getMinutes();
+
+        var startMonth = parseInt(startDateVals[0]);
+        var startDay = parseInt(startDateVals[1]);
+        var startYear = parseInt(startDateVals[2]);
+        var startHour = parseInt(startTimeVals[0]);
+        var startMin = parseInt(startTimeVals[1]);
+
+        if (currentYear < startYear) return false;
+        if (currentYear > startYear) return true;
+        if (currentMonth < startMonth) return false;
+        if (currentMonth > startMonth) return true;
+        if (currentDay < startDay) return false;
+        if (currentDay > startDay) return true;
+        if (currentHour < startHour) return false;
+        if (currentHour > startHour) return true;
+        if (currentMin < startMin) return false;
+        if (currentMin >= startMin) return true;
+
+        return false;
     }
+
 }
 
 var SpotAlgolia = {

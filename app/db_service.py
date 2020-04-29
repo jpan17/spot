@@ -606,6 +606,15 @@ def accept_listing(user_id, listing_id):
         db.session.rollback() # Cancel all invalid changes
         errorMsg = e.args[0]
         return errorMsg
+    
+def is_listing_accepted(user_id, listing_id):
+    
+    user = User.query.filter_by(id = user_id).first()
+    listing = Listing.query.filter_by(id = listing_id).first()
+    if listing in user.accepted_listings:
+        return True
+    else:
+        return False
 
 # Can a string be parsed to an integer?
 def _str_is_integer(s):
