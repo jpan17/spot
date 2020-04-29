@@ -5,6 +5,7 @@ var SpotMap = {
 
     setup: function() {
         SpotMap.map = L.map('map-view');
+        SpotMap.map.setMinZoom(3);
         // Center map
         SpotMap.map.on('locationfound', function(e) {
             SpotMap.map.setView(e.latlng, 15);

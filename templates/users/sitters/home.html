@@ -87,7 +87,7 @@
             </div>
 
         <br>
-        <h3>Results:</h3>
+        <h3>Results (<a href="{{ url_for('home_map') }}">map view</a>):</h3>
         {% with listings = listings, overlay = False %}
             {% include 'components/listing_table.html' %}
         {% endwith %}
