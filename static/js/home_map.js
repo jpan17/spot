@@ -45,12 +45,32 @@ var SpotMap = {
                             radius: 375
                         }).addTo(SpotMap.map));
                 
-                    var content = L.DomUtil.create('div', 'content');
-                    content.innerHTML = listing.pet_name.toUpperCase() + " (" + listing.pet_type + ")<br>" +
-                        "START: " + listing.start_time + "<br>" + 
-                        "END: " + listing.end_time + "<br>" + 
-                        "ACTIVITIES: " + listing.activities;
-                    let popup = L.popup().setContent(content);
+                    // Construct popup
+                    let content = L.DomUtil.create('div', 'content');
+                    let description = listing.pet_name.toUpperCase() + " (" + listing.pet_type + ")<br>" +
+                        "<span class=\"time\"><em>START</em>: " + listing.start_time + "&nbsp;&nbsp;</span><br>" + 
+                        "<span class=\"time\"><em>END</em>: " + listing.end_time + "&nbsp;&nbsp;</span><br>" + 
+                        "<span class=\"activities\"><em>ACTIVITIES</em>: " + listing.activities + "</span>";
+                    let image = "";
+                    if(listing.pet_image_url) {
+                        image = "<div class=\"" + listing.pet_type.toLowerCase() + "-image\"" + 
+                        " style=\"background-image: url('" + listing.pet_image_url + "')\"></div>";
+                    }else {
+
+                    }
+                    content.innerHTML = "<div class=\"flex-popup\">" + 
+                                            "<div class=\"description\">" + 
+                                                description +
+                                            "</div>" +
+                                            "<div class=\"background\">" +  
+                                                image + 
+                                            "</div>" +
+                                        "</div>";
+
+                    // Create, bind, and store popup
+                    let popup = L.popup({
+                        maxWidth: 1000
+                    }).setContent(content);
                     SpotMap.circles[SpotMap.circles.length - 1].bindPopup(popup);
                     SpotMap.popups.push(popup);
 

@@ -15,6 +15,10 @@
     text-align: center;
 }
 
+em {
+    text-decoration: underline;
+}
+
 .form-button {
     padding-left: 38px;
     padding-right: 38px;
