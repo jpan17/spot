@@ -324,6 +324,16 @@ def listing_new_endpoint():
     
     pet_type = request.form.get('pet_type')
     zip_code = request.form.get('zip_code')
+    lat = request.form.get('lat')
+    lng = request.form.get('lng')
+    try:
+        lat = float(lat)
+        lng = float(lng)
+    except Exception as e:
+        return redirect(url_for('error', error='Please use autocomplete for address input.'))
+    address_id = request.form.get('address_id')
+    address_str = request.form.get('address_input')
+
     extra_info = request.form.get('extra_info')
     
     pet_image_file = None
@@ -341,19 +351,27 @@ def listing_new_endpoint():
         end_time=end,
         full_time=True,
         zip_code=zip_code,
+        lat=lat,
+        lng=lng,
+        address_id=address_id,
+        address_str=address_str,
         pet_image_url=pet_image_url,
         extra_info=extra_info,
         activities=activities,
         user_id=current_user.id)
 
     try:
-        logger.debug('Attempting to persist listing with fields: (pet_name={0},pet_type={1},start_time={2},end_time={3},full_time={4},zip_code={5},pet_image_url={6},extra_info={7},activities={8},user_id={9})'.format(
+        logger.debug('Attempting to persist listing with fields: (pet_name={0},pet_type={1},start_time={2},end_time={3},full_time={4},zip_code={5},lat={6},lng={7},address_id={8},address_str={9},pet_image_url={10},extra_info={11},activities={12},user_id={13})'.format(
             pet_name,
             pet_type,
             start.isoformat(),
             end.isoformat(),
             True,
             zip_code,
+            lat,
+            lng,
+            address_id,
+            address_str,
             pet_image_url,
             extra_info,
             activities,
@@ -502,6 +520,16 @@ def listing_update_endpoint(listing_id):
     
     pet_type = request.form.get('pet_type')
     zip_code = request.form.get('zip_code')
+    lat = request.form.get('lat')
+    lng = request.form.get('lng')
+    try:
+        lat = float(lat)
+        lng = float(lng)
+    except Exception as e:
+        return redirect(url_for('error', error='Please use autocomplete for address input.'))
+    address_id = request.form.get('address_id')
+    address_str = request.form.get('address_input')
+    
     extra_info = request.form.get('extra_info')
 
     pet_image_file = None
@@ -526,6 +554,10 @@ def listing_update_endpoint(listing_id):
             end_time=end,
             full_time=True,
             zip_code=zip_code,
+            lat=lat,
+            lng=lng,
+            address_id=address_id,
+            address_str=address_str,
             pet_image_url=pet_image_url,
             extra_info=extra_info,
             activities=activities)

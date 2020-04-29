@@ -468,7 +468,8 @@ def confirm_user(user):
         return "Error: " + str(e)
 
 def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, end_time=None,
-                   full_time=None, zip_code=None, pet_image_url=None, extra_info=None, activities=None):
+                   full_time=None, zip_code=None, lat=None, lng=None, address_id=None, address_str=None,
+                   pet_image_url=None, extra_info=None, activities=None):
     """
     Updates a Listing with ID *listing_id* in the database, or raises an Exception if no such listing exists
     or any parameter is invalid (see below).
@@ -490,6 +491,14 @@ def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, en
         or None if *full_time* is not to be updated.
     zip_code : str or None, optional
         The updated zip code, or None if *zip_code* is not to be updated.
+    lat : float or None, optional
+        The updated latitude, or None if *lat* is not to be updated.
+    lng : float or None, optional
+        The updated longitude, or None if *lng* is not to be updated.
+    address_id: str or None, optional
+        The updated address_id (for Algolia), or None if *address_id* is not to be updated.
+    address_str: str or None, optional
+        The updated address_str (the raw string of address), or None if *address_str* is not to be updated.
     extra_info : str or None, optional
         The updated extra information, or None if *extra_info* is not to be updated.
     activities : list of str or None, optional
@@ -531,6 +540,14 @@ def update_listing(listing_id, pet_name=None, pet_type=None, start_time=None, en
             listing.full_time = full_time
         if zip_code != None:
             listing.zip_code = zip_code
+        if lat != None:
+            listing.lat = lat
+        if lng != None:
+            listing.lng = lng
+        if address_id != None:
+            listing.address_id = address_id
+        if address_str != None:
+            listing.address_str = address_str
         if pet_image_url != None:
             listing.pet_image_url = pet_image_url
         if extra_info != None:
@@ -632,6 +649,24 @@ def _check_listing_validity(listing, check_id = True):
     if type(listing.zip_code) != str:
         raise TypeError('listing parameter zip_code must be of type str')
     
+    if type(listing.lat) != float:
+        raise TypeError('listing parameter lat must be of type float')
+    else:
+        if listing.lat < -90 or listing.lat > 90:
+            raise ValueError('listing parameter lat must be between -90 and 90')
+
+    if type(listing.lng) != float:
+        raise TypeError('listing parameter lng must be of type float')
+    else:
+        if listing.lng < -180 or listing.lng > 180:
+            raise ValueError('listing parameter lng must be between -180 and 180')
+
+    if type(listing.address_id) != str:
+        raise TypeError('listing parameter address_id must be of type str')
+
+    if type(listing.address_str) != str:
+        raise TypeError('listing parameter address_str must be of type str')
+
     if type(listing.pet_image_url) != str and listing.pet_image_url != None:
         raise TypeError('listing parameter pet_image_url must be of type str or None')
     

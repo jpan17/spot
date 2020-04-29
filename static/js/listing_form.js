@@ -5,6 +5,11 @@ var ListingFormValidator = {
             if(errorMsg.length > 0) {
                 $("#validate_error").text(errorMsg);
                 e.preventDefault();
+            }else {
+                if(!$('input#address_input').hasClass('ready-to-submit')) {
+                    $("#validate_error").text('Please input a valid address.');
+                    e.preventDefault();
+                }
             }
         });
     },
@@ -18,7 +23,6 @@ var ListingFormValidator = {
         var endTime = $("#end_time").val();
         var hasPetType = $("input[name='pet_type']:checked").length > 0;
         var hasActivity = $("input[type='checkbox']:checked").length > 0;
-        var zipCode = $("#zip_code").val();
         var extraInfo = $("#extra_info").val();
         var errorMsg = "";
 
@@ -38,20 +42,11 @@ var ListingFormValidator = {
             errorMsg = "Please select a pet type."
         }else if(!hasActivity) {
             errorMsg = "Please select at least one activity."
-        }else if(!ListingFormValidator.isValidZipCode(zipCode)) {
-            errorMsg = "Please enter a valid zip code (either ##### or #####-####)."
         }else if(extraInfo.length > 1000) {
             errorMsg = "Description is " + extraInfo.length + " characters long (max: 1000)."
         }
         
         return errorMsg;
-    },
-
-    // Checks if a string is of the format ##### or #####-#### (valid zip code)
-    isValidZipCode: function(str) {
-        if(!str.match(/^[0-9]{5}(-[0-9]{4})?$/))
-            return false;
-        return true;
     },
 
     // Checks if HH:MM or H:MM and hours are between 0-23 and minutes are between 0-59
@@ -134,4 +129,42 @@ var ListingFormValidator = {
     }
 }
 
+var SpotAlgolia = {
+    autocomplete: null,
+    acElement: null,
+    acSelector: '#address_input',
+
+    setup: function() {
+        SpotAlgolia.acElement = document.querySelector(SpotAlgolia.acSelector);
+        SpotAlgolia.autocomplete = places({
+            appId: 'plO1SV8YCUC3',
+            apiKey: '168cb9867faff5823a430526b0c935df',
+            container: SpotAlgolia.acElement,
+            useDeviceLocation: true
+        });
+
+        // Clear anything that isn't suggested and add ready-to-submit class when a suggestion is chosen
+        SpotAlgolia.autocomplete.on('change', function(e) {
+            $(SpotAlgolia.acSelector).removeClass("not-validated");
+            $(SpotAlgolia.acSelector).addClass("ready-to-submit");
+            $("input#zip_code").val(e.suggestion.postcode);
+            $("input#lat").val(e.suggestion.latlng.lat);
+            $("input#lng").val(e.suggestion.latlng.lng);
+            $("input#address_id").val(e.suggestion.hit.objectID);
+        });
+
+        $(SpotAlgolia.acElement).on('input', function(e) {
+            $(SpotAlgolia.acSelector).addClass("not-validated");
+            $(SpotAlgolia.acSelector).removeClass("ready-to-submit");
+        })
+        $(SpotAlgolia.acElement).change(function(e) {
+            if($(this).hasClass("not-validated")) {
+                SpotAlgolia.autocomplete.setVal("");
+                $(SpotAlgolia.acSelector).removeClass("ready-to-submit");
+            }
+        });
+    }
+}
+
 $(document).ready(ListingFormValidator.setup);
+$(document).ready(SpotAlgolia.setup);

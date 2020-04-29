@@ -42,3 +42,24 @@
     padding-left: 1.5em;
     vertical-align: middle;
 }
+
+/* For address search input */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
+.ap-dropdown-menu {
+    font-size: 1rem;
+    width: 35em;
+}
+input[type=search].address_input.address_input {
+    font-size: 1rem;
+}
+.listing-form-table input[type=search] {
+    width: 15.25em;
+}
+.ap-icon-clear, .ap-icon-pin {
+    display: none;
+}

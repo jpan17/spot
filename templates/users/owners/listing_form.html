@@ -4,6 +4,7 @@
         <title>{{ title }}</title>
         {% include 'components/links.html' %}
         <link rel="stylesheet" href="{{ url_for('static', filename='css/listing_form.css') }}">
+        <script src="https://cdn.jsdelivr.net/npm/places.js@1.18.2"></script>
         <script src="{{ url_for('static', filename='js/listing_form.js') }}"></script>
     </head>
     <body>
@@ -147,15 +148,31 @@
                         <tr>
                             <td>
                                 <label for="zip_code">
-                                    Zip Code<span class="required-color">*</span>:
+                                    Address<span class="required-color">*</span>:
                                 </label>
                             </td>
                             <td>
                                 {% if listing: %}
-                                <input type="text" id="zip_code" name="zip_code"
-                                    value="{{ listing.zip_code }}">
+                                <input type="search" class="address_input ready-to-submit" id="address_input" name="address_input"
+                                value="{{ listing.address_str }}"
+                                autocomplete="off"
+                                autocorrect="off"
+                                autocapitalize="none"
+                                spellcheck="false">
+                                <input type="hidden" id="zip_code" name="zip_code" value="{{ listing.zip_code }}">
+                                <input type="hidden" id="lat" name="lat" value="{{ listing.lat }}">
+                                <input type="hidden" id="lng" name="lng" value="{{ listing.lng }}">
+                                <input type="hidden" id="address_id" name="address_id" value="{{ listing.address_id }}">
                                 {% else: %}
-                                <input type="text" id="zip_code" name="zip_code">
+                                <input type="search" class="address_input" id="address_input" name="address_input"
+                                autocomplete="off"
+                                autocorrect="off"
+                                autocapitalize="none"
+                                spellcheck="false">
+                                <input type="hidden" id="zip_code" name="zip_code">
+                                <input type="hidden" id="lat" name="lat">
+                                <input type="hidden" id="lng" name="lng">
+                                <input type="hidden" id="address_id" name="address_id">
                                 {% endif %}
                             </td>
                             <td class="secondary-label">

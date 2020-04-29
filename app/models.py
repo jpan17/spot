@@ -61,6 +61,10 @@ class Listing(db.Model):
     # Does the pet owner require the pet to be sat the full duration, or are they looking for just sometime in between?
     full_time = db.Column(db.Boolean(), default=True, nullable=False)
     zip_code = db.Column(db.String(10), nullable=False)
+    lat = db.Column(db.Numeric(), nullable=False)
+    lng = db.Column(db.Numeric(), nullable=False)
+    address_id = db.Column(db.String(64), nullable=False)
+    address_str = db.Column(db.Text(), nullable=False)
     pet_image_url = db.Column(db.Text())
     extra_info = db.Column(db.String(1000)) 
 
@@ -135,6 +139,10 @@ class Listing(db.Model):
             "end_time": self.end_time_repr(),
             "full_time": self.full_time,
             "zip_code": self.zip_code,
+            "lat": self.lat,
+            "lng": self.lng,
+            "address_id": self.address_id,
+            'address_str': self.address_str,
             "pet_image_url": self.pet_image_url,
             "description": self.extra_info,
             "user_id": self.user_id,

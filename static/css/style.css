@@ -103,7 +103,7 @@
     background: #A72BE1;
 }
 
-input[type=text], input[type=email], input[type=password], input[type=tel], textarea {
+input[type=text], input[type=email], input[type=password], input[type=tel], input[type=search], textarea {
     padding-left: 0.6em;
     text-align: left;
     font-family: 'Varela Round';
@@ -126,7 +126,7 @@ textarea:not(input) {
     resize: none;
 }
 
-input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=tel]:focus, textarea:focus {
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus, input[type=tel]:focus, input[type=search]:focus, textarea:focus {
     border: 3px solid #A72BE1;
 }
 
