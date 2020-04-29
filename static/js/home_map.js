@@ -3,13 +3,25 @@ var SpotMap = {
     circles: null,
     popups: null,
     request: null,
+    redIcon: null,
 
     setup: function() {
+        SpotMap.redIcon = new L.Icon({
+            iconUrl: '/static/img/icon/leaflet/marker-icon-2x-red.png',
+            shadowUrl: '/static/img/icon/leaflet/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
         SpotMap.map = L.map('map-view');
         SpotMap.map.setMinZoom(3);
         // Center map
         SpotMap.map.on('locationfound', function(e) {
             SpotMap.map.setView(e.latlng, 15);
+            let marker = L.marker(e.latlng, {icon: SpotMap.redIcon}).addTo(SpotMap.map);
+            marker.bindTooltip("Your Location");
         })
         SpotMap.map.on('locationerror', function(e) {
             SpotMap.map.setView([40.343990, -74.651451], 15); // Princeton University
