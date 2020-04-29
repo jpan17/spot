@@ -11,6 +11,7 @@ from app.email import send_new_confirmation_token
 from app.util import allowed_file, save_file
 import enums
 import os
+from app.email import send_email
 from datetime import datetime
 
 logger = Logger() 
@@ -266,7 +267,7 @@ def register_user():
             logger.info('Created a new user with id', new_user.id)
             send_new_confirmation_token(new_user.email)
             
-        return redirect(url_for('login_form'))
+        return redirect(url_for('resend_confirmation_landing', user_id=new_user.id))
     except Exception as e:
         logger.warn('Error occurred creating user:', str(e))
         return redirect(url_for('register_form', error=str(e)))
