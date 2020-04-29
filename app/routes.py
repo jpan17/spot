@@ -7,7 +7,7 @@ from flask import url_for, redirect, flash
 from flask_login import UserMixin, login_required, current_user, login_user, logout_user
 from app.models import User, Listing
 from app.token import generate_confirmation_token, confirm_token
-from app.email import send_new_confirmation_token
+from app.email import send_new_confirmation_token, send_listing_cancellation_confirmation
 from app.util import allowed_file, save_file
 import enums
 import os
@@ -496,6 +496,8 @@ def accepted_listings():
 def listing_delete(listing_id):
     logger.trace('User', current_user.id, 'attempting to delete listing', listing_id)
 
+    listing = db_service.get_listing_by_id(listing_id)
+    send_listing_cancellation_confirmation(current_user.email, listing.pet_name)
     result = db_service.delete_listing(listing_id)
     if result != '':
         logger.warn('User', current_user.id, 'failed to delete listing', listing_id)

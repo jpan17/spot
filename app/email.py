@@ -11,6 +11,13 @@ def send_new_confirmation_token(email):
     subject = "Confirm your email to create your Spot account"
     send_email(email, subject, html)
 
+def send_listing_cancellation_confirmation(email, pet_name):
+    html = render_template('users/listing_cancellation.html', petName = pet_name)
+    subject = "[Spot] Confirmation on your cancelled listing."
+    send_email(email, subject, html)
+
+
+
 # Sends an email to a single recipient "to" with subject *subject* and template *template*
 def send_email(to, subject, template):
     msg = Message(
