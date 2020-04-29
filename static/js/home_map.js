@@ -2,6 +2,7 @@ var SpotMap = {
     map: null,
     circles: null,
     popups: null,
+    request: null,
 
     setup: function() {
         SpotMap.map = L.map('map-view');
@@ -29,22 +30,42 @@ var SpotMap = {
         }).addTo(SpotMap.map);
 
         // Get listings
-        var url = "/api/listings/json";
-        $.ajax({
+        SpotMap.circles = [];
+        SpotMap.popups = [];
+        SpotMap.loadListings();
+    },
+
+    loadListings: function() {
+        var url = "/api/listings/json?zip_code=";
+        $("input[id^=\"pet_type_\"]:checked").each(function() {
+            url += "&" + $(this).attr("id") + "=true";
+        });
+        $("input[id^=\"activity_\"]:checked").each(function() {
+            url += "&" + $(this).attr("id") + "=true";
+        });
+
+        if(SpotMap.request != null) {
+            SpotMap.request.abort();
+        }
+
+        SpotMap.request = $.ajax({
             type: "GET",
             url: url,
             success: function(response) {
-                SpotMap.circles = [];
+                SpotMap.popups.forEach(popup => SpotMap.map.removeLayer(popup));
+                SpotMap.circles.forEach(circle => SpotMap.map.removeLayer(circle));
                 SpotMap.popups = [];
+                SpotMap.circles = [];
+                // Populate with new listings
                 response.forEach(listing => {
                     // For each listing, add a circle, then add a popup for the circle
-                    SpotMap.circles.push(
-                        L.circle([listing.lat, listing.lng], {
-                            color: '#48a4fa',
-                            fillColor: '#4ab5f7',
-                            fillOpacity: 0.3,
-                            radius: 375
-                        }).addTo(SpotMap.map));
+                    let circle = L.circle([listing.lat, listing.lng], {
+                                    color: '#48a4fa',
+                                    fillColor: '#4ab5f7',
+                                    fillOpacity: 0.3,
+                                    radius: 375
+                                }).addTo(SpotMap.map);
+                    SpotMap.circles.push(circle);
                 
                     // Construct popup
                     let content = L.DomUtil.create('div', 'content');
@@ -72,7 +93,10 @@ var SpotMap = {
                     let popup = L.popup({
                         maxWidth: 1000
                     }).setContent(content);
-                    SpotMap.circles[SpotMap.circles.length - 1].bindPopup(popup);
+                    circle.bindPopup(popup);
+                    circle.on('mouseover', function(e){
+                        circle.openPopup();
+                    });  
                     SpotMap.popups.push(popup);
 
                     // Catch clicks on popup
@@ -82,8 +106,68 @@ var SpotMap = {
                 });
             }
         });
-    },
-
+    }
 }
 
+var SpotMapFilters = {
+    autoLoad: false, // Determines whether to automatically send AJAX on update of form, or only on submit
+
+    setup: function() {
+        SpotMapFilters.update_activities_button();
+        SpotMapFilters.update_pet_types_button();
+
+        $("#filter-form").submit(function(e) {
+            e.preventDefault();
+            SpotMap.loadListings();
+        })
+    },
+
+    // Uncheck all pet_types
+    clear_pet_types: function() {
+        $('#pet_type_filter_button [id^="pet_type_"]:checked').prop("checked", false);
+        $('#pet_type_filter_button').removeClass('has-filters');
+        if(SpotMapFilters.autoLoad) SpotMap.loadListings();
+    },
+
+    // Register click on pet_types_dropdown (including each of the checkboxes)
+    pet_types_dropdown_click: function(event) {
+        event.stopPropagation();
+        SpotMapFilters.update_pet_types_button();
+        if(SpotMapFilters.autoLoad) SpotMap.loadListings();
+    },
+
+    // Add class if and only if any checked pet_types
+    update_pet_types_button: function() {
+        if($('#pet_type_filter_button [id^="pet_type_"]:checked').length === 0) {
+            $('#pet_type_filter_button').removeClass('has-filters');
+        }else {
+            $('#pet_type_filter_button').addClass('has-filters');
+        }
+    },
+
+    // Uncheck all activities
+    clear_activities: function() {
+        $('#activities_filter_button [id^="activity_"]:checked').prop("checked", false);
+        $('#activities_filter_button').removeClass('has-filters');
+        if(SpotMapFilters.autoLoad) SpotMap.loadListings();
+    },
+
+    // Register click on activities dropdown (including each of the checkboxes)
+    activities_dropdown_click: function(event) {
+        event.stopPropagation();
+        SpotMapFilters.update_activities_button();
+        if(SpotMapFilters.autoLoad) SpotMap.loadListings();
+    },
+
+    // Add class if and only if any checked activities
+    update_activities_button: function() {
+        if($('#activities_filter_button [id^="activity_"]:checked').length === 0) {
+            $('#activities_filter_button').removeClass('has-filters');
+        }else {
+            $('#activities_filter_button').addClass('has-filters');
+        }
+    }
+}
+
+$(document).ready(SpotMapFilters.setup);
 $(document).ready(SpotMap.setup);

@@ -86,7 +86,11 @@ def home_map():
     if current_user.is_sitter:
         html = render_template('users/sitters/home_map.html',
                             title="Map View | Spot",
-                            user=current_user)
+                            user=current_user,
+                            pet_types=enums.pet_types,
+                            pet_types_len=len(enums.pet_types),
+                            activities=enums.activities,
+                            activities_len=len(enums.activities))
         response = make_response(html)
         return response
     else:

@@ -1,6 +1,37 @@
+div.top-container {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+div.filler {
+    flex-grow: 1;
+}
+
+h5 {
+    display: inline-block;
+    margin-right: 0.2em;
+}
+
 h4 {
-    text-align: left;
-    padding: 0.15em 0.35em;
+    text-align: center;
+    margin: 0.35em 0.6em;
+    /* flex-grow: 1; */
+    display: inline-block;
+}
+
+div.filters {
+    margin-right: 0.8em;
+}
+
+#filter-form {
+    display: inline-block;
+}
+
+.filter-button .dropdown.dropdown {
+    z-index: 1000000;
 }
 
 #map-view {
