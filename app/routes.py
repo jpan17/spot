@@ -79,6 +79,19 @@ def home():
 
     return redirect(url_for('error', error='User is neither owner nor sitter. Please create a new user instead.'))
 
+# Home screen with map (for sitters)
+@app.route('/map')
+@login_required
+def home_map():
+    if current_user.is_sitter:
+        html = render_template('users/sitters/home_map.html',
+                            title="Map View | Spot",
+                            user=current_user)
+        response = make_response(html)
+        return response
+    else:
+        return redirect(url_for('home'))
+
 # Return HTML for table of listings
 @app.route('/api/listings', methods=['GET'])
 @login_required

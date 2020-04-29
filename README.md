@@ -44,6 +44,11 @@ A web application to help pet owners find pet enthusiasts to watch over their an
 - The [.flaskenv](.flaskenv) contains the environment variable FLASK_ENV set to 'development', enabling all development features.
 - When creating HTML pages, make sure to include [background.html](templates/background.html), [header.html](templates/header.html), [links.html](templates/links.html), and [footer.html](templates/footer.html) (see any of the html templates in [templates/users/](templates/users/) for an example).
 
+## Maintenance
+- Two important services used for addresses and maps have free tiers with the following limits (so if an error occurs with these, it may be due to hitting the limit):
+    - Algolia (address autocomplete): 100,000 requests per month
+    - Leaflet (Currently using Open Streets Map which has *no limit*, but if switch to Mapbox Static Tiles API): 200,000 requests per month
+
 ## Required Packages (see [requirements.txt](requirements.txt) for versions)
 - pip install flask (to run web app)
 - pip install flask-sqlalchemy (to handle ORM from web app)
