@@ -90,7 +90,8 @@ var SpotMap = {
                         image = "<div class=\"" + listing.pet_type.toLowerCase() + "-image\"" + 
                         " style=\"background-image: url('" + listing.pet_image_url + "')\"></div>";
                     }else {
-                        image = "<img src=\"/static/img/portrait/" + listing.pet_type.toLowerCase() + ".png\">";
+                        image = "<img src=\"/static/img/portrait/" + listing.pet_type.toLowerCase() + ".png\"" + 
+                        " class=\"" + listing.pet_type.toLowerCase() + "\">";
                     }
                     content.innerHTML = "<div class=\"flex-popup\">" + 
                                             "<div class=\"description\">" + 

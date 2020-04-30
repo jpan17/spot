@@ -83,8 +83,49 @@ div.filters {
     background: #5680E9;
 }
 
+.leaflet-popup-content .flex-popup .background > img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    font-size: 1em;
+
+    margin-top: -2.741em;
+    margin-left: -2.741em;
+    width: 5.48201em;
+    height: 5.48201em;
+}
+
+.leaflet-popup-content .flex-popup .background > img.dog {
+    margin-top: -2.7715em;
+    margin-left: -2.7715em;
+    width: 5.5429em;
+    height: 5.5429em;
+}
+
+.leaflet-popup-content .flex-popup .background > img.rodent, .leaflet-popup-content .flex-popup .background > img.other {
+    margin-top: -2.9474em;
+    margin-left: -2.9474em;
+    width: 5.8948em;
+    height: 5.8948em;
+}
+
+.leaflet-popup-content .flex-popup .background > img.bird {
+    margin-top: -2.8595em;
+    margin-left: -2.8595em;
+    width: 5.7189em;
+    height: 5.7189em;
+}
+
+.leaflet-popup-content .flex-popup .background > img.reptile {
+    margin-top: -3.0354em;
+    margin-left: -3.0354em;
+    width: 6.0708em;
+    height: 6.0708em;
+}
+
 /* For images */
-.leaflet-popup-content .flex-popup .background > * {
+.leaflet-popup-content .flex-popup .background > div[class$="-image"] {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -95,9 +136,7 @@ div.filters {
     width: 7.32143em;
     height: 7.32143em;
     border-radius: 50%;
-}
-
-.leaflet-popup-content .flex-popup .background > div[class$="-image"] {
+    
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
