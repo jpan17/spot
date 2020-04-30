@@ -672,9 +672,38 @@ def error():
 
     logger.info('Error page reached/accessed by', userStr, 'with error:', error)
     
+    # Get user, or None if does not exist
+    user = current_user
+    if current_user.get_id() is None:
+        user = None
+
     html = render_template('users/error.html',
                             title="Error | Spot",
                             error = error,
-                            user = current_user)
+                            user = user)
     response = make_response(html)
     return response
+
+@app.errorhandler(404)
+def page_not_found(e):
+    user = current_user
+    if current_user.get_id() is None:
+        user = None
+
+    html = render_template('users/error.html',
+                            title="404 Not Found | Spot",
+                            error = '404 Not Found',
+                            user = user)
+    return html, 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    user = current_user
+    if current_user.get_id() is None:
+        user = None
+
+    html = render_template('users/error.html',
+                            title="500 Internal Server Error | Spot",
+                            error = str(e),
+                            user = user)
+    return html, 500

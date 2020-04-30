@@ -308,6 +308,10 @@ span.horizontal-line {
     vertical-align: top;
 }
 
+.wrap-text {
+    white-space: normal;
+}
+
 .no-wrap {
     white-space: nowrap;
 }
