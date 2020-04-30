@@ -174,6 +174,7 @@ var SpotAlgolia = {
             appId: 'plO1SV8YCUC3',
             apiKey: '168cb9867faff5823a430526b0c935df',
             container: SpotAlgolia.acElement,
+            aroundLatLng: '40.343990,-74.651451', // Princeton University
             useDeviceLocation: true
         });
 
