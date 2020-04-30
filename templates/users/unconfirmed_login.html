@@ -14,11 +14,10 @@
                         class="regular-text">&lt; return to login</a>
             </h4>
             <br>
-            <br>
-            <img src = "static/img/mail.png" height = "200" width = "200">
             <h3 class="no-margin-top"> Please confirm your email address before logging in. </h3>
             <a class="big-button" 
                 href="{{ url_for('resend_confirmation', user_id = user_id)}}"> Re-send Verification </a>
+            <img src = "static/img/mail.png" class="mail-img">
         </div>
         {% include 'components/footer.html' %}
     </body>

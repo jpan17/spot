@@ -849,3 +849,9 @@ img.error-img {
     width: 30em;
     height: 20em;
 }
+
+img.mail-img {
+    font-size: 1rem;
+    width: 20em;
+    height: 20em;
+}
