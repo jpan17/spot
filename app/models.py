@@ -29,7 +29,7 @@ class User(UserMixin, db.Model):
     is_sitter = db.Column(db.Boolean(), default=False, nullable=False)
     full_name = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(128), index=True, unique=True, nullable=False)
-    phone_number = db.Column(db.String(32), unique=True, nullable=False) # String to account for extensions
+    phone_number = db.Column(db.String(32), nullable=False) # String to account for extensions
     password_hash = db.Column(db.String(1000), nullable=False)
     confirmed=db.Column(db.Boolean(), default=False, nullable=False)
 
