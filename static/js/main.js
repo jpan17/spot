@@ -23,6 +23,7 @@ var Spot = {
             $(this).siblings('.file-name').text(file);
 
             if (correctFileFormat) {
+              $("input#pet_image_url").removeClass("ready-to-submit");
                 Spot.getSignedRequest(f);
             }
 
@@ -64,6 +65,7 @@ var Spot = {
           if (xhr.readyState === 4){
             if (xhr.status === 200 || xhr.status === 204){
               document.getElementById("pet_image_url").value = url;
+              $("#pet_image_url").addClass("ready-to-submit");
             } else{
               alert("Could not upload file.");
             }

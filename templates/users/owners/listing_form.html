@@ -181,9 +181,11 @@
                             <td>
                                 <span class="file-input">
                                     {% if listing: %}
-                                    <input type="hidden" id="pet_image_url" name="pet_image_url" value="{{ listing.pet_image_url }}">
+                                    <input type="hidden" id="pet_image_url" name="pet_image_url" value="{{ listing.pet_image_url }}"
+                                        class="ready-to-submit">
                                     {% else %}
-                                    <input type="hidden" id="pet_image_url" name="pet_image_url">
+                                    <input type="hidden" id="pet_image_url" name="pet_image_url"
+                                        class="ready-to-submit">
                                     {% endif %}
                                     <label for="pet_image" class="medium-button purple clickable">Upload Image</label>
                                     <input type="file" id="pet_image" name="pet_image" accept=".jpg, .jpeg, .png">

@@ -10,6 +10,10 @@ var ListingFormValidator = {
                     $("#validate_error").text('Please input a valid address.');
                     e.preventDefault();
                 }
+                if(!$('input#pet_image_url').hasClass('ready-to-submit')) {
+                    $("#validate_error").text('Please wait for image to upload.');
+                    e.preventDefault();
+                }
             }
         });
     },

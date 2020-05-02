@@ -519,7 +519,7 @@ def listing_update(listing_id):
         return redirect(url_for('error', error='Listing is owned by a different user.'))
 
     html = render_template('users/owners/listing_form.html',
-        title='New Listing | Spot',
+        title='Update Listing | Spot',
         pet_types=enums.pet_types,
         activities=enums.activities,
         user = current_user,
