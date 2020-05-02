@@ -26,25 +26,25 @@ var ListingFormValidator = {
         var extraInfo = $("#extra_info").val();
         var errorMsg = "";
 
-        if(petName.length === 0 || petName.length > 64) {
+        if (petName.length === 0 || petName.length > 64) {
             errorMsg = "Pet name must be between 1 and 64 characters long."
-        }else if(!ListingFormValidator.isValidDate(startDate)) {
+        } else if (!ListingFormValidator.isValidDate(startDate)) {
             errorMsg = "Start Date must be of the format MM/DD/YYYY with valid month, date, and 4-digit year."
-        }else if(!ListingFormValidator.isValidTime(startTime)) {
+        } else if (!ListingFormValidator.isValidTime(startTime)) {
             errorMsg = "Start Time must be of the format HH:MM with HH from 0-23 and MM from 0-59."
-        }else if(!ListingFormValidator.isValidDate(endDate)) {
+        } else if (!ListingFormValidator.isValidDate(endDate)) {
             errorMsg = "End Date must be of the format MM/DD/YYYY with valid month, date, and 4-digit year (2000 - 3000)."
-        }else if(!ListingFormValidator.isValidTime(endTime)) {
+        } else if (!ListingFormValidator.isValidTime(endTime)) {
             errorMsg = "End Time must be of the format HH:MM with HH from 0-23 and MM from 0-59."
-        }else if(ListingFormValidator.datetimePrecedesErrorStr(startDate, startTime, endDate, endTime).length > 0) {
+        } else if (ListingFormValidator.datetimePrecedesErrorStr(startDate, startTime, endDate, endTime).length > 0) {
             errorMsg = "Start Date/Time must be before End Date/Time (" + ListingFormValidator.datetimePrecedesErrorStr(startDate, startTime, endDate, endTime) + ")."
         } else if (ListingFormValidator.startPrecedesCurrent(startDate, startTime)) {
             errorMsg = "Start Date/Time must be after current time."
-        }else if(!hasPetType) {
+        } else if (!hasPetType) {
             errorMsg = "Please select a pet type."
-        }else if(!hasActivity) {
+        } else if (!hasActivity) {
             errorMsg = "Please select at least one activity."
-        }else if(extraInfo.length > 1000) {
+        } else if (extraInfo.length > 1000) {
             errorMsg = "Description is " + extraInfo.length + " characters long (max: 1000)."
         }
         
