@@ -582,19 +582,9 @@ def listing_update_endpoint(listing_id):
     
     extra_info = request.form.get('extra_info')
 
-    pet_image_file = None
-    pet_image_url = listing.pet_image_url
-    
-    if 'pet_image' in request.files:
-        pet_image_file = request.files['pet_image']
-        if allowed_file(pet_image_file.filename):
-            # Delete old image if there was one
-            if pet_image_url:
-                old_image_path = os.path.join(app.config['UPLOAD_FOLDER'], os.path.basename(pet_image_url))
-                if os.path.exists(old_image_path):
-                    os.remove(old_image_path)
-            # Save new image
-            pet_image_url = save_file(pet_image_file)
+    pet_image_url = request.form.get('pet_image_url')
+    if pet_image_url == '':
+        pet_image_url = None
 
     try:
         new_listing = db_service.update_listing(listing_id,
