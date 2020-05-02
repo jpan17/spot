@@ -10,7 +10,10 @@ from app.token import generate_confirmation_token, confirm_token
 from app.email import send_new_confirmation_token, send_listing_cancellation_confirmation
 from app.util import allowed_file, save_file
 import enums
-import os
+import os, json, boto3
+from werkzeug.utils import secure_filename
+from werkzeug.security import pbkdf2_hex
+import time
 from app.email import send_email
 from datetime import datetime
 
@@ -385,13 +388,9 @@ def listing_new_endpoint():
 
     extra_info = request.form.get('extra_info')
     
-    pet_image_file = None
-    pet_image_url = None
-    
-    if 'pet_image' in request.files:
-        pet_image_file = request.files['pet_image']
-        if allowed_file(pet_image_file.filename):
-            pet_image_url = save_file(pet_image_file)
+    pet_image_url = request.form.get('pet_image_url')
+    if pet_image_url == '':
+        pet_image_url = None
     
     listing = Listing(
         pet_name=pet_name,
@@ -661,6 +660,38 @@ def listing_accept(listing_id):
         
         send_email(owner.email, owner_subject, owner_html)
     return redirect(url_for('listing_details', listing_id = listing_id))
+
+@app.route('/sign_s3')
+def sign_s3():
+    S3_BUCKET = os.environ.get('S3_BUCKET')
+
+    file_name = request.args.get('file_name')
+    file_type = request.args.get('file_type')
+
+    if allowed_file(file_name):
+        parts_of_filename = secure_filename(file_name).rsplit('.', 1)
+        file_name = '.'.join([pbkdf2_hex(parts_of_filename[0] + str(time.time()), app.config['SECURITY_PASSWORD_SALT']), parts_of_filename[1]])
+    else:
+        return json.dumps({'data': 'Bad file type'})
+
+    s3 = boto3.client('s3')
+
+    presigned_post = s3.generate_presigned_post(
+        Bucket = S3_BUCKET,
+        Key = file_name,
+        Fields = {"acl": "public-read", "Content-Type": file_type},
+        Conditions = [
+        {"acl": "public-read"},
+        {"Content-Type": file_type}
+        ],
+        ExpiresIn = 3600
+    )
+
+    return json.dumps({
+        'data': presigned_post,
+        'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
+    })
+
 
 @app.route('/error')
 def error():
