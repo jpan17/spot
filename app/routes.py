@@ -79,8 +79,7 @@ def home():
                     return redirect(url_for('error', 
                                             error='Results generation failed: {0}'.format(result)))
                 
-                send_listing_expiration_confirmation(temp_owner.email, 
-                                                       temp_pet_name)
+                send_listing_expiration_confirmation(temp_owner.email, temp_pet_name)
         
         html = render_template('users/sitters/home.html',
                             title="Home | Spot",
