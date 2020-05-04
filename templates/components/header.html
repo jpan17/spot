@@ -21,10 +21,12 @@
                 <a class="regular-text" href="{{ url_for('accepted_listings') }}">accepted listings</a>
             </div>
             {% endif %}
-            <div class="header-greetings spot-heading spot-font">
-                Hi, {{ user.full_name.split(' ')[0] }}!
-            </div>
-            <img class="header-profile-img" src="{{ url_for('static', filename='img/icon/user.png') }}" alt="user.png">
+            <a class="regular-text" href="{{ url_for('home') }}">
+                <span class="header-greetings spot-heading spot-font">
+                    Hi, {{ user.full_name.split(' ')[0] }}!
+                </span>
+                <img class="header-profile-img" src="{{ url_for('static', filename='img/icon/user.png') }}" alt="user.png">
+            </a>
         </div>
         {% else: %}
         <div class="header-login spot-font spot-heading">
