@@ -35,11 +35,11 @@ var ListingFormValidator = {
         } else if (!ListingFormValidator.isValidDate(startDate)) {
             errorMsg = "Start Date must be of the format MM/DD/YYYY with valid month, date, and 4-digit year."
         } else if (!ListingFormValidator.isValidTime(startTime)) {
-            errorMsg = "Start Time must be of the format HH:MM with HH from 0-23 and MM from 0-59."
+            errorMsg = "Start Time must be of the military format HH:MM with HH from 0-23 and MM from 0-59."
         } else if (!ListingFormValidator.isValidDate(endDate)) {
             errorMsg = "End Date must be of the format MM/DD/YYYY with valid month, date, and 4-digit year (2000 - 3000)."
         } else if (!ListingFormValidator.isValidTime(endTime)) {
-            errorMsg = "End Time must be of the format HH:MM with HH from 0-23 and MM from 0-59."
+            errorMsg = "End Time must be of the military format HH:MM with HH from 0-23 and MM from 0-59."
         } else if (ListingFormValidator.datetimePrecedesErrorStr(startDate, startTime, endDate, endTime).length > 0) {
             errorMsg = "Start Date/Time must be before End Date/Time (" + ListingFormValidator.datetimePrecedesErrorStr(startDate, startTime, endDate, endTime) + ")."
         } else if (ListingFormValidator.startPrecedesCurrent(startDate, startTime)) {

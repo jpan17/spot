@@ -7,7 +7,7 @@ from flask import url_for, redirect, flash
 from flask_login import UserMixin, login_required, current_user, login_user, logout_user
 from app.models import User, Listing
 from app.token import generate_confirmation_token, confirm_token
-from app.email import send_new_confirmation_token, send_listing_cancellation_confirmation
+from app.email import send_new_confirmation_token, send_listing_cancellation_confirmation, send_listing_expiration_confirmation
 from app.util import allowed_file, save_file
 import enums
 import os, json, boto3
@@ -64,6 +64,23 @@ def home():
         logger.debug('Query with activities', filtered_activities, ', pet_types', filtered_pet_types, ', and zip code', zip_code, 'made by user', current_user.id)
     
         all_listings = db_service.all_listings(pet_types=filtered_pet_types, activities=filtered_activities, zip_code=zip_code)
+        
+        for temp_listing in all_listings:
+            temp_time = temp_listing.start_time
+            current_time = datetime.now()
+            if temp_time < current_time:
+                # delete listing
+                temp_id = temp_listing.id
+                temp_pet_name = temp_listing.pet_name
+                temp_owner = db_service.get_user_by_id(temp_listing.user_id)
+                result = db_service.delete_listing(temp_id)
+                
+                if result != '':
+                    return redirect(url_for('error', 
+                                            error='Results generation failed: {0}'.format(result)))
+                
+                send_listing_expiration_confirmation(temp_owner.email, 
+                                                       temp_pet_name)
         
         html = render_template('users/sitters/home.html',
                             title="Home | Spot",
