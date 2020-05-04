@@ -181,8 +181,13 @@
                             <td>
                                 <span class="file-input">
                                     {% if listing: %}
-                                    <input type="hidden" id="pet_image_url" name="pet_image_url" value="{{ listing.pet_image_url }}"
-                                        class="ready-to-submit">
+                                        {% if listing.pet_image_url: %}
+                                        <input type="hidden" id="pet_image_url" name="pet_image_url" value="{{ listing.pet_image_url }}"
+                                            class="ready-to-submit">
+                                        {% else %}
+                                        <input type="hidden" id="pet_image_url" name="pet_image_url"
+                                            class="ready-to-submit">
+                                        {% endif %}
                                     {% else %}
                                     <input type="hidden" id="pet_image_url" name="pet_image_url"
                                         class="ready-to-submit">
