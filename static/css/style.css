@@ -308,6 +308,10 @@ span.horizontal-line {
     vertical-align: top;
 }
 
+.wrap-text {
+    white-space: normal;
+}
+
 .no-wrap {
     white-space: nowrap;
 }
@@ -842,4 +846,16 @@ body {
     margin-left: 0.15em;
 
     font-size: 1em;
+}
+
+img.error-img {
+    font-size: 1rem;
+    width: 30em;
+    height: 20em;
+}
+
+img.mail-img {
+    font-size: 1rem;
+    width: 20em;
+    height: 20em;
 }

@@ -4,8 +4,10 @@ var SpotMap = {
     popups: null,
     request: null,
     redIcon: null,
+    defaultZoom: 15,
 
     setup: function() {
+        SpotMap.defaultZoom = 15;
         SpotMap.redIcon = new L.Icon({
             iconUrl: '/static/img/icon/leaflet/marker-icon-2x-red.png',
             shadowUrl: '/static/img/icon/leaflet/marker-shadow.png',
@@ -19,14 +21,15 @@ var SpotMap = {
         SpotMap.map.setMinZoom(3);
         // Center map
         SpotMap.map.on('locationfound', function(e) {
-            SpotMap.map.setView(e.latlng, 15);
+            SpotMap.map.setView(e.latlng, SpotMap.defaultZoom);
             let marker = L.marker(e.latlng, {icon: SpotMap.redIcon}).addTo(SpotMap.map);
             marker.bindTooltip("Your Location");
+            marker.fire('mouseover');
         })
         SpotMap.map.on('locationerror', function(e) {
-            SpotMap.map.setView([40.343990, -74.651451], 15); // Princeton University
-        })
-        SpotMap.map.locate({setView: true, maxZoom: 18, enableHighAccuracy: true });
+            SpotMap.map.setView([40.343990, -74.651451], SpotMap.defaultZoom); // Princeton University
+        });
+        SpotMap.map.locate({ maxZoom: 18, enableHighAccuracy: true });
         
         // Set tile layer of map
         // L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{tileSize}/{z}/{x}/{y}?access_token={accessToken}', {
@@ -90,7 +93,8 @@ var SpotMap = {
                         image = "<div class=\"" + listing.pet_type.toLowerCase() + "-image\"" + 
                         " style=\"background-image: url('" + listing.pet_image_url + "')\"></div>";
                     }else {
-                        image = "<img src=\"/static/img/portrait/" + listing.pet_type.toLowerCase() + ".png\">";
+                        image = "<img src=\"/static/img/portrait/" + listing.pet_type.toLowerCase() + ".png\"" + 
+                        " class=\"" + listing.pet_type.toLowerCase() + "\">";
                     }
                     content.innerHTML = "<div class=\"flex-popup\">" + 
                                             "<div class=\"description\">" + 
@@ -118,8 +122,12 @@ var SpotMap = {
                 });
             }
         });
+    },
+
+    centerMap: function(lat, lng) {
+        SpotMap.map.flyTo([lat, lng], SpotMap.defaultZoom);
     }
-}
+};
 
 var SpotMapFilters = {
     autoLoad: false, // Determines whether to automatically send AJAX on update of form, or only on submit
@@ -130,6 +138,16 @@ var SpotMapFilters = {
 
         $("#filter-form").submit(function(e) {
             e.preventDefault();
+            let lat = parseFloat($('input#lat').val());
+            let lng = parseFloat($('input#lng').val());
+            if(!isNaN(lat) && !isNaN(lng)) {
+                if(lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+                    SpotMap.centerMap(lat, lng);
+                }
+            }
+            $('input#lat').val("");
+            $('input#lng').val("");
+            SpotMapAlgolia.setVal("");
             SpotMap.loadListings();
         })
     },
@@ -179,7 +197,47 @@ var SpotMapFilters = {
             $('#activities_filter_button').addClass('has-filters');
         }
     }
-}
+};
+
+var SpotMapAlgolia = {
+    autocomplete: null,
+    acElement: null,
+    acSelector: '#address_input',
+
+    setup: function() {
+        SpotMapAlgolia.acElement = document.querySelector(SpotMapAlgolia.acSelector);
+        SpotMapAlgolia.autocomplete = places({
+            appId: 'plO1SV8YCUC3',
+            apiKey: '168cb9867faff5823a430526b0c935df',
+            container: SpotMapAlgolia.acElement,
+            aroundLatLng: '40.343990,-74.651451', // Princeton University
+            useDeviceLocation: true
+        });
+
+        // Clear anything that isn't suggested and add ready-to-submit class when a suggestion is chosen
+        SpotMapAlgolia.autocomplete.on('change', function(e) {
+            $(SpotMapAlgolia.acSelector).removeClass("not-validated");
+            $("input#lat").val(e.suggestion.latlng.lat);
+            $("input#lng").val(e.suggestion.latlng.lng);
+        });
+
+        $(SpotMapAlgolia.acElement).on('input', function(e) {
+            $(SpotMapAlgolia.acSelector).addClass("not-validated");
+        })
+        $(SpotMapAlgolia.acElement).change(function(e) {
+            if($(this).hasClass("not-validated")) {
+                SpotMapAlgolia.autocomplete.setVal("");
+                $("input#lat").val("");
+                $("input#lng").val("");
+            }
+        });
+    },
+
+    setVal: function(val) {
+        SpotMapAlgolia.autocomplete.setVal(val);
+    }
+};
 
 $(document).ready(SpotMapFilters.setup);
 $(document).ready(SpotMap.setup);
+$(document).ready(SpotMapAlgolia.setup);

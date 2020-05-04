@@ -14,8 +14,9 @@
                         class="regular-text">&lt; return home</a>
             </h4>
             <br>
-            <img src = "static/img/error.png" height = "200" width = "200">
-            <h3 class="no-margin-top"> Error: {{error}}  </h3>
+            <h3 class="no-margin-top no-margin-bottom wrap-text"> Error: {{error}}  </h3>
+            <img src = "{{ url_for('static', filename='img/error.png') }}" 
+                class="error-img">
         </div>
         {% include 'components/footer.html' %}
     </body>
