@@ -783,6 +783,16 @@ body {
     line-height: 1.20833em;
 }
 
+.listing-container .portrait .volunteers {
+    display: block;
+    margin: 0.375em auto 0 auto;
+    text-align: center;
+
+    font-size: 1em;
+    line-height: 1.20833em;
+    color: #5680E9;
+}
+
 .listing-container .description {
     display: block;
     margin-left: 1.23077em;

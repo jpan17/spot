@@ -12,6 +12,9 @@ onclick="Spot.redirect('{{ url_for('listing_details', listing_id=listing.id) }}'
             {% endif %}
         </div>
         <div class="pet-type {{ listing.pet_type.lower() }}">{{ listing.pet_type.upper() }}</div>
+        {% if owner or overlay: %}
+        <div class="volunteers">Volunteers: {{ listing.sitters|length }}</div>
+        {% endif %}
     </div>
     <div class="description">
         <div class="title">

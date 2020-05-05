@@ -4,8 +4,10 @@
         {% with listing = listings[2 * i] %}
         <td onclick="Spot.redirect('{{ url_for('listing_details', listing_id=listing.id) }}')"
             class="clickable">
+            {% with owner = overlay %}
             {% with overlay = False %}
                 {% include 'components/listing.html' %}
+            {% endwith %}
             {% endwith %}
             {% if overlay: %}
             <div class="listing-overlay">
@@ -26,8 +28,10 @@
             {% endif %}>
             {% if listing %}
             
+            {% with owner = overlay %}
             {% with overlay = False %}
                 {% include 'components/listing.html' %}
+            {% endwith %}
             {% endwith %}
 
             {% if overlay: %}
