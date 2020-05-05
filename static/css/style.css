@@ -279,6 +279,10 @@ a.regular-text {
     font-size: 1rem;
 }
 
+.standard-line-height {
+    line-height: 1.25em;
+}
+
 .clickable {
     cursor: pointer;
 }

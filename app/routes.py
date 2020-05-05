@@ -477,10 +477,14 @@ def listing_details(listing_id):
             return redirect(url_for('error', error='Listing is owned by a different user.'))
     
     if current_user.is_sitter:
+        accepted = False
+        if (request.args.get('accepted') or '').lower() == 'true':
+            accepted = True
         html = render_template('users/sitters/listing_details.html',
             title = 'Listing Details | Spot',
             listing = listing,
-            user = current_user)
+            user = current_user,
+            accepted = accepted)
         response = make_response(html)
         return response
 
@@ -635,6 +639,7 @@ def listing_update_endpoint(listing_id):
 @login_required
 def listing_accept(listing_id):
     logger.trace('Attempting user {0} acceptance of listing {1}'.format(current_user.id, listing_id))
+    accepted = 'false'
 
     if not current_user.is_sitter:
         logger.info('User {0} failed to accept listing {1}: not a sitter'.format(current_user.id, listing_id))
@@ -648,6 +653,7 @@ def listing_accept(listing_id):
     logger.info('User {0} accepted listing {1} successfully'.format(current_user.id, listing_id))
     
     if db_service.is_listing_accepted(current_user.id, listing_id):
+        accepted = 'true'
         sitter_subject = "You accepted a Spot request!"
         listing = db_service.get_listing_by_id(listing_id)
         pet_name = listing.pet_name
@@ -665,7 +671,7 @@ def listing_accept(listing_id):
                                     owner_name=owner_name)
         
         send_email(owner.email, owner_subject, owner_html)
-    return redirect(url_for('listing_details', listing_id = listing_id))
+    return redirect(url_for('listing_details', listing_id = listing_id, accepted = accepted))
 
 @app.route('/sign_s3')
 def sign_s3():
