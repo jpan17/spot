@@ -15,7 +15,12 @@
                     <a href="{{ url_for('home') }}"
                         class="regular-text">&lt; return home</a>
                 </h4>
+                {% if accepted %}
+                <p class="error-color small-text standard-line-height" 
+                    >Thank you for accepting this listing! We sent you an email and the owner will contact you soon!</p>
+                {% else %}
                 <br>
+                {% endif %}
                 <div class="details">
                     <div class="header">
                         <!-- Figure out how to lock icons to same line and ideally only have margin if on same line as the pet name -->
